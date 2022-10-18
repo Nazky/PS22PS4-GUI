@@ -1,0 +1,166 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>lzfse-net</name>
+    </assembly>
+    <members>
+        <member name="T:Lzfse.LzfseCompressor">
+            <summary>
+            Provides methods for compressing and decompressing data using LZFSE.
+            </summary>
+        </member>
+        <member name="M:Lzfse.LzfseCompressor.Decompress(System.Byte[],System.Byte[])">
+            <summary>
+            Decompresses a LZFSE compressed buffer.
+            </summary>
+            <param name="buffer">
+            The buffer to decompress.
+            </param>
+            <param name="decompressedBuffer">
+            The buffer into which to decompress the data.
+            </param>
+            <returns>
+            The number of bytes written to <paramref name="decompressedBuffer"/>.
+            </returns>
+        </member>
+        <member name="M:Lzfse.LzfseCompressor.Decompress(System.Byte[],System.Int32,System.Int32,System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            Decompresses a LZFSE compressed buffer.
+            </summary>
+            <param name="buffer">
+            The buffer to decompress.
+            </param>
+            <param name="offset">
+            The offset at which to start reading from <paramref name="buffer"/>.
+            </param>
+            <param name="length">
+            The amount of bytes to read from <paramref name="buffer"/>.
+            </param>
+            <param name="decompressedBuffer">
+            The buffer into which to decompress the data.
+            </param>
+            <param name="decompressedOffset">
+            The offset at which to start writing to <paramref name="decompressedBuffer"/>.
+            </param>
+            <param name="decompressedLength">
+            The amount of bytes to write to <paramref name="decompressedBuffer"/>.
+            </param>
+            <returns>
+            The number of bytes written to <paramref name="decompressedBuffer"/>.
+            </returns>
+        </member>
+        <member name="M:Lzfse.LzfseCompressor.Compress(System.Byte[],System.Byte[])">
+            <summary>
+            Compresses a buffer using LZFSE.
+            </summary>
+            <param name="buffer">
+            The buffer to compress.
+            </param>
+            <param name="compressedBuffer">
+            The buffer into which to save the compressed data.
+            </param>
+            <returns>
+            The number of bytes written to <paramref name="compressedBuffer"/>.
+            </returns>
+        </member>
+        <member name="M:Lzfse.LzfseCompressor.Compress(System.Byte[],System.Int32,System.Int32,System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            Compresses a buffer using LZFSE.
+            </summary>
+            <param name="buffer">
+            The buffer to compress.
+            </param>
+            <param name="offset">
+            The offset at which to start reading from <paramref name="buffer"/>.
+            </param>
+            <param name="length">
+            The amount of bytes to read from <paramref name="buffer"/>.
+            </param>
+            <param name="compressedBuffer">
+            The buffer into which to save the compressed data.
+            </param>
+            <param name="compressedOffset">
+            The offset at which to start writing to <paramref name="compressedBuffer"/>.
+            </param>
+            <param name="compressedLength">
+            The amount of bytes to write to <paramref name="compressedBuffer"/>.
+            </param>
+            <returns>
+            The number of bytes written to <paramref name="compressedBuffer"/>.
+            </returns>
+        </member>
+        <member name="T:Lzfse.NativeMethods">
+            <summary>
+            Provides P/Invoke declarations for working with lzfse.
+            </summary>
+        </member>
+        <member name="M:Lzfse.NativeMethods.lzfse_decode_buffer(System.Byte*,System.UIntPtr,System.Byte*,System.UIntPtr,System.Void*)">
+            <summary>
+            Decompress a buffer using LZFSE.
+            </summary>
+            <param name="decompressedBuffer">
+            Pointer to the first byte of the destination buffer.
+            </param>
+            <param name="decompressedSize">
+            Size of the destination buffer in bytes.
+            </param>
+            <param name="compressedBuffer">
+            Pointer to the first byte of the source buffer.
+            </param>
+            <param name="compressedSize">
+            Size of the source buffer in bytes.
+            </param>
+            <param name="scratchBuffer">
+            If non-<see langword="null"/>, a pointer to scratch space for the routine to use as workspace;
+            the routine may use up to <see cref="M:Lzfse.NativeMethods.lzfse_decode_scratch_size"/> bytes of workspace
+            during its operation, and will not perform any internal allocations. If
+            <see langword="null"/>, the routine may allocate its own memory to use during operation via
+            a single call to <c>malloc()</c>, and will release it by calling <c>free()</c> prior
+            to returning. For most use, passing <see langword="null"/> is perfectly satisfactory, but if
+            you require strict control over allocation, you will want to pass an
+            explicit scratch buffer.
+            </param>
+            <returns>
+            The amount of bytes written to <paramref name="compressedBuffer"/>.
+            </returns>
+        </member>
+        <member name="M:Lzfse.NativeMethods.lzfse_encode_buffer(System.Byte*,System.UIntPtr,System.Byte*,System.UIntPtr,System.Void*)">
+            <summary>
+            Compress a buffer using LZFSE.
+            </summary>
+            <param name="compressedBuffer">
+            Pointer to the first byte of the destination buffer.
+            </param>
+            <param name="compressedSize">
+            Size of the destination buffer in bytes.
+            </param>
+            <param name="decompressedBuffer">
+            Pointer to the first byte of the source buffer.
+            </param>
+            <param name="decompressedSize">
+            Size of the source buffer in bytes.
+            </param>
+            <param name="scratchBuffer">
+            If non-<see langword="null"/>, a pointer to scratch space for the routine to use as workspace;
+            the routine may use up to <see cref="M:Lzfse.NativeMethods.lzfse_decode_scratch_size"/> bytes of workspace
+            during its operation, and will not perform any internal allocations. If
+            <see langword="null"/>, the routine may allocate its own memory to use during operation via
+            a single call to <c>malloc()</c>, and will release it by calling <c>free()</c> prior
+            to returning. For most use, passing <see langword="null"/> is perfectly satisfactory, but if
+            you require strict control over allocation, you will want to pass an
+            explicit scratch buffer.
+            </param>
+            <returns>
+            The amount of bytes written to <paramref name="decompressedBuffer"/>.
+            </returns>
+        </member>
+        <member name="M:Lzfse.NativeMethods.lzfse_decode_scratch_size">
+            <summary>
+            Get the required scratch buffer size to decompress using LZFSE.
+            </summary>
+            <returns>
+            The required scratch buffer size to decompress using LZFSE.
+            </returns>
+        </member>
+    </members>
+</doc>

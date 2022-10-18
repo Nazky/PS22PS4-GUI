@@ -1,0 +1,678 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>DiscUtils.Registry</name>
+    </assembly>
+    <members>
+        <member name="T:DiscUtils.Registry.Bin">
+            <summary>
+            An internal structure within registry files, bins are the major unit of allocation in a registry hive.
+            </summary>
+            <remarks>Bins are divided into multiple cells, that contain actual registry data.</remarks>
+        </member>
+        <member name="T:DiscUtils.Registry.Cell">
+            <summary>
+            Base class for the different kinds of cell present in a hive.
+            </summary>
+        </member>
+        <member name="F:DiscUtils.Registry.KeyNodeCell.MaxSubKeyNameBytes">
+            <summary>
+            Number of bytes to represent largest subkey name in Unicode - no null terminator.
+            </summary>
+        </member>
+        <member name="F:DiscUtils.Registry.KeyNodeCell.MaxValDataBytes">
+            <summary>
+            Number of bytes to represent largest value content (strings in Unicode, with null terminator - if stored).
+            </summary>
+        </member>
+        <member name="F:DiscUtils.Registry.KeyNodeCell.MaxValNameBytes">
+            <summary>
+            Number of bytes to represent largest value name in Unicode - no null terminator.
+            </summary>
+        </member>
+        <member name="P:DiscUtils.Registry.ListCell.Count">
+            <summary>
+            Gets the number of subkeys in this list.
+            </summary>
+        </member>
+        <member name="M:DiscUtils.Registry.ListCell.FindKey(System.String,System.Int32@)">
+            <summary>
+            Searches for a key with a given name.
+            </summary>
+            <param name="name">The name to search for.</param>
+            <param name="cellIndex">The index of the cell, if found.</param>
+            <returns>The search result.</returns>
+        </member>
+        <member name="M:DiscUtils.Registry.ListCell.EnumerateKeys(System.Collections.Generic.List{System.String})">
+            <summary>
+            Enumerates all of the keys in the list.
+            </summary>
+            <param name="names">The list to populate.</param>
+        </member>
+        <member name="M:DiscUtils.Registry.ListCell.EnumerateKeys">
+            <summary>
+            Enumerates all of the keys in the list.
+            </summary>
+            <returns>Enumeration of key cells.</returns>
+        </member>
+        <member name="M:DiscUtils.Registry.ListCell.LinkSubKey(System.String,System.Int32)">
+            <summary>
+            Adds a subkey to this list.
+            </summary>
+            <param name="name">The name of the subkey.</param>
+            <param name="cellIndex">The cell index of the subkey.</param>
+            <returns>The new cell index of the list, which may have changed.</returns>
+        </member>
+        <member name="M:DiscUtils.Registry.ListCell.UnlinkSubKey(System.String)">
+            <summary>
+            Removes a subkey from this list.
+            </summary>
+            <param name="name">The name of the subkey.</param>
+            <returns>The new cell index of the list, which may have changed.</returns>
+        </member>
+        <member name="T:DiscUtils.Registry.RegistryCorruptException">
+            <summary>
+            Exception thrown when some corruption is found in the registry hive.
+            </summary>
+        </member>
+        <member name="M:DiscUtils.Registry.RegistryCorruptException.#ctor">
+            <summary>
+            Initializes a new instance of the RegistryCorruptException class.
+            </summary>
+        </member>
+        <member name="M:DiscUtils.Registry.RegistryCorruptException.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the RegistryCorruptException class.
+            </summary>
+            <param name="message">The exception message.</param>
+        </member>
+        <member name="M:DiscUtils.Registry.RegistryCorruptException.#ctor(System.String,System.Exception)">
+            <summary>
+            Initializes a new instance of the RegistryCorruptException class.
+            </summary>
+            <param name="message">The exception message.</param>
+            <param name="innerException">The inner exception.</param>
+        </member>
+        <member name="M:DiscUtils.Registry.RegistryCorruptException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Initializes a new instance of the RegistryCorruptException class.
+            </summary>
+            <param name="info">The serialization info.</param>
+            <param name="context">The streaming context.</param>
+        </member>
+        <member name="T:DiscUtils.Registry.RegistryHive">
+            <summary>
+            A registry hive.
+            </summary>
+        </member>
+        <member name="M:DiscUtils.Registry.RegistryHive.#ctor(System.IO.Stream)">
+            <summary>
+            Initializes a new instance of the RegistryHive class.
+            </summary>
+            <param name="hive">The stream containing the registry hive.</param>
+            <remarks>
+            The created object does not assume ownership of the stream.
+            </remarks>
+        </member>
+        <member name="M:DiscUtils.Registry.RegistryHive.#ctor(System.IO.Stream,DiscUtils.Streams.Ownership)">
+            <summary>
+            Initializes a new instance of the RegistryHive class.
+            </summary>
+            <param name="hive">The stream containing the registry hive.</param>
+            <param name="ownership">Whether the new object assumes object of the stream.</param>
+        </member>
+        <member name="P:DiscUtils.Registry.RegistryHive.Root">
+            <summary>
+            Gets the root key in the registry hive.
+            </summary>
+        </member>
+        <member name="M:DiscUtils.Registry.RegistryHive.Dispose">
+            <summary>
+            Disposes of this instance, freeing any underlying stream (if any).
+            </summary>
+        </member>
+        <member name="M:DiscUtils.Registry.RegistryHive.Create(System.IO.Stream)">
+            <summary>
+            Creates a new (empty) registry hive.
+            </summary>
+            <param name="stream">The stream to contain the new hive.</param>
+            <returns>The new hive.</returns>
+            <remarks>
+            The returned object does not assume ownership of the stream.
+            </remarks>
+        </member>
+        <member name="M:DiscUtils.Registry.RegistryHive.Create(System.IO.Stream,DiscUtils.Streams.Ownership)">
+            <summary>
+            Creates a new (empty) registry hive.
+            </summary>
+            <param name="stream">The stream to contain the new hive.</param>
+            <param name="ownership">Whether the returned object owns the stream.</param>
+            <returns>The new hive.</returns>
+        </member>
+        <member name="M:DiscUtils.Registry.RegistryHive.Create(System.String)">
+            <summary>
+            Creates a new (empty) registry hive.
+            </summary>
+            <param name="path">The file to create the new hive in.</param>
+            <returns>The new hive.</returns>
+        </member>
+        <member name="T:DiscUtils.Registry.RegistryKey">
+            <summary>
+            A key within a registry hive.
+            </summary>
+        </member>
+        <member name="P:DiscUtils.Registry.RegistryKey.ClassName">
+            <summary>
+            Gets the class name of this registry key.
+            </summary>
+            <remarks>Class name is rarely used.</remarks>
+        </member>
+        <member name="P:DiscUtils.Registry.RegistryKey.Flags">
+            <summary>
+            Gets the flags of this registry key.
+            </summary>
+        </member>
+        <member name="P:DiscUtils.Registry.RegistryKey.Name">
+            <summary>
+            Gets the name of this key.
+            </summary>
+        </member>
+        <member name="P:DiscUtils.Registry.RegistryKey.Parent">
+            <summary>
+            Gets the parent key, or <c>null</c> if this is the root key.
+            </summary>
+        </member>
+        <member name="P:DiscUtils.Registry.RegistryKey.SubKeyCount">
+            <summary>
+            Gets the number of child keys.
+            </summary>
+        </member>
+        <member name="P:DiscUtils.Registry.RegistryKey.SubKeys">
+            <summary>
+            Gets an enumerator over all sub child keys.
+            </summary>
+        </member>
+        <member name="P:DiscUtils.Registry.RegistryKey.Timestamp">
+            <summary>
+            Gets the time the key was last modified.
+            </summary>
+        </member>
+        <member name="P:DiscUtils.Registry.RegistryKey.ValueCount">
+            <summary>
+            Gets the number of values in this key.
+            </summary>
+        </member>
+        <member name="P:DiscUtils.Registry.RegistryKey.Values">
+            <summary>
+            Gets an enumerator over all values in this key.
+            </summary>
+        </member>
+        <member name="M:DiscUtils.Registry.RegistryKey.GetAccessControl">
+            <summary>
+            Gets the Security Descriptor applied to the registry key.
+            </summary>
+            <returns>The security descriptor as a RegistrySecurity instance.</returns>
+        </member>
+        <member name="M:DiscUtils.Registry.RegistryKey.GetSubKeyNames">
+            <summary>
+            Gets the names of all child sub keys.
+            </summary>
+            <returns>The names of the sub keys.</returns>
+        </member>
+        <member name="M:DiscUtils.Registry.RegistryKey.GetValue(System.String)">
+            <summary>
+            Gets a named value stored within this key.
+            </summary>
+            <param name="name">The name of the value to retrieve.</param>
+            <returns>The value as a .NET object.</returns>
+            <remarks>The mapping from registry type of .NET type is as follows:
+            <list type="table">
+              <listheader>
+                <term>Value Type</term>
+                <term>.NET type</term>
+              </listheader>
+              <item>
+                <description>String</description>
+                <description>string</description>
+              </item>
+              <item>
+                <description>ExpandString</description>
+                <description>string</description>
+              </item>
+              <item>
+                <description>Link</description>
+                <description>string</description>
+              </item>
+              <item>
+                <description>DWord</description>
+                <description>uint</description>
+              </item>
+              <item>
+                <description>DWordBigEndian</description>
+                <description>uint</description>
+              </item>
+              <item>
+                <description>MultiString</description>
+                <description>string[]</description>
+              </item>
+              <item>
+                <description>QWord</description>
+                <description>ulong</description>
+              </item>
+            </list>
+            </remarks>
+        </member>
+        <member name="M:DiscUtils.Registry.RegistryKey.GetValue(System.String,System.Object)">
+            <summary>
+            Gets a named value stored within this key.
+            </summary>
+            <param name="name">The name of the value to retrieve.</param>
+            <param name="defaultValue">The default value to return, if no existing value is stored.</param>
+            <returns>The value as a .NET object.</returns>
+            <remarks>The mapping from registry type of .NET type is as follows:
+            <list type="table">
+              <listheader>
+                <term>Value Type</term>
+                <term>.NET type</term>
+              </listheader>
+              <item>
+                <description>String</description>
+                <description>string</description>
+              </item>
+              <item>
+                <description>ExpandString</description>
+                <description>string</description>
+              </item>
+              <item>
+                <description>Link</description>
+                <description>string</description>
+              </item>
+              <item>
+                <description>DWord</description>
+                <description>uint</description>
+              </item>
+              <item>
+                <description>DWordBigEndian</description>
+                <description>uint</description>
+              </item>
+              <item>
+                <description>MultiString</description>
+                <description>string[]</description>
+              </item>
+              <item>
+                <description>QWord</description>
+                <description>ulong</description>
+              </item>
+            </list>
+            </remarks>
+        </member>
+        <member name="M:DiscUtils.Registry.RegistryKey.GetValue(System.String,System.Object,Microsoft.Win32.RegistryValueOptions)">
+            <summary>
+            Gets a named value stored within this key.
+            </summary>
+            <param name="name">The name of the value to retrieve.</param>
+            <param name="defaultValue">The default value to return, if no existing value is stored.</param>
+            <param name="options">Flags controlling how the value is processed before it's returned.</param>
+            <returns>The value as a .NET object.</returns>
+            <remarks>The mapping from registry type of .NET type is as follows:
+            <list type="table">
+              <listheader>
+                <term>Value Type</term>
+                <term>.NET type</term>
+              </listheader>
+              <item>
+                <description>String</description>
+                <description>string</description>
+              </item>
+              <item>
+                <description>ExpandString</description>
+                <description>string</description>
+              </item>
+              <item>
+                <description>Link</description>
+                <description>string</description>
+              </item>
+              <item>
+                <description>DWord</description>
+                <description>uint</description>
+              </item>
+              <item>
+                <description>DWordBigEndian</description>
+                <description>uint</description>
+              </item>
+              <item>
+                <description>MultiString</description>
+                <description>string[]</description>
+              </item>
+              <item>
+                <description>QWord</description>
+                <description>ulong</description>
+              </item>
+            </list>
+            </remarks>
+        </member>
+        <member name="M:DiscUtils.Registry.RegistryKey.SetValue(System.String,System.Object)">
+            <summary>
+            Sets a named value stored within this key.
+            </summary>
+            <param name="name">The name of the value to store.</param>
+            <param name="value">The value to store.</param>
+        </member>
+        <member name="M:DiscUtils.Registry.RegistryKey.SetValue(System.String,System.Object,DiscUtils.Registry.RegistryValueType)">
+            <summary>
+            Sets a named value stored within this key.
+            </summary>
+            <param name="name">The name of the value to store.</param>
+            <param name="value">The value to store.</param>
+            <param name="valueType">The registry type of the data.</param>
+        </member>
+        <member name="M:DiscUtils.Registry.RegistryKey.DeleteValue(System.String)">
+            <summary>
+            Deletes a named value stored within this key.
+            </summary>
+            <param name="name">The name of the value to delete.</param>
+        </member>
+        <member name="M:DiscUtils.Registry.RegistryKey.DeleteValue(System.String,System.Boolean)">
+            <summary>
+            Deletes a named value stored within this key.
+            </summary>
+            <param name="name">The name of the value to delete.</param>
+            <param name="throwOnMissingValue">Throws ArgumentException if <c>name</c> doesn't exist.</param>
+        </member>
+        <member name="M:DiscUtils.Registry.RegistryKey.GetValueType(System.String)">
+            <summary>
+            Gets the type of a named value.
+            </summary>
+            <param name="name">The name of the value to inspect.</param>
+            <returns>The value's type.</returns>
+        </member>
+        <member name="M:DiscUtils.Registry.RegistryKey.GetValueNames">
+            <summary>
+            Gets the names of all values in this key.
+            </summary>
+            <returns>An array of strings containing the value names.</returns>
+        </member>
+        <member name="M:DiscUtils.Registry.RegistryKey.CreateSubKey(System.String)">
+            <summary>
+            Creates or opens a subkey.
+            </summary>
+            <param name="subkey">The relative path the the subkey.</param>
+            <returns>The subkey.</returns>
+        </member>
+        <member name="M:DiscUtils.Registry.RegistryKey.OpenSubKey(System.String)">
+            <summary>
+            Opens a sub key.
+            </summary>
+            <param name="path">The relative path to the sub key.</param>
+            <returns>The sub key, or <c>null</c> if not found.</returns>
+        </member>
+        <member name="M:DiscUtils.Registry.RegistryKey.DeleteSubKeyTree(System.String)">
+            <summary>
+            Deletes a subkey and any child subkeys recursively. The string subkey is not case-sensitive.
+            </summary>
+            <param name="subkey">The subkey to delete.</param>
+        </member>
+        <member name="M:DiscUtils.Registry.RegistryKey.DeleteSubKey(System.String)">
+            <summary>
+            Deletes the specified subkey. The string subkey is not case-sensitive.
+            </summary>
+            <param name="subkey">The subkey to delete.</param>
+        </member>
+        <member name="M:DiscUtils.Registry.RegistryKey.DeleteSubKey(System.String,System.Boolean)">
+            <summary>
+            Deletes the specified subkey. The string subkey is not case-sensitive.
+            </summary>
+            <param name="subkey">The subkey to delete.</param>
+            <param name="throwOnMissingSubKey"><c>true</c> to throw an argument exception if <c>subkey</c> doesn't exist.</param>
+        </member>
+        <member name="T:DiscUtils.Registry.RegistryKeyFlags">
+            <summary>
+            The per-key flags present on registry keys.
+            </summary>
+        </member>
+        <member name="F:DiscUtils.Registry.RegistryKeyFlags.Unknown0001">
+            <summary>
+            Unknown purpose.
+            </summary>
+        </member>
+        <member name="F:DiscUtils.Registry.RegistryKeyFlags.Unknown0002">
+            <summary>
+            Unknown purpose.
+            </summary>
+        </member>
+        <member name="F:DiscUtils.Registry.RegistryKeyFlags.Root">
+            <summary>
+            The key is the root key in the registry hive.
+            </summary>
+        </member>
+        <member name="F:DiscUtils.Registry.RegistryKeyFlags.Unknown0008">
+            <summary>
+            Unknown purpose.
+            </summary>
+        </member>
+        <member name="F:DiscUtils.Registry.RegistryKeyFlags.Link">
+            <summary>
+            The key is a link to another key.
+            </summary>
+        </member>
+        <member name="F:DiscUtils.Registry.RegistryKeyFlags.Normal">
+            <summary>
+            This is a normal key.
+            </summary>
+        </member>
+        <member name="F:DiscUtils.Registry.RegistryKeyFlags.Unknown0040">
+            <summary>
+            Unknown purpose.
+            </summary>
+        </member>
+        <member name="F:DiscUtils.Registry.RegistryKeyFlags.Unknown0080">
+            <summary>
+            Unknown purpose.
+            </summary>
+        </member>
+        <member name="F:DiscUtils.Registry.RegistryKeyFlags.Unknown0100">
+            <summary>
+            Unknown purpose.
+            </summary>
+        </member>
+        <member name="F:DiscUtils.Registry.RegistryKeyFlags.Unknown0200">
+            <summary>
+            Unknown purpose.
+            </summary>
+        </member>
+        <member name="F:DiscUtils.Registry.RegistryKeyFlags.Unknown0400">
+            <summary>
+            Unknown purpose.
+            </summary>
+        </member>
+        <member name="F:DiscUtils.Registry.RegistryKeyFlags.Unknown0800">
+            <summary>
+            Unknown purpose.
+            </summary>
+        </member>
+        <member name="F:DiscUtils.Registry.RegistryKeyFlags.Unknown1000">
+            <summary>
+            Unknown purpose.
+            </summary>
+        </member>
+        <member name="F:DiscUtils.Registry.RegistryKeyFlags.Unknown2000">
+            <summary>
+            Unknown purpose.
+            </summary>
+        </member>
+        <member name="F:DiscUtils.Registry.RegistryKeyFlags.Unknown4000">
+            <summary>
+            Unknown purpose.
+            </summary>
+        </member>
+        <member name="F:DiscUtils.Registry.RegistryKeyFlags.Unknown8000">
+            <summary>
+            Unknown purpose.
+            </summary>
+        </member>
+        <member name="T:DiscUtils.Registry.RegistryValue">
+            <summary>
+            A registry value.
+            </summary>
+        </member>
+        <member name="P:DiscUtils.Registry.RegistryValue.DataType">
+            <summary>
+            Gets the type of the value.
+            </summary>
+        </member>
+        <member name="P:DiscUtils.Registry.RegistryValue.Name">
+            <summary>
+            Gets the name of the value, or empty string if unnamed.
+            </summary>
+        </member>
+        <member name="P:DiscUtils.Registry.RegistryValue.Value">
+            <summary>
+            Gets the value data mapped to a .net object.
+            </summary>
+            <remarks>The mapping from registry type of .NET type is as follows:
+            <list type="table">
+              <listheader>
+                <term>Value Type</term>
+                <term>.NET type</term>
+              </listheader>
+              <item>
+                <description>String</description>
+                <description>string</description>
+              </item>
+              <item>
+                <description>ExpandString</description>
+                <description>string</description>
+              </item>
+              <item>
+                <description>Link</description>
+                <description>string</description>
+              </item>
+              <item>
+                <description>DWord</description>
+                <description>uint</description>
+              </item>
+              <item>
+                <description>DWordBigEndian</description>
+                <description>uint</description>
+              </item>
+              <item>
+                <description>MultiString</description>
+                <description>string[]</description>
+              </item>
+              <item>
+                <description>QWord</description>
+                <description>ulong</description>
+              </item>
+            </list>
+            </remarks>
+        </member>
+        <member name="M:DiscUtils.Registry.RegistryValue.GetData">
+            <summary>
+            The raw value data as a byte array.
+            </summary>
+            <returns>The value as a raw byte array.</returns>
+        </member>
+        <member name="M:DiscUtils.Registry.RegistryValue.SetData(System.Byte[],System.Int32,System.Int32,DiscUtils.Registry.RegistryValueType)">
+            <summary>
+            Sets the value as raw bytes, with no validation that enough data is specified for the given value type.
+            </summary>
+            <param name="data">The data to store.</param>
+            <param name="offset">The offset within <c>data</c> of the first byte to store.</param>
+            <param name="count">The number of bytes to store.</param>
+            <param name="valueType">The type of the data.</param>
+        </member>
+        <member name="M:DiscUtils.Registry.RegistryValue.SetValue(System.Object,DiscUtils.Registry.RegistryValueType)">
+            <summary>
+            Sets the value stored.
+            </summary>
+            <param name="value">The value to store.</param>
+            <param name="valueType">The registry type of the data.</param>
+        </member>
+        <member name="M:DiscUtils.Registry.RegistryValue.ToString">
+            <summary>
+            Gets a string representation of the registry value.
+            </summary>
+            <returns>The registry value as a string.</returns>
+        </member>
+        <member name="T:DiscUtils.Registry.RegistryValueType">
+            <summary>
+            The types of registry values.
+            </summary>
+        </member>
+        <member name="F:DiscUtils.Registry.RegistryValueType.None">
+            <summary>
+            Unknown type.
+            </summary>
+        </member>
+        <member name="F:DiscUtils.Registry.RegistryValueType.String">
+            <summary>
+            A unicode string.
+            </summary>
+        </member>
+        <member name="F:DiscUtils.Registry.RegistryValueType.ExpandString">
+            <summary>
+            A string containing environment variables.
+            </summary>
+        </member>
+        <member name="F:DiscUtils.Registry.RegistryValueType.Binary">
+            <summary>
+            Binary data.
+            </summary>
+        </member>
+        <member name="F:DiscUtils.Registry.RegistryValueType.Dword">
+            <summary>
+            A 32-bit integer.
+            </summary>
+        </member>
+        <member name="F:DiscUtils.Registry.RegistryValueType.DwordBigEndian">
+            <summary>
+            A 32-bit integer.
+            </summary>
+        </member>
+        <member name="F:DiscUtils.Registry.RegistryValueType.Link">
+            <summary>
+            A registry link.
+            </summary>
+        </member>
+        <member name="F:DiscUtils.Registry.RegistryValueType.MultiString">
+            <summary>
+            A multistring.
+            </summary>
+        </member>
+        <member name="F:DiscUtils.Registry.RegistryValueType.ResourceList">
+            <summary>
+            An unknown binary format.
+            </summary>
+        </member>
+        <member name="F:DiscUtils.Registry.RegistryValueType.FullResourceDescriptor">
+            <summary>
+            An unknown binary format.
+            </summary>
+        </member>
+        <member name="F:DiscUtils.Registry.RegistryValueType.ResourceRequirementsList">
+            <summary>
+            An unknown binary format.
+            </summary>
+        </member>
+        <member name="F:DiscUtils.Registry.RegistryValueType.QWord">
+            <summary>
+            A 64-bit integer.
+            </summary>
+        </member>
+        <member name="M:DiscUtils.Registry.SubKeyHashedListCell.Add(System.String,System.Int32)">
+            <summary>
+            Adds a new entry.
+            </summary>
+            <param name="name">The name of the subkey.</param>
+            <param name="cellIndex">The cell index of the subkey.</param>
+            <returns>The index of the new entry.</returns>
+        </member>
+        <member name="M:DiscUtils.Registry.SubKeyHashedListCell.IndexOf(System.String)">
+            <summary>
+            Finds a subkey cell, returning it's index in this list.
+            </summary>
+            <param name="name">The name of the key to find.</param>
+            <returns>The index of the found key, or <c>-1</c>.</returns>
+        </member>
+    </members>
+</doc>

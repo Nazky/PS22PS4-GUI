@@ -1,0 +1,505 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>DiscUtils.Net</name>
+    </assembly>
+    <members>
+        <member name="T:DiscUtils.Net.Dns.CanonicalNameRecord">
+            <summary>
+            Represents a DNS CNAME record.
+            </summary>
+        </member>
+        <member name="P:DiscUtils.Net.Dns.CanonicalNameRecord.CanonicalName">
+            <summary>
+            Gets the canonical name.
+            </summary>
+        </member>
+        <member name="T:DiscUtils.Net.Dns.DnsClient">
+            <summary>
+            Base class for DNS clients.
+            </summary>
+        </member>
+        <member name="M:DiscUtils.Net.Dns.DnsClient.FlushCache">
+            <summary>
+            Flushes any cached DNS records.
+            </summary>
+        </member>
+        <member name="M:DiscUtils.Net.Dns.DnsClient.Lookup(System.String,DiscUtils.Net.Dns.RecordType)">
+            <summary>
+            Looks up a record in DNS.
+            </summary>
+            <param name="name">The name to lookup.</param>
+            <param name="type">The type of record requested.</param>
+            <returns>The records returned by the DNS server, if any.</returns>
+        </member>
+        <member name="T:DiscUtils.Net.Dns.IP4AddressRecord">
+            <summary>
+            Represents a DNS A record.
+            </summary>
+        </member>
+        <member name="P:DiscUtils.Net.Dns.IP4AddressRecord.Address">
+            <summary>
+            Gets the IPv4 address.
+            </summary>
+        </member>
+        <member name="T:DiscUtils.Net.Dns.MulticastDnsClient">
+            <summary>
+            Implements the Multicast DNS (mDNS) protocol.
+            </summary>
+            <remarks>
+            This implementation is a hybrid of a 'proper' mDNS resolver and a classic DNS resolver
+            configured to use the mDNS multicast address.  The implementation is aware of some of
+            the unique semantics of mDNS, but because it is loaded in arbitrary processes cannot
+            claim port 5353.  It attempts to honour the spirit of mDNS to the extent possible whilst
+            not binding to port 5353.
+            </remarks>
+        </member>
+        <member name="M:DiscUtils.Net.Dns.MulticastDnsClient.#ctor">
+            <summary>
+            Initializes a new instance of the MulticastDnsClient class.
+            </summary>
+        </member>
+        <member name="M:DiscUtils.Net.Dns.MulticastDnsClient.Dispose">
+            <summary>
+            Disposes of this instance.
+            </summary>
+        </member>
+        <member name="M:DiscUtils.Net.Dns.MulticastDnsClient.FlushCache">
+            <summary>
+            Flushes any cached DNS records.
+            </summary>
+        </member>
+        <member name="M:DiscUtils.Net.Dns.MulticastDnsClient.Lookup(System.String,DiscUtils.Net.Dns.RecordType)">
+            <summary>
+            Looks up a record in DNS.
+            </summary>
+            <param name="name">The name to lookup.</param>
+            <param name="type">The type of record requested.</param>
+            <returns>The records returned by the DNS server, if any.</returns>
+        </member>
+        <member name="T:DiscUtils.Net.Dns.PointerRecord">
+            <summary>
+            Represents a DNS PTR record.
+            </summary>
+        </member>
+        <member name="P:DiscUtils.Net.Dns.PointerRecord.TargetName">
+            <summary>
+            Gets the DNS name pointed to.
+            </summary>
+        </member>
+        <member name="T:DiscUtils.Net.Dns.RecordClass">
+            <summary>
+            Enumeration of known DNS record classes (CLASS in DNS).
+            </summary>
+        </member>
+        <member name="F:DiscUtils.Net.Dns.RecordClass.None">
+            <summary>
+            No class defined.
+            </summary>
+        </member>
+        <member name="F:DiscUtils.Net.Dns.RecordClass.Internet">
+            <summary>
+            The Internet class.
+            </summary>
+        </member>
+        <member name="F:DiscUtils.Net.Dns.RecordClass.CSNet">
+            <summary>
+            The CSNET class.
+            </summary>
+        </member>
+        <member name="F:DiscUtils.Net.Dns.RecordClass.Chaos">
+            <summary>
+            The CHAOS network class.
+            </summary>
+        </member>
+        <member name="F:DiscUtils.Net.Dns.RecordClass.Hesiod">
+            <summary>
+            The Hesiod class.
+            </summary>
+        </member>
+        <member name="F:DiscUtils.Net.Dns.RecordClass.Any">
+            <summary>
+            Wildcard that matches any class.
+            </summary>
+        </member>
+        <member name="T:DiscUtils.Net.Dns.RecordType">
+            <summary>
+            Enumeration of the known DNS record types.
+            </summary>
+        </member>
+        <member name="F:DiscUtils.Net.Dns.RecordType.None">
+            <summary>
+             No record type defined.
+            </summary>
+        </member>
+        <member name="F:DiscUtils.Net.Dns.RecordType.Address">
+            <summary>
+            DNS A record.
+            </summary>
+        </member>
+        <member name="F:DiscUtils.Net.Dns.RecordType.NameServer">
+            <summary>
+            DNS NS record.
+            </summary>
+        </member>
+        <member name="F:DiscUtils.Net.Dns.RecordType.MailDestination">
+            <summary>
+            DNS MD record.
+            </summary>
+        </member>
+        <member name="F:DiscUtils.Net.Dns.RecordType.MailForwarder">
+            <summary>
+            DNS MF record.
+            </summary>
+        </member>
+        <member name="F:DiscUtils.Net.Dns.RecordType.CanonicalName">
+            <summary>
+            DNS CNAME record.
+            </summary>
+        </member>
+        <member name="F:DiscUtils.Net.Dns.RecordType.StartOfAuthority">
+            <summary>
+            DNS SOA record.
+            </summary>
+        </member>
+        <member name="F:DiscUtils.Net.Dns.RecordType.Mailbox">
+            <summary>
+            DNS MB record.
+            </summary>
+        </member>
+        <member name="F:DiscUtils.Net.Dns.RecordType.MailGroup">
+            <summary>
+            DNS MG record.
+            </summary>
+        </member>
+        <member name="F:DiscUtils.Net.Dns.RecordType.MailRename">
+            <summary>
+            DNS MR record.
+            </summary>
+        </member>
+        <member name="F:DiscUtils.Net.Dns.RecordType.Null">
+            <summary>
+            DNS NULL record.
+            </summary>
+        </member>
+        <member name="F:DiscUtils.Net.Dns.RecordType.WellKnownService">
+            <summary>
+            DNS WKS record.
+            </summary>
+        </member>
+        <member name="F:DiscUtils.Net.Dns.RecordType.Pointer">
+            <summary>
+            DNS PTR record.
+            </summary>
+        </member>
+        <member name="F:DiscUtils.Net.Dns.RecordType.HostInformation">
+            <summary>
+            DNS HINFO record.
+            </summary>
+        </member>
+        <member name="F:DiscUtils.Net.Dns.RecordType.MailboxInformation">
+            <summary>
+            DNS MINFO record.
+            </summary>
+        </member>
+        <member name="F:DiscUtils.Net.Dns.RecordType.MailExchange">
+            <summary>
+            DNS MX record.
+            </summary>
+        </member>
+        <member name="F:DiscUtils.Net.Dns.RecordType.Text">
+            <summary>
+            DNS TXT record.
+            </summary>
+        </member>
+        <member name="F:DiscUtils.Net.Dns.RecordType.ResponsiblePerson">
+            <summary>
+            DNS RP record.
+            </summary>
+        </member>
+        <member name="F:DiscUtils.Net.Dns.RecordType.IP6Address">
+            <summary>
+            DNS AAAA record.
+            </summary>
+        </member>
+        <member name="F:DiscUtils.Net.Dns.RecordType.Service">
+            <summary>
+            DNS SRV record.
+            </summary>
+        </member>
+        <member name="F:DiscUtils.Net.Dns.RecordType.ZoneTransfer">
+            <summary>
+            DNS AXFR record.
+            </summary>
+        </member>
+        <member name="F:DiscUtils.Net.Dns.RecordType.MailboxRecords">
+            <summary>
+            DNS MAILB record.
+            </summary>
+        </member>
+        <member name="F:DiscUtils.Net.Dns.RecordType.MailAgentRecords">
+            <summary>
+            DNS MAILA record.
+            </summary>
+        </member>
+        <member name="F:DiscUtils.Net.Dns.RecordType.All">
+            <summary>
+            Wildcard matching all records (*).
+            </summary>
+        </member>
+        <member name="T:DiscUtils.Net.Dns.ResourceRecord">
+            <summary>
+            Base class for all resource records (DNS RRs).
+            </summary>
+        </member>
+        <member name="P:DiscUtils.Net.Dns.ResourceRecord.Class">
+            <summary>
+            Gets the class of record.
+            </summary>
+        </member>
+        <member name="P:DiscUtils.Net.Dns.ResourceRecord.Expiry">
+            <summary>
+            Gets the expiry time of the record.
+            </summary>
+        </member>
+        <member name="P:DiscUtils.Net.Dns.ResourceRecord.Name">
+            <summary>
+            Gets the name of the resource (domain).
+            </summary>
+        </member>
+        <member name="P:DiscUtils.Net.Dns.ResourceRecord.RecordType">
+            <summary>
+            Gets the type of record.
+            </summary>
+        </member>
+        <member name="T:DiscUtils.Net.Dns.ServiceDiscoveryClient">
+            <summary>
+            Provides access to DNS-SD functionality.
+            </summary>
+        </member>
+        <member name="M:DiscUtils.Net.Dns.ServiceDiscoveryClient.#ctor">
+            <summary>
+            Initializes a new instance of the ServiceDiscoveryClient class.
+            </summary>
+        </member>
+        <member name="M:DiscUtils.Net.Dns.ServiceDiscoveryClient.Dispose">
+            <summary>
+            Disposes of this instance.
+            </summary>
+        </member>
+        <member name="M:DiscUtils.Net.Dns.ServiceDiscoveryClient.FlushCache">
+            <summary>
+            Flushes any cached data.
+            </summary>
+        </member>
+        <member name="M:DiscUtils.Net.Dns.ServiceDiscoveryClient.LookupServiceTypes">
+            <summary>
+            Queries for all the different types of service available on the local network.
+            </summary>
+            <returns>An array of service types, for example "_http._tcp".</returns>
+        </member>
+        <member name="M:DiscUtils.Net.Dns.ServiceDiscoveryClient.LookupServiceTypes(System.String)">
+            <summary>
+            Queries for all the different types of service available in a domain.
+            </summary>
+            <param name="domain">The domain to query.</param>
+            <returns>An array of service types, for example "_http._tcp".</returns>
+        </member>
+        <member name="M:DiscUtils.Net.Dns.ServiceDiscoveryClient.LookupInstances(System.String)">
+            <summary>
+            Queries for all instances of a particular service on the local network, retrieving all details.
+            </summary>
+            <param name="service">The service to query, for example "_http._tcp".</param>
+            <returns>An array of service instances.</returns>
+        </member>
+        <member name="M:DiscUtils.Net.Dns.ServiceDiscoveryClient.LookupInstances(System.String,DiscUtils.Net.Dns.ServiceInstanceFields)">
+            <summary>
+            Queries for all instances of a particular service on the local network.
+            </summary>
+            <param name="service">The service to query, for example "_http._tcp".</param>
+            <param name="fields">The details to query.</param>
+            <returns>An array of service instances.</returns>
+            <remarks>Excluding some fields (for example the IP address) may reduce the time taken.</remarks>
+        </member>
+        <member name="M:DiscUtils.Net.Dns.ServiceDiscoveryClient.LookupInstances(System.String,System.String,DiscUtils.Net.Dns.ServiceInstanceFields)">
+            <summary>
+            Queries for all instances of a particular service on the local network.
+            </summary>
+            <param name="service">The service to query, for example "_http._tcp".</param>
+            <param name="domain">The domain to query.</param>
+            <param name="fields">The details to query.</param>
+            <returns>An array of service instances.</returns>
+            <remarks>Excluding some fields (for example the IP address) may reduce the time taken.</remarks>
+        </member>
+        <member name="M:DiscUtils.Net.Dns.ServiceDiscoveryClient.LookupInstance(System.String,DiscUtils.Net.Dns.ServiceInstanceFields)">
+            <summary>
+            Queries for all instances of a particular service on the local network.
+            </summary>
+            <param name="name">The instance to query, for example "My WebServer._http._tcp".</param>
+            <param name="fields">The details to query.</param>
+            <returns>The service instance.</returns>
+            <remarks>Excluding some fields (for example the IP address) may reduce the time taken.</remarks>
+        </member>
+        <member name="T:DiscUtils.Net.Dns.ServiceInstance">
+            <summary>
+            Represents an instance of a type of DNS-SD service.
+            </summary>
+        </member>
+        <member name="P:DiscUtils.Net.Dns.ServiceInstance.DisplayName">
+            <summary>
+            Gets the display name for the service instance.
+            </summary>
+        </member>
+        <member name="P:DiscUtils.Net.Dns.ServiceInstance.EndPoints">
+            <summary>
+            Gets the EndPoints that service this instance.
+            </summary>
+        </member>
+        <member name="P:DiscUtils.Net.Dns.ServiceInstance.Name">
+            <summary>
+            Gets the network name for the service instance (think of this as the unique key).
+            </summary>
+        </member>
+        <member name="P:DiscUtils.Net.Dns.ServiceInstance.Parameters">
+            <summary>
+            Gets the parameters of the service instance.
+            </summary>
+        </member>
+        <member name="T:DiscUtils.Net.Dns.ServiceInstanceEndPoint">
+            <summary>
+            Represents an endpoint (address, port, etc) that provides a DNS-SD service instance.
+            </summary>
+        </member>
+        <member name="P:DiscUtils.Net.Dns.ServiceInstanceEndPoint.DnsAddress">
+            <summary>
+            Gets the DNS address of this EndPoint.
+            </summary>
+        </member>
+        <member name="P:DiscUtils.Net.Dns.ServiceInstanceEndPoint.IPEndPoints">
+            <summary>
+            Gets the IP addresses (as IPEndPoint instances) of this EndPoint.
+            </summary>
+        </member>
+        <member name="P:DiscUtils.Net.Dns.ServiceInstanceEndPoint.Port">
+            <summary>
+            Gets the port of this EndPoint.
+            </summary>
+        </member>
+        <member name="P:DiscUtils.Net.Dns.ServiceInstanceEndPoint.Priority">
+            <summary>
+            Gets the priority of this EndPoint (lower value is higher priority).
+            </summary>
+        </member>
+        <member name="P:DiscUtils.Net.Dns.ServiceInstanceEndPoint.Weight">
+            <summary>
+            Gets the relative weight of this EndPoint when randomly choosing between EndPoints of equal priority.
+            </summary>
+        </member>
+        <member name="T:DiscUtils.Net.Dns.ServiceInstanceFields">
+            <summary>
+            Flags controlling which details are discovered for a particular DNS-SD service.
+            </summary>
+        </member>
+        <member name="F:DiscUtils.Net.Dns.ServiceInstanceFields.DisplayName">
+            <summary>
+            Resolves the display name for the service.
+            </summary>
+        </member>
+        <member name="F:DiscUtils.Net.Dns.ServiceInstanceFields.Parameters">
+            <summary>
+            Resolves the parameters for the service (held in TXT records).
+            </summary>
+        </member>
+        <member name="F:DiscUtils.Net.Dns.ServiceInstanceFields.DnsAddresses">
+            <summary>
+            Resolves the DNS address for the service (held in SRV records).
+            </summary>
+        </member>
+        <member name="F:DiscUtils.Net.Dns.ServiceInstanceFields.IPAddresses">
+            <summary>
+            Resolves the IP address(es) for the service.
+            </summary>
+        </member>
+        <member name="F:DiscUtils.Net.Dns.ServiceInstanceFields.All">
+            <summary>
+            Resolves all fields.
+            </summary>
+        </member>
+        <member name="T:DiscUtils.Net.Dns.ServiceRecord">
+            <summary>
+            Represents a DNS SRV record.
+            </summary>
+        </member>
+        <member name="P:DiscUtils.Net.Dns.ServiceRecord.Port">
+            <summary>
+            Gets the network port at which the service can be accessed.
+            </summary>
+        </member>
+        <member name="P:DiscUtils.Net.Dns.ServiceRecord.Priority">
+            <summary>
+            Gets the priority associated with this service record (lower value is higher priority).
+            </summary>
+        </member>
+        <member name="P:DiscUtils.Net.Dns.ServiceRecord.Target">
+            <summary>
+            Gets the DNS name at which the service can be accessed.
+            </summary>
+        </member>
+        <member name="P:DiscUtils.Net.Dns.ServiceRecord.Weight">
+            <summary>
+            Gets the relative weight associated with this service record when randomly choosing between records of equal priority.
+            </summary>
+        </member>
+        <member name="T:DiscUtils.Net.Dns.TextRecord">
+            <summary>
+            Represents a DNS TXT record.
+            </summary>
+        </member>
+        <member name="P:DiscUtils.Net.Dns.TextRecord.Values">
+            <summary>
+            Gets the values encoded in this record.
+            </summary>
+            <remarks>For data fidelity, the data is returned in byte form - typically
+            the encoded data is actually ASCII or UTF-8.</remarks>
+        </member>
+        <member name="T:DiscUtils.Net.Dns.UnicastDnsClient">
+            <summary>
+            Implements the (conventional) unicast DNS protocol.
+            </summary>
+        </member>
+        <member name="M:DiscUtils.Net.Dns.UnicastDnsClient.#ctor">
+            <summary>
+            Initializes a new instance of the UnicastDnsClient class.
+            </summary>
+            <remarks>
+            This constructor attempts to detect the DNS servers in use by the local
+            OS, and use those servers.
+            </remarks>
+        </member>
+        <member name="M:DiscUtils.Net.Dns.UnicastDnsClient.#ctor(System.Net.IPEndPoint[])">
+            <summary>
+            Initializes a new instance of the UnicastDnsClient class, using nominated DNS servers.
+            </summary>
+            <param name="servers">The servers to use (non-standard ports may be specified).</param>
+        </member>
+        <member name="M:DiscUtils.Net.Dns.UnicastDnsClient.#ctor(System.Net.IPAddress[])">
+            <summary>
+            Initializes a new instance of the UnicastDnsClient class, using nominated DNS servers.
+            </summary>
+            <param name="servers">The servers to use (the default DNS port, 53, is used).</param>
+        </member>
+        <member name="M:DiscUtils.Net.Dns.UnicastDnsClient.FlushCache">
+            <summary>
+            Flushes any cached DNS records.
+            </summary>
+        </member>
+        <member name="M:DiscUtils.Net.Dns.UnicastDnsClient.Lookup(System.String,DiscUtils.Net.Dns.RecordType)">
+            <summary>
+            Looks up a record in DNS.
+            </summary>
+            <param name="name">The name to lookup.</param>
+            <param name="type">The type of record requested.</param>
+            <returns>The records returned by the DNS server, if any.</returns>
+        </member>
+    </members>
+</doc>
