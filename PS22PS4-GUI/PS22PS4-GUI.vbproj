@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\NUnit.3.13.3\build\NUnit.props" Condition="Exists('..\packages\NUnit.3.13.3\build\NUnit.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -14,6 +15,8 @@
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>x64</PlatformTarget>
@@ -78,6 +81,9 @@
     <Reference Include="lzo.net, Version=0.0.3.0, Culture=neutral, PublicKeyToken=7c3b11b873e0cbca, processorArchitecture=MSIL">
       <HintPath>..\packages\lzo.net.0.0.3\lib\net45\lzo.net.dll</HintPath>
     </Reference>
+    <Reference Include="nunit.framework, Version=3.13.3.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnit.3.13.3\lib\net45\nunit.framework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
@@ -109,11 +115,41 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Form\CL.Designer.vb">
+      <DependentUpon>CL.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Form\CL.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\CreateConfig.Designer.vb">
+      <DependentUpon>CreateConfig.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Form\CreateConfig.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\CreateLua.Designer.vb">
+      <DependentUpon>CreateLua.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Form\CreateLua.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\Credit.Designer.vb">
+      <DependentUpon>Credit.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Form\Credit.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Form\Main.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form\Main.Designer.vb">
       <DependentUpon>Main.vb</DependentUpon>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\Settings.Designer.vb">
+      <DependentUpon>Settings.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Form\Settings.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -133,8 +169,21 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Script\ExtractPS2.vb" />
+    <Compile Include="Script\PS22PS4.vb" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Form\CL.resx">
+      <DependentUpon>CL.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\CreateConfig.resx">
+      <DependentUpon>CreateConfig.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\CreateLua.resx">
+      <DependentUpon>CreateLua.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\Credit.resx">
+      <DependentUpon>Credit.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form\Main.resx">
       <DependentUpon>Main.vb</DependentUpon>
     </EmbeddedResource>
@@ -166,4 +215,10 @@
     <PostBuildEvent>MKDIR "$(TargetDir)bin\dlls"
 MOVE /Y "$(TargetDir)*.dll" "$(TargetDir)bin\dlls"</PostBuildEvent>
   </PropertyGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>Ce projet fait référence à des packages NuGet qui sont manquants sur cet ordinateur. Utilisez l'option de restauration des packages NuGet pour les télécharger. Pour plus d'informations, consultez http://go.microsoft.com/fwlink/?LinkID=322105. Le fichier manquant est : {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\NUnit.3.13.3\build\NUnit.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NUnit.3.13.3\build\NUnit.props'))" />
+  </Target>
 </Project>

@@ -26,3 +26,9 @@ C:\Users\echol\source\repos\PS22PS4-GUI\PS22PS4-GUI\obj\Debug\PS22PS4-GUI.vbproj
 C:\Users\echol\source\repos\PS22PS4-GUI\PS22PS4-GUI\bin\Debug\HtmlAgilityPack.dll
 C:\Users\echol\source\repos\PS22PS4-GUI\PS22PS4-GUI\bin\Debug\HtmlAgilityPack.pdb
 C:\Users\echol\source\repos\PS22PS4-GUI\PS22PS4-GUI\bin\Debug\HtmlAgilityPack.xml
+C:\Users\echol\source\repos\PS22PS4-GUI\PS22PS4-GUI\bin\Debug\nunit.framework.dll
+C:\Users\echol\source\repos\PS22PS4-GUI\PS22PS4-GUI\bin\Debug\nunit.framework.xml
+C:\Users\echol\source\repos\PS22PS4-GUI\PS22PS4-GUI\obj\Debug\PS22PS4_GUI.CL.resources
+C:\Users\echol\source\repos\PS22PS4-GUI\PS22PS4-GUI\obj\Debug\PS22PS4_GUI.Credit.resources
+C:\Users\echol\source\repos\PS22PS4-GUI\PS22PS4-GUI\obj\Debug\PS22PS4_GUI.CreateLua.resources
+C:\Users\echol\source\repos\PS22PS4-GUI\PS22PS4-GUI\obj\Debug\PS22PS4_GUI.CreateConfig.resources

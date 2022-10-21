@@ -18,8 +18,13 @@ Public Class ExtractPS2
             getid(File.ReadAllText("ps2.info"))
             getv(File.ReadAllText("ps2.info"))
             getr(File.ReadAllText("ps2.info"))
-            MsgBox(Application.StartupPath & "\bin\info")
-            File.Move("ps2.info", Application.StartupPath & "\bin\info\" & Form1.Label5.Text.Replace("Game ID: ", "") & ".info")
+            'MsgBox(Application.StartupPath & "\bin\info")
+            If File.Exists(Application.StartupPath & "\bin\info\" & Form1.Label10.Text & ".info") Then
+                File.Delete("ps2.info")
+
+            Else
+                File.Move("ps2.info", Application.StartupPath & "\bin\info\" & Form1.Label10.Text.Replace("Game ID: ", "") & ".info")
+            End If
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Critical, "PS22PS4-GUI")
         End Try
@@ -37,8 +42,9 @@ Public Class ExtractPS2
             If nIndexStart > -1 AndAlso nIndexEnd > -1 Then '-1 means the word was not found.
                 Dim res As String = Strings.Mid(sSource, nIndexStart + sDelimStart.Length + 1, nIndexEnd - nIndexStart - sDelimStart.Length) 'Crop the text between
                 'MessageBox.Show(res.Replace("_", "").Replace(".", "")) 'Display
-                Form1.Label5.Text = "Game ID: " & res.Replace("_", "").Replace(".", "")
+                Form1.Label10.Text = res.Replace("_", "").Replace(".", "")
                 getn(res.Replace("_", "-").Replace(".", ""))
+                My.Settings.GID = res.Replace("_", "-").Replace(".", "")
             Else
                 MessageBox.Show("One or both of the delimiting words were not found!")
             End If
@@ -59,7 +65,7 @@ Public Class ExtractPS2
             If nIndexStart > -1 AndAlso nIndexEnd > -1 Then '-1 means the word was not found.
                 Dim res As String = Strings.Mid(sSource, nIndexStart + sDelimStart.Length + 1, nIndexEnd - nIndexStart - sDelimStart.Length) 'Crop the text between
                 'MessageBox.Show(res) 'Display
-                Form1.Label6.Text = "Game version: " & res
+                Form1.Label11.Text = Form1.Label11.Text.Replace("N/A", res)
             Else
                 MessageBox.Show("One or both of the delimiting words were not found!")
             End If
@@ -73,7 +79,7 @@ Public Class ExtractPS2
         Dim sSource As String = str 'String that is being searched
         Dim res As String = sSource.Substring(sSource.LastIndexOf("VMODE = ") + 7) 'Crop the text between
         'MessageBox.Show(res) 'Display
-        Form1.Label7.Text = "Game Region: " & res
+        Form1.Label12.Text = Form1.Label12.Text.Replace("N/A", res)
     End Sub
 
     Shared Sub getn(id As String)
@@ -85,7 +91,8 @@ Public Class ExtractPS2
             htmlDoc.LoadHtml(html)
             For Each h1Node In htmlDoc.DocumentNode.SelectNodes("//h1")
                 ' Do Something...
-                Form1.Label8.Text = "Game name: " & h1Node.InnerHtml
+                Form1.Label9.Text = h1Node.InnerHtml.Replace(":", " -").Replace("/", "").Replace("\\", " ").Replace("?", "").Replace("*", "").Replace("|", "").Replace(">", "").Replace("<", "")
+                My.Settings.GN = h1Node.InnerHtml.Replace(":", " -").Replace("/", "").Replace("\\", " ").Replace("?", "").Replace("*", "").Replace("|", "").Replace(">", "").Replace("<", "")
             Next
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Critical, "PS22PS4-GUI")

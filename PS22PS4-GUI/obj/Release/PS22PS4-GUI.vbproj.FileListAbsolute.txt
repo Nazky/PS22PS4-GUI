@@ -26,3 +26,9 @@ C:\Users\echol\source\repos\PS22PS4-GUI\PS22PS4-GUI\obj\Release\PS22PS4-GUI.vbpr
 C:\Users\echol\source\repos\PS22PS4-GUI\PS22PS4-GUI\obj\Release\PS22PS4-GUI.vbproj.CopyComplete
 C:\Users\echol\source\repos\PS22PS4-GUI\PS22PS4-GUI\obj\Release\PS22PS4-GUI.exe
 C:\Users\echol\source\repos\PS22PS4-GUI\PS22PS4-GUI\obj\Release\PS22PS4-GUI.pdb
+C:\Users\echol\source\repos\PS22PS4-GUI\PS22PS4-GUI\bin\Release\nunit.framework.dll
+C:\Users\echol\source\repos\PS22PS4-GUI\PS22PS4-GUI\bin\Release\nunit.framework.xml
+C:\Users\echol\source\repos\PS22PS4-GUI\PS22PS4-GUI\obj\Release\PS22PS4_GUI.CL.resources
+C:\Users\echol\source\repos\PS22PS4-GUI\PS22PS4-GUI\obj\Release\PS22PS4_GUI.CreateConfig.resources
+C:\Users\echol\source\repos\PS22PS4-GUI\PS22PS4-GUI\obj\Release\PS22PS4_GUI.CreateLua.resources
+C:\Users\echol\source\repos\PS22PS4-GUI\PS22PS4-GUI\obj\Release\PS22PS4_GUI.Credit.resources

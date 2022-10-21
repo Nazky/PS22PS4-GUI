@@ -77,6 +77,42 @@ Namespace My
                 Me("LUA") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+        Public Property GID() As String
+            Get
+                Return CType(Me("GID"),String)
+            End Get
+            Set
+                Me("GID") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+        Public Property GN() As String
+            Get
+                Return CType(Me("GN"),String)
+            End Get
+            Set
+                Me("GN") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+        Public Property PO() As String
+            Get
+                Return CType(Me("PO"),String)
+            End Get
+            Set
+                Me("PO") = value
+            End Set
+        End Property
     End Class
 End Namespace
 
