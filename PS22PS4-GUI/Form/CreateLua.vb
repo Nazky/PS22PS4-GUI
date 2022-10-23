@@ -1,4 +1,6 @@
-﻿Public Class CreateLua
+﻿Imports System.IO
+
+Public Class CreateLua
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         Try
@@ -16,5 +18,20 @@
         Else
             Me.Text = Me.Text & My.Settings.GID
         End If
+    End Sub
+
+    Private Sub RichTextBox1_DragEnter(sender As Object, e As DragEventArgs)
+        If e.Data.GetDataPresent(DataFormats.FileDrop) Then
+            e.Effect = DragDropEffects.Copy
+        End If
+    End Sub
+
+    Private Sub RichTextBox1_DragDrop(sender As Object, e As DragEventArgs)
+        Dim files() As String = e.Data.GetData(DataFormats.FileDrop)
+        For Each path In files
+            If Directory.Exists(files(0)) Then
+                RichTextBox1.Text = System.IO.File.ReadAllText(files(0))
+            End If
+        Next
     End Sub
 End Class

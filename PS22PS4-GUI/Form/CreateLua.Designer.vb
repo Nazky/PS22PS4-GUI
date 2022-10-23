@@ -29,20 +29,18 @@ Partial Class CreateLua
         'RichTextBox1
         '
         Me.RichTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.RichTextBox1.Dock = System.Windows.Forms.DockStyle.Top
-        Me.RichTextBox1.Location = New System.Drawing.Point(0, 0)
+        Me.RichTextBox1.Location = New System.Drawing.Point(12, 12)
         Me.RichTextBox1.Name = "RichTextBox1"
-        Me.RichTextBox1.Size = New System.Drawing.Size(805, 656)
+        Me.RichTextBox1.Size = New System.Drawing.Size(781, 632)
         Me.RichTextBox1.TabIndex = 0
         Me.RichTextBox1.Text = "apiRequest(0.1)" & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(10) & "-- Fix black screen SLUS-20064" & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(10) & "eeInsnReplace(0x1CF3CC, 0x4100ff" &
     "ff, 0x00000000)" & Global.Microsoft.VisualBasic.ChrW(9) & "-- bc0f 0x1CF3CC to nop"
         '
         'Button1
         '
-        Me.Button1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.Button1.Location = New System.Drawing.Point(0, 662)
+        Me.Button1.Location = New System.Drawing.Point(12, 650)
         Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(805, 23)
+        Me.Button1.Size = New System.Drawing.Size(781, 23)
         Me.Button1.TabIndex = 1
         Me.Button1.Text = "Save config"
         Me.Button1.UseVisualStyleBackColor = True

@@ -17,7 +17,7 @@ Public Class CreateConfig
             Me.Close()
         Else
             Me.Text = Me.Text & My.Settings.GID
-            TextBox1.AllowDrop = True
+            RichTextBox1.AllowDrop = True
         End If
     End Sub
 
@@ -35,7 +35,7 @@ Public Class CreateConfig
         Dim files() As String = e.Data.GetData(DataFormats.FileDrop)
         For Each path In files
             If Directory.Exists(files(0)) Then
-                TextBox1.Text = System.IO.File.ReadAllText(files(0))
+                RichTextBox1.Text = System.IO.File.ReadAllText(files(0))
             End If
         Next
     End Sub
