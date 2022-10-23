@@ -61,6 +61,7 @@ Partial Class Form1
         Me.HelpToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.CompatibilityListToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.CreditsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.BackgroundWorker1 = New System.ComponentModel.BackgroundWorker()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
@@ -98,7 +99,7 @@ Partial Class Form1
         Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
         Me.TabPage1.Size = New System.Drawing.Size(1167, 397)
         Me.TabPage1.TabIndex = 0
-        Me.TabPage1.Text = "Single"
+        Me.TabPage1.Text = "Create PKG"
         Me.TabPage1.UseVisualStyleBackColor = True
         '
         'GroupBox1
@@ -310,7 +311,7 @@ Partial Class Form1
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(103, 13)
         Me.Label1.TabIndex = 0
-        Me.Label1.Text = "ISO File: "
+        Me.Label1.Text = "ISO/BIN File: "
         '
         'MenuStrip1
         '
@@ -338,13 +339,13 @@ Partial Class Form1
         'ConfigToolStripMenuItem1
         '
         Me.ConfigToolStripMenuItem1.Name = "ConfigToolStripMenuItem1"
-        Me.ConfigToolStripMenuItem1.Size = New System.Drawing.Size(180, 22)
+        Me.ConfigToolStripMenuItem1.Size = New System.Drawing.Size(110, 22)
         Me.ConfigToolStripMenuItem1.Text = "Config"
         '
         'LUAToolStripMenuItem1
         '
         Me.LUAToolStripMenuItem1.Name = "LUAToolStripMenuItem1"
-        Me.LUAToolStripMenuItem1.Size = New System.Drawing.Size(180, 22)
+        Me.LUAToolStripMenuItem1.Size = New System.Drawing.Size(110, 22)
         Me.LUAToolStripMenuItem1.Text = "LUA"
         '
         'ImportToolStripMenuItem
@@ -357,13 +358,13 @@ Partial Class Form1
         'ConfigToolStripMenuItem
         '
         Me.ConfigToolStripMenuItem.Name = "ConfigToolStripMenuItem"
-        Me.ConfigToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.ConfigToolStripMenuItem.Size = New System.Drawing.Size(110, 22)
         Me.ConfigToolStripMenuItem.Text = "Config"
         '
         'LUAToolStripMenuItem
         '
         Me.LUAToolStripMenuItem.Name = "LUAToolStripMenuItem"
-        Me.LUAToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.LUAToolStripMenuItem.Size = New System.Drawing.Size(110, 22)
         Me.LUAToolStripMenuItem.Text = "LUA"
         '
         'ExitToolStripMenuItem
@@ -382,7 +383,7 @@ Partial Class Form1
         'CheckUpdateToolStripMenuItem
         '
         Me.CheckUpdateToolStripMenuItem.Name = "CheckUpdateToolStripMenuItem"
-        Me.CheckUpdateToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.CheckUpdateToolStripMenuItem.Size = New System.Drawing.Size(147, 22)
         Me.CheckUpdateToolStripMenuItem.Text = "Check update"
         '
         'HelpToolStripMenuItem
@@ -395,14 +396,19 @@ Partial Class Form1
         'CompatibilityListToolStripMenuItem
         '
         Me.CompatibilityListToolStripMenuItem.Name = "CompatibilityListToolStripMenuItem"
-        Me.CompatibilityListToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.CompatibilityListToolStripMenuItem.Size = New System.Drawing.Size(164, 22)
         Me.CompatibilityListToolStripMenuItem.Text = "Compatibility list"
         '
         'CreditsToolStripMenuItem
         '
         Me.CreditsToolStripMenuItem.Name = "CreditsToolStripMenuItem"
-        Me.CreditsToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.CreditsToolStripMenuItem.Size = New System.Drawing.Size(164, 22)
         Me.CreditsToolStripMenuItem.Text = "Credits"
+        '
+        'BackgroundWorker1
+        '
+        Me.BackgroundWorker1.WorkerReportsProgress = True
+        Me.BackgroundWorker1.WorkerSupportsCancellation = True
         '
         'Form1
         '
@@ -468,4 +474,5 @@ Partial Class Form1
     Friend WithEvents Label11 As Label
     Friend WithEvents Label10 As Label
     Friend WithEvents Label9 As Label
+    Friend WithEvents BackgroundWorker1 As System.ComponentModel.BackgroundWorker
 End Class

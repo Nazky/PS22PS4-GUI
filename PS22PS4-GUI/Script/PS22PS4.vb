@@ -1,11 +1,12 @@
-﻿Imports System.Net.Mime.MediaTypeNames
+﻿Imports System.IO
+Imports System.Net.Mime.MediaTypeNames
 Imports System.Security.Cryptography
 Imports System.Text
 
 Public Class PS22PS4
     Shared Sub CreatePKG(ISO As String, gid As String, gn As String, gv As String, gr As String, icon As String, background As String, config As String, LUA As String, rcht As RichTextBox, pkgf As String)
         Try
-            rcht.Text = "ISO path: " & ISO & vbCrLf & "Game ID: " & gid & vbCrLf & "Game Name: " & gn & vbCrLf & "Game version: " & gv & "Game region: " & gr & vbCrLf & "Icon path: " & icon & vbCrLf & "Background path: " & background & vbCrLf
+            rcht.Text = "ISO/BIN path: " & ISO & vbCrLf & "Game ID: " & gid & vbCrLf & "Game Name: " & gn & vbCrLf & "Game version: " & gv & "Game region: " & gr & vbCrLf & "Icon path: " & icon & vbCrLf & "Background path: " & background & vbCrLf
             If config = "" Then
                 rcht.Text = rcht.Text & "config file: N/A" & vbCrLf
             Else
@@ -48,14 +49,83 @@ Public Class PS22PS4
 
     Shared Sub cps2(rcht As RichTextBox, ISO As String, pkgf As String)
         Try
-            rcht.Text = rcht.Text & "Importing ISO..." & vbCrLf
-            System.IO.File.Copy(ISO, pkgf & "\Temp\image0\image\disc01.iso")
-            Form1.ProgressBar1.Value += 11
+            If ISO.Contains(".iso") Then
+                rcht.Text = rcht.Text & "Importing ISO..." & vbCrLf
+                System.IO.File.Copy(ISO, pkgf & "\Temp\image0\image\disc01.iso")
+                Form1.ProgressBar1.Value += 11
+            ElseIf ISO.Contains(".bin") Then
+                rcht.Text = rcht.Text & "Importing and converting BIN..." & vbCrLf
+                System.IO.File.Copy(ISO, pkgf & "\Temp\image0\image\disc01.iso")
+                rcht.Text = rcht.Text & "Patching BIN..." & vbCrLf
+                Dim crc = GetCRC32(pkgf & "\Temp\image0\image\disc01.iso")
+                Dim LIMG = "4C494D4700000002FFFFFFFF00000930"
+                Dim crcb As Byte() = stringToByteArray(LIMG.Replace("FFFFFFFF", crc))
+                AppendByteToBIN(pkgf & "\Temp\image0\image\disc01.iso", crcb)
+                Form1.ProgressBar1.Value += 11
+                MsgBox("done")
+            End If
+
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Critical, "PS22PS4-GUI")
         End Try
 
     End Sub
+
+    Public Shared Function stringToByteArray(text As String) As Byte()
+        Dim bytes As Byte() = New Byte(text.Length \ 2 - 1) {}
+
+        For i As Integer = 0 To text.Length - 1 Step 2
+            bytes(i \ 2) = Byte.Parse(text(i).ToString() & text(i + 1).ToString(), System.Globalization.NumberStyles.HexNumber)
+        Next
+
+        Return bytes
+    End Function
+
+    Shared Sub AppendByteToBIN(ByVal FilepathToAppendTo As String, ByRef Content() As Byte)
+        Dim s As New System.IO.FileStream(FilepathToAppendTo, System.IO.FileMode.Append, System.IO.FileAccess.Write, System.IO.FileShare.ReadWrite)
+        s.Write(Content, 0, Content.Length)
+        s.Close()
+    End Sub
+
+    Shared Function GetCRC32(ByVal sFileName As String) As String
+        Try
+            Dim FS As FileStream = New FileStream(sFileName, FileMode.Open, FileAccess.Read, FileShare.Read, 8192)
+            Dim CRC32Result As Integer = &HFFFFFFFF
+            Dim Buffer(4096) As Byte
+            Dim ReadSize As Integer = 4096
+            Dim Count As Integer = FS.Read(Buffer, 0, ReadSize)
+            Dim CRC32Table(256) As Integer
+            Dim DWPolynomial As Integer = &HEDB88320
+            Dim DWCRC As Integer
+            Dim i As Integer, j As Integer, n As Integer
+            'Create CRC32 Table
+            For i = 0 To 255
+                DWCRC = i
+                For j = 8 To 1 Step -1
+                    If (DWCRC And 1) Then
+                        DWCRC = ((DWCRC And &HFFFFFFFE) \ 2&) And &H7FFFFFFF
+                        DWCRC = DWCRC Xor DWPolynomial
+                    Else
+                        DWCRC = ((DWCRC And &HFFFFFFFE) \ 2&) And &H7FFFFFFF
+                    End If
+                Next j
+                CRC32Table(i) = DWCRC
+            Next i
+            'Calcualting CRC32 Hash
+            Do While (Count > 0)
+                For i = 0 To Count - 1
+                    n = (CRC32Result And &HFF) Xor Buffer(i)
+                    CRC32Result = ((CRC32Result And &HFFFFFF00) \ &H100) And &HFFFFFF
+                    CRC32Result = CRC32Result Xor CRC32Table(n)
+                Next i
+                Count = FS.Read(Buffer, 0, ReadSize)
+            Loop
+            FS.Close()
+            Return Hex(CRC32Result)
+        Catch ex As Exception
+            Return ""
+        End Try
+    End Function
 
     Shared Sub ic(rcht As RichTextBox, pkgf As String, gn As String)
         Try

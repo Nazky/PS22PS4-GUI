@@ -232,4 +232,12 @@ Public Class Form1
     Private Sub ConfigToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles ConfigToolStripMenuItem1.Click
         CreateConfig.Show()
     End Sub
+
+    Private Sub TextBox1_TextChanged(sender As Object, e As EventArgs) Handles TextBox1.TextChanged
+
+    End Sub
+
+    Private Sub BackgroundWorker1_DoWork(sender As Object, e As ComponentModel.DoWorkEventArgs) Handles BackgroundWorker1.DoWork
+
+    End Sub
 End Class

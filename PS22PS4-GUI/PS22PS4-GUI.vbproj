@@ -168,6 +168,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Script\CRC32.vb" />
     <Compile Include="Script\ExtractPS2.vb" />
     <Compile Include="Script\PS22PS4.vb" />
   </ItemGroup>
@@ -209,6 +210,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ps2_icon_by_natstrodamus_deqcdvd.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <PropertyGroup>
