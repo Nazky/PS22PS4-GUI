@@ -146,12 +146,6 @@
       <DependentUpon>Main.vb</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form\Settings.Designer.vb">
-      <DependentUpon>Settings.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Form\Settings.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>

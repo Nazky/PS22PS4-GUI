@@ -10,7 +10,7 @@ Imports Crc
 Public Class ExtractPS2
     Shared Sub info(isopath As String)
         Try
-            If isopath.Contains(".iso") Then
+            If isopath.Contains(".iso") Or isopath.Contains(".ISO") Then
                 Using psISO As FileStream = File.Open(isopath, FileMode.Open)
                     Dim dvd As New CDReader(psISO, True)
                     Dim info As Stream = dvd.OpenFile("SYSTEM.CNF", FileMode.Open)
@@ -27,7 +27,7 @@ Public Class ExtractPS2
                         File.Move("ps2.info", Application.StartupPath & "\bin\info\" & Form1.Label10.Text.Replace("Game ID: ", "") & ".info")
                     End If
                 End Using
-            ElseIf isopath.Contains(".bin") Then
+            ElseIf isopath.Contains(".bin") Or isopath.Contains(".BIN") Then
                 Dim info As String = File.ReadAllText(isopath)
                 'Dim gid As String = Strings.Mid(info, info.IndexOf("BOOT2"))
                 'MsgBox(gid)
@@ -42,6 +42,7 @@ Public Class ExtractPS2
 
 
         Catch ex As Exception
+            MsgBox(ex.Message, MsgBoxStyle.Critical, "PS22PS4-GUI")
         End Try
 
     End Sub
@@ -83,9 +84,15 @@ Public Class ExtractPS2
             If nIndexStart > -1 AndAlso nIndexEnd > -1 Then '-1 means the word was not found.
                 Dim res As String = Strings.Mid(sSource, nIndexStart + sDelimStart.Length + 1, nIndexEnd - nIndexStart - sDelimStart.Length) 'Crop the text between
                 'MessageBox.Show(res) 'Display
-                Form1.Label11.Text = Form1.Label11.Text.Replace("N/A", res)
+                Form1.Label11.Text = res
             Else
-                MessageBox.Show("One or both of the delimiting words were not found!")
+                'MessageBox.Show("One or both of the delimiting words were not found!")
+                sDelimStart = "VER="
+                sDelimEnd = "VMODE"
+                nIndexStart = sSource.IndexOf(sDelimStart)
+                nIndexEnd = sSource.IndexOf(sDelimEnd)
+                Dim res As String = Strings.Mid(sSource, nIndexStart + sDelimStart.Length + 1, nIndexEnd - nIndexStart - sDelimStart.Length) 'Crop the text between
+                Form1.Label11.Text = res
             End If
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Critical, "PS22PS4-GUI")
@@ -94,10 +101,15 @@ Public Class ExtractPS2
     End Sub
 
     Shared Sub getr(str)
-        Dim sSource As String = str 'String that is being searched
-        Dim res As String = sSource.Substring(sSource.LastIndexOf("VMODE = ") + 7) 'Crop the text between
-        'MessageBox.Show(res) 'Display
-        Form1.Label12.Text = Form1.Label12.Text.Replace("N/A", res)
+        Try
+            Dim sSource As String = str 'String that is being searched
+            Dim res As String = sSource.Substring(sSource.LastIndexOf("VMODE") + 6) 'Crop the text between
+            'MessageBox.Show(res) 'Display
+            Form1.Label12.Text = res.Replace("=", "")
+        Catch ex As Exception
+            MsgBox(ex.Message, MsgBoxStyle.Critical, "PS22PS4-GUI")
+        End Try
+
     End Sub
 
     Shared Sub getn(id As String)

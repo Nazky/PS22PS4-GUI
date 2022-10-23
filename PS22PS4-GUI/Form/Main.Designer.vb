@@ -62,6 +62,8 @@ Partial Class Form1
         Me.CompatibilityListToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.CreditsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.BackgroundWorker1 = New System.ComponentModel.BackgroundWorker()
+        Me.EmulatorsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripComboBox1 = New System.Windows.Forms.ToolStripComboBox()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
@@ -283,7 +285,7 @@ Partial Class Form1
         Me.TextBox2.ReadOnly = True
         Me.TextBox2.Size = New System.Drawing.Size(389, 20)
         Me.TextBox2.TabIndex = 4
-        Me.TextBox2.Text = "Drag and drop here"
+        Me.TextBox2.Text = "Drag and drop here (optional)"
         Me.TextBox2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
         'Label2
@@ -375,7 +377,7 @@ Partial Class Form1
         '
         'SettingsToolStripMenuItem
         '
-        Me.SettingsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CheckUpdateToolStripMenuItem})
+        Me.SettingsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CheckUpdateToolStripMenuItem, Me.EmulatorsToolStripMenuItem})
         Me.SettingsToolStripMenuItem.Name = "SettingsToolStripMenuItem"
         Me.SettingsToolStripMenuItem.Size = New System.Drawing.Size(61, 20)
         Me.SettingsToolStripMenuItem.Text = "Settings"
@@ -383,7 +385,7 @@ Partial Class Form1
         'CheckUpdateToolStripMenuItem
         '
         Me.CheckUpdateToolStripMenuItem.Name = "CheckUpdateToolStripMenuItem"
-        Me.CheckUpdateToolStripMenuItem.Size = New System.Drawing.Size(147, 22)
+        Me.CheckUpdateToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.CheckUpdateToolStripMenuItem.Text = "Check update"
         '
         'HelpToolStripMenuItem
@@ -409,6 +411,20 @@ Partial Class Form1
         '
         Me.BackgroundWorker1.WorkerReportsProgress = True
         Me.BackgroundWorker1.WorkerSupportsCancellation = True
+        '
+        'EmulatorsToolStripMenuItem
+        '
+        Me.EmulatorsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripComboBox1})
+        Me.EmulatorsToolStripMenuItem.Name = "EmulatorsToolStripMenuItem"
+        Me.EmulatorsToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.EmulatorsToolStripMenuItem.Text = "Emulators"
+        '
+        'ToolStripComboBox1
+        '
+        Me.ToolStripComboBox1.Items.AddRange(New Object() {"JakV2", "RogueV1"})
+        Me.ToolStripComboBox1.Name = "ToolStripComboBox1"
+        Me.ToolStripComboBox1.Size = New System.Drawing.Size(121, 23)
+        Me.ToolStripComboBox1.Text = "JakV2"
         '
         'Form1
         '
@@ -475,4 +491,6 @@ Partial Class Form1
     Friend WithEvents Label10 As Label
     Friend WithEvents Label9 As Label
     Friend WithEvents BackgroundWorker1 As System.ComponentModel.BackgroundWorker
+    Friend WithEvents EmulatorsToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ToolStripComboBox1 As ToolStripComboBox
 End Class

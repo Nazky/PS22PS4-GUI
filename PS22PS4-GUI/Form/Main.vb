@@ -6,6 +6,7 @@ Imports System.Text
 Imports System.Net
 Imports HtmlAgilityPack
 Imports System.Threading
+Imports System.Drawing.Imaging
 
 Public Class Form1
     Private Sub ExitToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ExitToolStripMenuItem.Click
@@ -24,7 +25,7 @@ Public Class Form1
     End Sub
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Directory.CreateDirectory("bin\mpkg")
+        'Directory.CreateDirectory("bin\mpkg")
         Directory.CreateDirectory("bin\lang")
         Directory.CreateDirectory("bin\configs")
         Directory.CreateDirectory("bin\LUA")
@@ -115,10 +116,15 @@ Public Class Form1
 
     Private Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click
         Try
-            If File.Exists(TextBox1.Text) And File.Exists(TextBox2.Text) And File.Exists(TextBox3.Text) And Directory.Exists(TextBox4.Text) Then
+            If File.Exists(TextBox1.Text) And TextBox2.Text = "Drag and drop here (optional)" Or File.Exists(TextBox2.Text) And File.Exists(TextBox3.Text) And Directory.Exists(TextBox4.Text) Then
 
+                If TextBox2.Text = "Drag and drop here (optional)" Then
+                    PictureBox2.Image.Save("back.jpg", ImageFormat.Jpeg)
+                    PS22PS4.CreatePKG(TextBox1.Text, Label10.Text, Label9.Text, Label11.Text, Label12.Text, TextBox3.Text, "back.jpg", My.Settings.Config, My.Settings.LUA, RichTextBox1, TextBox4.Text)
+                Else
+                    PS22PS4.CreatePKG(TextBox1.Text, Label10.Text, Label9.Text, Label11.Text, Label12.Text, TextBox3.Text, TextBox2.Text, My.Settings.Config, My.Settings.LUA, RichTextBox1, TextBox4.Text)
+                End If
                 'MsgBox(gn)
-                PS22PS4.CreatePKG(TextBox1.Text, Label10.Text, Label9.Text, Label11.Text, Label12.Text, TextBox3.Text, TextBox2.Text, My.Settings.Config, My.Settings.LUA, RichTextBox1, TextBox4.Text)
 
 
             Else
@@ -238,6 +244,10 @@ Public Class Form1
     End Sub
 
     Private Sub BackgroundWorker1_DoWork(sender As Object, e As ComponentModel.DoWorkEventArgs) Handles BackgroundWorker1.DoWork
+
+    End Sub
+
+    Private Sub ToolStripComboBox1_Click(sender As Object, e As EventArgs) Handles ToolStripComboBox1.Click
 
     End Sub
 End Class

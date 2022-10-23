@@ -6,6 +6,7 @@ Imports System.Text
 Public Class PS22PS4
     Shared Sub CreatePKG(ISO As String, gid As String, gn As String, gv As String, gr As String, icon As String, background As String, config As String, LUA As String, rcht As RichTextBox, pkgf As String)
         Try
+            Form1.ProgressBar1.Value = 0
             rcht.Text = "ISO/BIN path: " & ISO & vbCrLf & "Game ID: " & gid & vbCrLf & "Game Name: " & gn & vbCrLf & "Game version: " & gv & "Game region: " & gr & vbCrLf & "Icon path: " & icon & vbCrLf & "Background path: " & background & vbCrLf
             If config = "" Then
                 rcht.Text = rcht.Text & "config file: N/A" & vbCrLf
@@ -35,9 +36,13 @@ Public Class PS22PS4
 
     Shared Sub dpkg(rcht As RichTextBox, pkgf As String)
         Try
-            rcht.Text = rcht.Text & "Decrypting PKG..." & vbCrLf
+            rcht.Text = rcht.Text & "Decrypting emulator..." & vbCrLf
             System.IO.Directory.CreateDirectory(pkgf & "\Temp")
-            systemcmd("bin\tools\orbis-pub-cmd.exe", "img_extract --passcode 00000000000000000000000000000000 .\bin\tools\source.pkg " & pkgf & "\Temp")
+            If Form1.ToolStripComboBox1.Text = "JakV2" Then
+                systemcmd("bin\tools\orbis-pub-cmd.exe", "img_extract --passcode 00000000000000000000000000000000 .\bin\emulators\JakV2.pkg " & pkgf & "\Temp")
+            ElseIf Form1.ToolStripComboBox1.Text = "RogueV1" Then
+                systemcmd("bin\tools\orbis-pub-cmd.exe", "img_extract --passcode 00000000000000000000000000000000 .\bin\emulators\RogueV1.pkg " & pkgf & "\Temp")
+            End If
             My.Computer.FileSystem.RenameDirectory(pkgf & "\Temp\Sc0", "sce_sys")
             System.IO.File.Move(pkgf & "\Temp\sce_sys\param.sfo", pkgf & "\Temp\image0\sce_sys\param.sfo")
             System.IO.Directory.Delete(pkgf & "\Temp\sce_sys", True)
@@ -49,11 +54,11 @@ Public Class PS22PS4
 
     Shared Sub cps2(rcht As RichTextBox, ISO As String, pkgf As String)
         Try
-            If ISO.Contains(".iso") Then
+            If ISO.Contains(".iso") Or ISO.Contains(".ISO") Then
                 rcht.Text = rcht.Text & "Importing ISO..." & vbCrLf
                 System.IO.File.Copy(ISO, pkgf & "\Temp\image0\image\disc01.iso")
                 Form1.ProgressBar1.Value += 11
-            ElseIf ISO.Contains(".bin") Then
+            ElseIf ISO.Contains(".bin") Or ISO.Contains(".BIN") Then
                 rcht.Text = rcht.Text & "Importing and converting BIN..." & vbCrLf
                 System.IO.File.Copy(ISO, pkgf & "\Temp\image0\image\disc01.iso")
                 rcht.Text = rcht.Text & "Patching BIN..." & vbCrLf
@@ -62,7 +67,7 @@ Public Class PS22PS4
                 Dim crcb As Byte() = stringToByteArray(LIMG.Replace("FFFFFFFF", crc))
                 AppendByteToBIN(pkgf & "\Temp\image0\image\disc01.iso", crcb)
                 Form1.ProgressBar1.Value += 11
-                MsgBox("done")
+                'MsgBox("done")
             End If
 
         Catch ex As Exception
@@ -245,6 +250,7 @@ Public Class PS22PS4
             'System.IO.Directory.Delete(pkgf & "\Temp", True)
             rcht.Text = rcht.Text & "PKG compiled." & vbCrLf
             System.IO.Directory.Delete(pkgf & "\Temp", True)
+            System.IO.File.Delete("back.jpg")
             Form1.ProgressBar1.Value = 100
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Critical, "PS22PS4-GUI")
