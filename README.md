@@ -16,7 +16,7 @@ No, there is a compatitibility list that you can find [here](https://www.psdevwi
 
 #### Why should i use this one and not a other PS2 to PS4 ?
 
-PS2-FPKG is closed source (i have try to find the src but i can't so i guess it is) and i don't really like to use closed source projects lol (the software work and is very good with a lot of features but it's closed source so yeah), a good alternative is PS2 Classis GUI by [TheDarkprogramer](https://github.com/xXxTheDarkprogramerxXx) (a very greate guy btw, luv) but there isn't a lot of options to choose and no support for BIN files, so this project try to combine both of the best world.
+PS2-FPKG is closed source (i have try to find the src but i can't so i guess it is) and i don't really like to use closed source projects lol (the software work and is very good with a lot of features but it's closed source so yeah), a good alternative is PS2 Classis GUI by [TheDarkprogramer](https://github.com/xXxTheDarkprogramerxXx) (a very greate guy btw, luv) but there isn't a lot of options to choose ~~and no support for BIN files~~ (actually support BIN files my bad lol), so this project try to combine both of the best world.
 
 #### Why in VB ?
 
