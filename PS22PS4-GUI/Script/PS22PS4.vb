@@ -2,71 +2,94 @@
 Imports System.Net.Mime.MediaTypeNames
 Imports System.Security.Cryptography
 Imports System.Text
+Imports System.Threading
 
 Public Class PS22PS4
-    Shared Sub CreatePKG(ISO As String, gid As String, gn As String, gv As String, gr As String, icon As String, background As String, config As String, LUA As String, rcht As RichTextBox, pkgf As String)
-        Try
-            Form1.ProgressBar1.Value = 0
-            rcht.Text = "ISO/BIN path: " & ISO & vbCrLf & "Game ID: " & gid & vbCrLf & "Game Name: " & gn & vbCrLf & "Game version: " & gv & "Game region: " & gr & vbCrLf & "Icon path: " & icon & vbCrLf & "Background path: " & background & vbCrLf
-            If config = "" Then
-                rcht.Text = rcht.Text & "config file: N/A" & vbCrLf
-            Else
-                rcht.Text = rcht.Text & "config file: " & config & vbCrLf
-            End If
-            If LUA = "" Then
-                rcht.Text = rcht.Text & "LUA file: N/A" & vbCrLf & "---------------------------------------------------------------------------------------------------" & vbCrLf
-            Else
-                rcht.Text = rcht.Text & "LUA file: " & LUA & vbCrLf & "---------------------------------------------------------------------------------------------------" & vbCrLf
-            End If
+    <STAThread>
+    Shared Sub CreatePKG(ISO As String, gid As String, gn As String, gv As String, gr As String, icon As String, background As String, config As String, LUA As String, rcht As RichTextBox, pkgf As String, frm As Form1)
+        If frm.InvokeRequired Then
+            'MsgBox("test")
+            Try
+                If Form1.ToolStripComboBox1.Text = "" Then
+                    MsgBox("Please choose a emulator first !", MsgBoxStyle.Critical, "PS22PS4-GUI")
+                Else
+                    frm.Invoke(Sub() Form1.Button5.Enabled = False)
+                    frm.Invoke(Sub() Form1.ProgressBar1.Value = 0)
+                    frm.Invoke(Sub() Form1.UseWaitCursor = True)
+                    frm.Invoke(Sub() Form1.MenuStrip1.Enabled = False)
+                    frm.Invoke(Sub() Form1.TabControl1.Enabled = False)
+                    If Directory.Exists(pkgf & "\Temp") Then
+                        Directory.Delete(pkgf & "\Temp", True)
+                    End If
+                    frm.Invoke(Sub() rcht.Text = "ISO/BIN path: " & ISO & vbCrLf & "Game ID: " & gid & vbCrLf & "Game Name: " & gn & vbCrLf & "Game version: " & gv.Replace(vbCrLf, "") & vbCrLf & "Game region: " & gr.Replace(vbCrLf, "") & vbCrLf & "Icon path: " & icon & vbCrLf & "Background path: " & background & vbCrLf & "Emulator: " & Form1.ToolStripComboBox1.Text & vbCrLf)
+                    If config = "" Then
+                        frm.Invoke(Sub() rcht.Text = rcht.Text & "config file: N/A" & vbCrLf)
+                    Else
+                        frm.Invoke(Sub() rcht.Text = rcht.Text & "config file: " & config & vbCrLf)
+                    End If
+                    If LUA = "" Then
+                        frm.Invoke(Sub() rcht.Text = rcht.Text & "LUA file: N/A" & vbCrLf & "---------------------------------------------------------------------------------------------------" & vbCrLf)
+                    Else
+                        frm.Invoke(Sub() rcht.Text = rcht.Text & "LUA file: " & LUA & vbCrLf & "---------------------------------------------------------------------------------------------------" & vbCrLf)
+                    End If
+                End If
 
-            dpkg(rcht, pkgf)
-            cps2(rcht, ISO, pkgf)
-            ic(rcht, pkgf, gn)
-            il(rcht, pkgf, gn)
-            setid(rcht, gid, pkgf)
-            setgn(rcht, gn, pkgf)
-            setc(rcht, icon, pkgf)
-            setb(rcht, background, pkgf)
-            compilpkg(rcht, pkgf, gn)
-        Catch ex As Exception
-            MsgBox(ex.Message, MsgBoxStyle.Critical, "PS22PS4-GUI")
-        End Try
+                dpkg(rcht, pkgf, frm)
+                cps2(rcht, ISO, pkgf, frm)
+                ic(rcht, pkgf, gn, frm)
+                il(rcht, pkgf, gn, frm)
+                setid(rcht, gid, pkgf, frm)
+                setgn(rcht, gn, pkgf, frm)
+                setc(rcht, icon, pkgf, frm)
+                setb(rcht, background, pkgf, frm)
+                compilpkg(rcht, pkgf, gn, frm)
+
+                frm.Invoke(Sub() Form1.Button5.Enabled = True)
+                frm.Invoke(Sub() Form1.ProgressBar1.Value = 100)
+                frm.Invoke(Sub() Form1.UseWaitCursor = False)
+                frm.Invoke(Sub() Form1.MenuStrip1.Enabled = True)
+                frm.Invoke(Sub() Form1.TabControl1.Enabled = True)
+
+
+            Catch ex As Exception
+                MsgBox(ex.Message, MsgBoxStyle.Critical, "PS22PS4-GUI")
+            End Try
+        End If
+
 
     End Sub
 
-    Shared Sub dpkg(rcht As RichTextBox, pkgf As String)
+    Shared Sub dpkg(rcht As RichTextBox, pkgf As String, frm As Form1)
         Try
-            rcht.Text = rcht.Text & "Decrypting emulator..." & vbCrLf
+            frm.Invoke(Sub() rcht.Text = rcht.Text & "Decrypting emulator..." & vbCrLf)
             System.IO.Directory.CreateDirectory(pkgf & "\Temp")
-            If Form1.ToolStripComboBox1.Text = "JakV2" Then
-                systemcmd("bin\tools\orbis-pub-cmd.exe", "img_extract --passcode 00000000000000000000000000000000 .\bin\emulators\JakV2.pkg " & pkgf & "\Temp")
-            ElseIf Form1.ToolStripComboBox1.Text = "RogueV1" Then
-                systemcmd("bin\tools\orbis-pub-cmd.exe", "img_extract --passcode 00000000000000000000000000000000 .\bin\emulators\RogueV1.pkg " & pkgf & "\Temp")
-            End If
+            systemcmd("bin\tools\orbis-pub-cmd.exe", "img_extract --passcode 00000000000000000000000000000000 .\bin\emulators\" & Form1.ToolStripComboBox1.Text & ".pkg " & pkgf & "\Temp")
             My.Computer.FileSystem.RenameDirectory(pkgf & "\Temp\Sc0", "sce_sys")
             System.IO.File.Move(pkgf & "\Temp\sce_sys\param.sfo", pkgf & "\Temp\image0\sce_sys\param.sfo")
             System.IO.Directory.Delete(pkgf & "\Temp\sce_sys", True)
-            Form1.ProgressBar1.Value += 11
+            frm.Invoke(Sub() Form1.ProgressBar1.Value += 11)
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Critical, "PS22PS4-GUI")
         End Try
+
+
     End Sub
 
-    Shared Sub cps2(rcht As RichTextBox, ISO As String, pkgf As String)
+    Shared Sub cps2(rcht As RichTextBox, ISO As String, pkgf As String, frm As Form1)
         Try
             If ISO.Contains(".iso") Or ISO.Contains(".ISO") Then
-                rcht.Text = rcht.Text & "Importing ISO..." & vbCrLf
+                frm.Invoke(Sub() rcht.Text = rcht.Text & "Importing ISO..." & vbCrLf)
                 System.IO.File.Copy(ISO, pkgf & "\Temp\image0\image\disc01.iso")
-                Form1.ProgressBar1.Value += 11
+                frm.Invoke(Sub() Form1.ProgressBar1.Value += 11)
             ElseIf ISO.Contains(".bin") Or ISO.Contains(".BIN") Then
-                rcht.Text = rcht.Text & "Importing and converting BIN..." & vbCrLf
+                frm.Invoke(Sub() rcht.Text = rcht.Text & "Importing and converting BIN..." & vbCrLf)
                 System.IO.File.Copy(ISO, pkgf & "\Temp\image0\image\disc01.iso")
-                rcht.Text = rcht.Text & "Patching BIN..." & vbCrLf
+                frm.Invoke(Sub() rcht.Text = rcht.Text & "Patching BIN..." & vbCrLf)
                 Dim crc = GetCRC32(pkgf & "\Temp\image0\image\disc01.iso")
                 Dim LIMG = "4C494D4700000002FFFFFFFF00000930"
                 Dim crcb As Byte() = stringToByteArray(LIMG.Replace("FFFFFFFF", crc))
                 AppendByteToBIN(pkgf & "\Temp\image0\image\disc01.iso", crcb)
-                Form1.ProgressBar1.Value += 11
+                frm.Invoke(Sub() Form1.ProgressBar1.Value += 11)
                 'MsgBox("done")
             End If
 
@@ -132,22 +155,22 @@ Public Class PS22PS4
         End Try
     End Function
 
-    Shared Sub ic(rcht As RichTextBox, pkgf As String, gn As String)
+    Shared Sub ic(rcht As RichTextBox, pkgf As String, gn As String, frm As Form1)
         Try
             If My.Settings.Config = "" Then
-                rcht.Text = rcht.Text & "Importing default config..." & vbCrLf
+                frm.Invoke(Sub() rcht.Text = rcht.Text & "Importing default config..." & vbCrLf)
                 Dim confd As String = System.IO.File.ReadAllText(pkgf & "\Temp\image0\config-emu-ps4.txt")
                 System.IO.File.WriteAllText(pkgf & "\Temp\image0\config-emu-ps4.txt", confd.Replace("#Markus95", "#" & gn.Replace("Game name: ", "").Replace("SLUS-20091", My.Settings.GID)))
-                Form1.ProgressBar1.Value += 11
+                frm.Invoke(Sub() Form1.ProgressBar1.Value += 11)
             ElseIf System.IO.File.Exists("bin\configs\" & My.Settings.GID & ".conf") Then
-                rcht.Text = rcht.Text & "Importing custom config..." & vbCrLf
+                frm.Invoke(Sub() rcht.Text = rcht.Text & "Importing custom config..." & vbCrLf)
                 System.IO.File.Copy("bin\configs\" & My.Settings.GID & ".conf", pkgf & "\Temp\image0\config-emu-ps4.txt", True)
-                Form1.ProgressBar1.Value += 11
+                frm.Invoke(Sub() Form1.ProgressBar1.Value += 11)
             Else
-                rcht.Text = rcht.Text & "Importing custom config..." & vbCrLf
+                frm.Invoke(Sub() rcht.Text = rcht.Text & "Importing custom config..." & vbCrLf)
                 System.IO.File.Copy(My.Settings.Config, "bin\configs\" & My.Settings.GID & ".conf", True)
                 System.IO.File.Copy("bin\configs\" & My.Settings.GID & ".conf", pkgf & "\Temp\image0\config-emu-ps4.txt", True)
-                Form1.ProgressBar1.Value += 11
+                frm.Invoke(Sub() Form1.ProgressBar1.Value += 11)
             End If
 
         Catch ex As Exception
@@ -155,18 +178,18 @@ Public Class PS22PS4
         End Try
     End Sub
 
-    Shared Sub il(rcht As RichTextBox, pkgf As String, gn As String)
+    Shared Sub il(rcht As RichTextBox, pkgf As String, gn As String, frm As Form1)
         Try
             If My.Settings.LUA = "" Then
             ElseIf System.IO.File.Exists("bin\LUA\" & My.Settings.GID & "_config.lua") Then
-                rcht.Text = rcht.Text & "Importing LUA config..." & vbCrLf
+                frm.Invoke(Sub() rcht.Text = rcht.Text & "Importing LUA config..." & vbCrLf)
                 System.IO.File.Copy("bin\LUA\" & My.Settings.GID & "_config.lua", pkgf & "\Temp\image0\patches\" & My.Settings.GID & "_config.lua", True)
-                Form1.ProgressBar1.Value += 11
+                frm.Invoke(Sub() Form1.ProgressBar1.Value += 11)
             Else
-                rcht.Text = rcht.Text & "Importing LUA config..." & vbCrLf
+                frm.Invoke(Sub() rcht.Text = rcht.Text & "Importing LUA config..." & vbCrLf)
                 System.IO.File.Copy(My.Settings.LUA, "bin\LUA\" & My.Settings.GID & "_config.lua", True)
                 System.IO.File.Copy("bin\LUA\" & My.Settings.GID & "_config.lua", pkgf & "\Temp\image0\patches\" & My.Settings.GID & "_config.lua", True)
-                Form1.ProgressBar1.Value += 11
+                frm.Invoke(Sub() Form1.ProgressBar1.Value += 11)
             End If
 
         Catch ex As Exception
@@ -174,73 +197,73 @@ Public Class PS22PS4
         End Try
     End Sub
 
-    Shared Sub setid(rcht As RichTextBox, gid As String, pkgf As String)
+    Shared Sub setid(rcht As RichTextBox, gid As String, pkgf As String, frm As Form1)
         Try
-            rcht.Text = rcht.Text & "Patching game id..." & vbCrLf
+            frm.Invoke(Sub() rcht.Text = rcht.Text & "Patching game id..." & vbCrLf)
             System.IO.Directory.CreateDirectory(pkgf & "\Temp")
             'MsgBox("""" & pkgf & "\Temp\image0\sce_sys\param.sfo"" " & "--address 0x31F --text " & """" & My.Settings.GID.Replace("-", "") & """")
             systemcmd("bin\tools\cmdlhex.exe", """" & pkgf & "\Temp\image0\sce_sys\param.sfo"" " & "--address 0x31F --text " & """" & My.Settings.GID.Replace("-", "") & """")
             systemcmd("bin\tools\cmdlhex.exe", """" & pkgf & "\Temp\image0\sce_sys\param.sfo"" " & "--address 0x670 --text " & """" & My.Settings.GID.Replace("-", "") & """")
-            Form1.ProgressBar1.Value += 11
+            frm.Invoke(Sub() Form1.ProgressBar1.Value += 11)
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Critical, "PS22PS4-GUI")
         End Try
     End Sub
 
-    Shared Sub setgn(rcht As RichTextBox, gn As String, pkgf As String)
+    Shared Sub setgn(rcht As RichTextBox, gn As String, pkgf As String, frm As Form1)
         Try
-            rcht.Text = rcht.Text & "Patching game name..." & vbCrLf
+            frm.Invoke(Sub() rcht.Text = rcht.Text & "Patching game name..." & vbCrLf)
             systemcmd("bin\tools\cmdlhex.exe", """" & pkgf & "\Temp\image0\sce_sys\param.sfo"" " & "--address 0x5F0 --hex " & """00000000000000000000000000000000""")
             systemcmd("bin\tools\cmdlhex.exe", """" & pkgf & "\Temp\image0\sce_sys\param.sfo"" " & "--address 0x600 --hex " & """00000000000000000000000000000000""")
             systemcmd("bin\tools\cmdlhex.exe", """" & pkgf & "\Temp\image0\sce_sys\param.sfo"" " & "--address 0x5F0 --text " & """" & gn.Replace("Game name: ", "") & """")
-            Form1.ProgressBar1.Value += 11
+            frm.Invoke(Sub() Form1.ProgressBar1.Value += 11)
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Critical, "PS22PS4-GUI")
         End Try
     End Sub
 
-    Shared Sub setc(rcht As RichTextBox, icon As String, pkgf As String)
+    Shared Sub setc(rcht As RichTextBox, icon As String, pkgf As String, frm As Form1)
         Try
-            rcht.Text = rcht.Text & "Patching game cover..." & vbCrLf
+            frm.Invoke(Sub() rcht.Text = rcht.Text & "Patching game cover..." & vbCrLf)
             'System.IO.File.Copy(icon, pkgf & "\Temp\image0\sce_sys\icon0.png")
             systemcmd("bin\tools\magick.exe", "convert  " & icon & " " & pkgf & "\Temp\image0\sce_sys\icon0.jpg")
             systemcmd("bin\tools\magick.exe", "convert  " & pkgf & "\Temp\image0\sce_sys\icon0.jpg" & " " & pkgf & "\Temp\image0\sce_sys\icon0.png")
             systemcmd("bin\tools\magick.exe", "mogrify -resize 512x512!  " & pkgf & "\Temp\image0\sce_sys\icon0.png")
             System.IO.File.Copy(pkgf & "\Temp\image0\sce_sys\icon0.png", pkgf & "\Temp\image0\sce_sys\save_data.png")
             systemcmd("bin\tools\magick.exe", "mogrify -resize 228x128!  " & pkgf & "\Temp\image0\sce_sys\save_data.png")
-            Form1.ProgressBar1.Value += 11
+            frm.Invoke(Sub() Form1.ProgressBar1.Value += 11)
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Critical, "PS22PS4-GUI")
         End Try
     End Sub
 
-    Shared Sub setb(rcht As RichTextBox, back As String, pkgf As String)
+    Shared Sub setb(rcht As RichTextBox, back As String, pkgf As String, frm As Form1)
         Try
-            rcht.Text = rcht.Text & "Patching game background..." & vbCrLf
+            frm.Invoke(Sub() rcht.Text = rcht.Text & "Patching game background..." & vbCrLf)
             'System.IO.File.Copy(icon, pkgf & "\Temp\image0\sce_sys\icon0.png")
             systemcmd("bin\tools\magick.exe", "convert  " & back & " " & pkgf & "\Temp\image0\sce_sys\pic1.jpg")
             systemcmd("bin\tools\magick.exe", "mogrify -resize 1920x1080! " & pkgf & "\Temp\image0\sce_sys\pic1.jpg")
             systemcmd("bin\tools\magick.exe", "convert  " & pkgf & "\Temp\image0\sce_sys\pic1.jpg" & " " & pkgf & "\Temp\image0\sce_sys\pic1.png")
-            Form1.ProgressBar1.Value += 11
+            frm.Invoke(Sub() Form1.ProgressBar1.Value += 11)
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Critical, "PS22PS4-GUI")
         End Try
     End Sub
 
-    Shared Sub setlua(rcht As RichTextBox, lua As String, pkgf As String)
+    Shared Sub setlua(rcht As RichTextBox, lua As String, pkgf As String, frm As Form1)
         Try
-            rcht.Text = rcht.Text & "Adding custom lua..." & vbCrLf
+            frm.Invoke(Sub() rcht.Text = rcht.Text & "Adding custom lua..." & vbCrLf)
             System.IO.File.Copy(lua, pkgf & "\Temp\image0\patches\" & System.IO.Path.GetFileName(lua), True)
-            Form1.ProgressBar1.Value += 11
+            frm.Invoke(Sub() Form1.ProgressBar1.Value += 11)
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Critical, "PS22PS4-GUI")
         End Try
 
     End Sub
 
-    Shared Sub compilpkg(rcht As RichTextBox, pkgf As String, gn As String)
+    Shared Sub compilpkg(rcht As RichTextBox, pkgf As String, gn As String, frm As Form1)
         Try
-            rcht.Text = rcht.Text & "Compiling PKG..." & vbCrLf
+            frm.Invoke(Sub() rcht.Text = rcht.Text & "Compiling PKG..." & vbCrLf)
             systemcmd("bin\tools\gengp4.exe", pkgf & "\Temp\image0")
             'My.Computer.FileSystem.RenameFile(pkgf & "\Temp\image0.gp4", "image0.txt")
             Dim gp4 As String = System.IO.File.ReadAllText(pkgf & "\Temp\image0.gp4")
@@ -248,10 +271,9 @@ Public Class PS22PS4
             systemcmd("bin\tools\orbis-pub-cmd.exe", "img_create " & pkgf & "\Temp\image0.gp4 " & pkgf & "\" & My.Settings.GID & "_PS2.pkg")
             'My.Computer.FileSystem.RenameFile(pkgf & "\Temp\image0.gp4 " & pkgf & "\" & "1.pkg", My.Settings.GID & "_PS2.pkg")
             'System.IO.Directory.Delete(pkgf & "\Temp", True)
-            rcht.Text = rcht.Text & "PKG compiled." & vbCrLf
+            frm.Invoke(Sub() rcht.Text = rcht.Text & "PKG compiled." & vbCrLf)
             System.IO.Directory.Delete(pkgf & "\Temp", True)
             System.IO.File.Delete("back.jpg")
-            Form1.ProgressBar1.Value = 100
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Critical, "PS22PS4-GUI")
         End Try

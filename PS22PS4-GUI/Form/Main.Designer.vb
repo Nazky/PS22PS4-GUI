@@ -47,6 +47,14 @@ Partial Class Form1
         Me.Label2 = New System.Windows.Forms.Label()
         Me.TextBox1 = New System.Windows.Forms.TextBox()
         Me.Label1 = New System.Windows.Forms.Label()
+        Me.TabPage2 = New System.Windows.Forms.TabPage()
+        Me.ProgressBar2 = New System.Windows.Forms.ProgressBar()
+        Me.RichTextBox2 = New System.Windows.Forms.RichTextBox()
+        Me.Button1 = New System.Windows.Forms.Button()
+        Me.TextBox6 = New System.Windows.Forms.TextBox()
+        Me.Label14 = New System.Windows.Forms.Label()
+        Me.TextBox5 = New System.Windows.Forms.TextBox()
+        Me.Label13 = New System.Windows.Forms.Label()
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
         Me.FichierToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.CreateToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -58,23 +66,24 @@ Partial Class Form1
         Me.ExitToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SettingsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.CheckUpdateToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.EmulatorsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripComboBox1 = New System.Windows.Forms.ToolStripComboBox()
         Me.HelpToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.CompatibilityListToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.CreditsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.BackgroundWorker1 = New System.ComponentModel.BackgroundWorker()
-        Me.EmulatorsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ToolStripComboBox1 = New System.Windows.Forms.ToolStripComboBox()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         CType(Me.PictureBox2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.TabPage2.SuspendLayout()
         Me.MenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
         'TabControl1
         '
         Me.TabControl1.Controls.Add(Me.TabPage1)
+        Me.TabControl1.Controls.Add(Me.TabPage2)
         Me.TabControl1.Dock = System.Windows.Forms.DockStyle.Bottom
         Me.TabControl1.Location = New System.Drawing.Point(0, 26)
         Me.TabControl1.Name = "TabControl1"
@@ -101,7 +110,7 @@ Partial Class Form1
         Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
         Me.TabPage1.Size = New System.Drawing.Size(1167, 397)
         Me.TabPage1.TabIndex = 0
-        Me.TabPage1.Text = "Create PKG"
+        Me.TabPage1.Text = "PS2toPS4"
         Me.TabPage1.UseVisualStyleBackColor = True
         '
         'GroupBox1
@@ -215,6 +224,7 @@ Partial Class Form1
         '
         'Button5
         '
+        Me.Button5.Enabled = False
         Me.Button5.Location = New System.Drawing.Point(6, 114)
         Me.Button5.Name = "Button5"
         Me.Button5.Size = New System.Drawing.Size(1153, 23)
@@ -315,6 +325,89 @@ Partial Class Form1
         Me.Label1.TabIndex = 0
         Me.Label1.Text = "ISO/BIN File: "
         '
+        'TabPage2
+        '
+        Me.TabPage2.Controls.Add(Me.ProgressBar2)
+        Me.TabPage2.Controls.Add(Me.RichTextBox2)
+        Me.TabPage2.Controls.Add(Me.Button1)
+        Me.TabPage2.Controls.Add(Me.TextBox6)
+        Me.TabPage2.Controls.Add(Me.Label14)
+        Me.TabPage2.Controls.Add(Me.TextBox5)
+        Me.TabPage2.Controls.Add(Me.Label13)
+        Me.TabPage2.Location = New System.Drawing.Point(4, 22)
+        Me.TabPage2.Name = "TabPage2"
+        Me.TabPage2.Size = New System.Drawing.Size(1167, 397)
+        Me.TabPage2.TabIndex = 1
+        Me.TabPage2.Text = "PS4toPS2"
+        Me.TabPage2.UseVisualStyleBackColor = True
+        '
+        'ProgressBar2
+        '
+        Me.ProgressBar2.Location = New System.Drawing.Point(6, 382)
+        Me.ProgressBar2.Name = "ProgressBar2"
+        Me.ProgressBar2.Size = New System.Drawing.Size(1153, 12)
+        Me.ProgressBar2.TabIndex = 14
+        '
+        'RichTextBox2
+        '
+        Me.RichTextBox2.BorderStyle = System.Windows.Forms.BorderStyle.None
+        Me.RichTextBox2.Location = New System.Drawing.Point(6, 89)
+        Me.RichTextBox2.Name = "RichTextBox2"
+        Me.RichTextBox2.ReadOnly = True
+        Me.RichTextBox2.Size = New System.Drawing.Size(1153, 287)
+        Me.RichTextBox2.TabIndex = 13
+        Me.RichTextBox2.Text = ""
+        '
+        'Button1
+        '
+        Me.Button1.Enabled = False
+        Me.Button1.Location = New System.Drawing.Point(6, 60)
+        Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(1153, 23)
+        Me.Button1.TabIndex = 4
+        Me.Button1.Text = "Extract game from PKG"
+        Me.Button1.UseVisualStyleBackColor = True
+        '
+        'TextBox6
+        '
+        Me.TextBox6.AllowDrop = True
+        Me.TextBox6.Location = New System.Drawing.Point(96, 34)
+        Me.TextBox6.Name = "TextBox6"
+        Me.TextBox6.ReadOnly = True
+        Me.TextBox6.Size = New System.Drawing.Size(1063, 20)
+        Me.TextBox6.TabIndex = 3
+        Me.TextBox6.Text = "Drag and drop here"
+        Me.TextBox6.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'Label14
+        '
+        Me.Label14.AutoSize = True
+        Me.Label14.Location = New System.Drawing.Point(3, 37)
+        Me.Label14.Name = "Label14"
+        Me.Label14.Size = New System.Drawing.Size(87, 13)
+        Me.Label14.TabIndex = 2
+        Me.Label14.Text = "ISO/BIN output: "
+        '
+        'TextBox5
+        '
+        Me.TextBox5.AllowDrop = True
+        Me.TextBox5.Location = New System.Drawing.Point(67, 8)
+        Me.TextBox5.Name = "TextBox5"
+        Me.TextBox5.ReadOnly = True
+        Me.TextBox5.Size = New System.Drawing.Size(1092, 20)
+        Me.TextBox5.TabIndex = 1
+        Me.TextBox5.Text = "Drag and drop here"
+        Me.TextBox5.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'Label13
+        '
+        Me.Label13.AutoSize = True
+        Me.Label13.Location = New System.Drawing.Point(3, 11)
+        Me.Label13.Name = "Label13"
+        Me.Label13.Size = New System.Drawing.Size(58, 13)
+        Me.Label13.TabIndex = 0
+        Me.Label13.Text = "PS4 PKG: "
+        '
         'MenuStrip1
         '
         Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FichierToolStripMenuItem, Me.SettingsToolStripMenuItem, Me.HelpToolStripMenuItem})
@@ -335,7 +428,7 @@ Partial Class Form1
         '
         Me.CreateToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ConfigToolStripMenuItem1, Me.LUAToolStripMenuItem1})
         Me.CreateToolStripMenuItem.Name = "CreateToolStripMenuItem"
-        Me.CreateToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.CreateToolStripMenuItem.Size = New System.Drawing.Size(110, 22)
         Me.CreateToolStripMenuItem.Text = "Create"
         '
         'ConfigToolStripMenuItem1
@@ -354,7 +447,7 @@ Partial Class Form1
         '
         Me.ImportToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ConfigToolStripMenuItem, Me.LUAToolStripMenuItem})
         Me.ImportToolStripMenuItem.Name = "ImportToolStripMenuItem"
-        Me.ImportToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.ImportToolStripMenuItem.Size = New System.Drawing.Size(110, 22)
         Me.ImportToolStripMenuItem.Text = "Import"
         '
         'ConfigToolStripMenuItem
@@ -372,7 +465,7 @@ Partial Class Form1
         'ExitToolStripMenuItem
         '
         Me.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem"
-        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(110, 22)
         Me.ExitToolStripMenuItem.Text = "Exit"
         '
         'SettingsToolStripMenuItem
@@ -385,8 +478,24 @@ Partial Class Form1
         'CheckUpdateToolStripMenuItem
         '
         Me.CheckUpdateToolStripMenuItem.Name = "CheckUpdateToolStripMenuItem"
-        Me.CheckUpdateToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.CheckUpdateToolStripMenuItem.Size = New System.Drawing.Size(147, 22)
         Me.CheckUpdateToolStripMenuItem.Text = "Check update"
+        '
+        'EmulatorsToolStripMenuItem
+        '
+        Me.EmulatorsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripComboBox1})
+        Me.EmulatorsToolStripMenuItem.Name = "EmulatorsToolStripMenuItem"
+        Me.EmulatorsToolStripMenuItem.Size = New System.Drawing.Size(147, 22)
+        Me.EmulatorsToolStripMenuItem.Text = "Emulators"
+        '
+        'ToolStripComboBox1
+        '
+        Me.ToolStripComboBox1.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest
+        Me.ToolStripComboBox1.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems
+        Me.ToolStripComboBox1.Name = "ToolStripComboBox1"
+        Me.ToolStripComboBox1.Size = New System.Drawing.Size(121, 23)
+        Me.ToolStripComboBox1.Sorted = True
+        Me.ToolStripComboBox1.Text = "JakV2"
         '
         'HelpToolStripMenuItem
         '
@@ -407,25 +516,6 @@ Partial Class Form1
         Me.CreditsToolStripMenuItem.Size = New System.Drawing.Size(164, 22)
         Me.CreditsToolStripMenuItem.Text = "Credits"
         '
-        'BackgroundWorker1
-        '
-        Me.BackgroundWorker1.WorkerReportsProgress = True
-        Me.BackgroundWorker1.WorkerSupportsCancellation = True
-        '
-        'EmulatorsToolStripMenuItem
-        '
-        Me.EmulatorsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripComboBox1})
-        Me.EmulatorsToolStripMenuItem.Name = "EmulatorsToolStripMenuItem"
-        Me.EmulatorsToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
-        Me.EmulatorsToolStripMenuItem.Text = "Emulators"
-        '
-        'ToolStripComboBox1
-        '
-        Me.ToolStripComboBox1.Items.AddRange(New Object() {"JakV2", "RogueV1"})
-        Me.ToolStripComboBox1.Name = "ToolStripComboBox1"
-        Me.ToolStripComboBox1.Size = New System.Drawing.Size(121, 23)
-        Me.ToolStripComboBox1.Text = "JakV2"
-        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -438,6 +528,7 @@ Partial Class Form1
         Me.MainMenuStrip = Me.MenuStrip1
         Me.MaximizeBox = False
         Me.Name = "Form1"
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "PS22PS4-GUI"
         Me.TabControl1.ResumeLayout(False)
         Me.TabPage1.ResumeLayout(False)
@@ -445,6 +536,8 @@ Partial Class Form1
         Me.GroupBox1.ResumeLayout(False)
         CType(Me.PictureBox2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.TabPage2.ResumeLayout(False)
+        Me.TabPage2.PerformLayout()
         Me.MenuStrip1.ResumeLayout(False)
         Me.MenuStrip1.PerformLayout()
         Me.ResumeLayout(False)
@@ -490,7 +583,14 @@ Partial Class Form1
     Friend WithEvents Label11 As Label
     Friend WithEvents Label10 As Label
     Friend WithEvents Label9 As Label
-    Friend WithEvents BackgroundWorker1 As System.ComponentModel.BackgroundWorker
     Friend WithEvents EmulatorsToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents ToolStripComboBox1 As ToolStripComboBox
+    Friend WithEvents TabPage2 As TabPage
+    Friend WithEvents ProgressBar2 As ProgressBar
+    Friend WithEvents RichTextBox2 As RichTextBox
+    Friend WithEvents Button1 As Button
+    Friend WithEvents TextBox6 As TextBox
+    Friend WithEvents Label14 As Label
+    Friend WithEvents TextBox5 As TextBox
+    Friend WithEvents Label13 As Label
 End Class

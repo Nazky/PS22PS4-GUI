@@ -29,8 +29,17 @@ Public Class Form1
         Directory.CreateDirectory("bin\lang")
         Directory.CreateDirectory("bin\configs")
         Directory.CreateDirectory("bin\LUA")
+        listemu()
         checknet()
         My.Settings.Reset()
+    End Sub
+
+    Sub listemu()
+        For Each pkg As String In Directory.GetFiles("bin\emulators")
+            If pkg.Contains(".pkg") Then
+                ToolStripComboBox1.Items.Add(Path.GetFileNameWithoutExtension(pkg))
+            End If
+        Next
     End Sub
 
     Sub checknet()
@@ -60,7 +69,11 @@ Public Class Form1
         For Each path In files
             TextBox1.Text = files(0)
         Next
-        ExtractPS2.info(TextBox1.Text)
+        Dim b As Thread = New Thread(Sub() ExtractPS2.info(TextBox1.Text, Me))
+        b.IsBackground = True
+        b.SetApartmentState(ApartmentState.STA)
+        b.Start()
+
     End Sub
 
     Private Sub TextBox2_DragEnter(sender As Object, e As DragEventArgs) Handles TextBox2.DragEnter
@@ -120,9 +133,15 @@ Public Class Form1
 
                 If TextBox2.Text = "Drag and drop here (optional)" Then
                     PictureBox2.Image.Save("back.jpg", ImageFormat.Jpeg)
-                    PS22PS4.CreatePKG(TextBox1.Text, Label10.Text, Label9.Text, Label11.Text, Label12.Text, TextBox3.Text, "back.jpg", My.Settings.Config, My.Settings.LUA, RichTextBox1, TextBox4.Text)
+                    Dim b As Thread = New Thread(Sub() PS22PS4.CreatePKG(TextBox1.Text, Label10.Text, Label9.Text, Label11.Text, Label12.Text, TextBox3.Text, "back.jpg", My.Settings.Config, My.Settings.LUA, RichTextBox1, TextBox4.Text, Me))
+                    b.IsBackground = True
+                    b.SetApartmentState(ApartmentState.STA)
+                    b.Start()
                 Else
-                    PS22PS4.CreatePKG(TextBox1.Text, Label10.Text, Label9.Text, Label11.Text, Label12.Text, TextBox3.Text, TextBox2.Text, My.Settings.Config, My.Settings.LUA, RichTextBox1, TextBox4.Text)
+                    Dim b As Thread = New Thread(Sub() PS22PS4.CreatePKG(TextBox1.Text, Label10.Text, Label9.Text, Label11.Text, Label12.Text, TextBox3.Text, TextBox2.Text, My.Settings.Config, My.Settings.LUA, RichTextBox1, TextBox4.Text, Me))
+                    b.IsBackground = True
+                    b.SetApartmentState(ApartmentState.STA)
+                    b.Start()
                 End If
                 'MsgBox(gn)
 
@@ -134,16 +153,6 @@ Public Class Form1
             MsgBox(ex.Message, MsgBoxStyle.Critical, "PS22PS4-GUI")
         End Try
 
-    End Sub
-
-    Private Sub Button1_Click(sender As Object, e As EventArgs)
-        Dim oo As New OpenFileDialog
-        oo.Title = "Choose a PS2 ISO"
-        oo.Filter = "ISO file (*.iso) | *.iso"
-        If oo.ShowDialog = DialogResult.OK Then
-            ExtractPS2.info(oo.FileName)
-            TextBox1.Text = oo.FileName
-        End If
     End Sub
 
     Private Sub Label5_DoubleClick(sender As Object, e As EventArgs) Handles Label5.DoubleClick
@@ -243,11 +252,59 @@ Public Class Form1
 
     End Sub
 
-    Private Sub BackgroundWorker1_DoWork(sender As Object, e As ComponentModel.DoWorkEventArgs) Handles BackgroundWorker1.DoWork
+    Private Sub BackgroundWorker1_DoWork(sender As Object, e As ComponentModel.DoWorkEventArgs)
 
     End Sub
 
     Private Sub ToolStripComboBox1_Click(sender As Object, e As EventArgs) Handles ToolStripComboBox1.Click
 
+    End Sub
+
+    Private Sub Label13_Click(sender As Object, e As EventArgs) Handles Label13.Click
+
+    End Sub
+
+    Private Sub TextBox5_DragEnter(sender As Object, e As DragEventArgs) Handles TextBox5.DragEnter
+        If e.Data.GetDataPresent(DataFormats.FileDrop) Then
+            e.Effect = DragDropEffects.Copy
+        End If
+    End Sub
+
+    Private Sub TextBox5_DragDrop(sender As Object, e As DragEventArgs) Handles TextBox5.DragDrop
+        Dim files() As String = e.Data.GetData(DataFormats.FileDrop)
+        If files(0).Contains(".PKG") Or files(0).Contains(".pkg") Then
+            For Each path In files
+                TextBox5.Text = files(0)
+                Button1.Enabled = True
+            Next
+        End If
+    End Sub
+
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        If TextBox5.Text = "Drag and drop here" Or TextBox6.Text = "Drag and drop here" Then
+            MsgBox("Please complete all path !", MsgBoxStyle.Critical, "PS22PS4-GUI")
+        Else
+            Dim b As Thread = New Thread(Sub() PS42PS2.ExtractPKG(TextBox5.Text, TextBox6.Text, RichTextBox2, Me))
+            b.IsBackground = True
+            b.SetApartmentState(ApartmentState.STA)
+            b.Start()
+        End If
+
+    End Sub
+
+    Private Sub TextBox6_DragDrop(sender As Object, e As DragEventArgs) Handles TextBox6.DragDrop
+        Dim files() As String = e.Data.GetData(DataFormats.FileDrop)
+        If Directory.Exists(files(0)) Then
+            For Each path In files
+                TextBox6.Text = files(0)
+                Button1.Enabled = True
+            Next
+        End If
+    End Sub
+
+    Private Sub TextBox6_DragEnter(sender As Object, e As DragEventArgs) Handles TextBox6.DragEnter
+        If e.Data.GetDataPresent(DataFormats.FileDrop) Then
+            e.Effect = DragDropEffects.Copy
+        End If
     End Sub
 End Class

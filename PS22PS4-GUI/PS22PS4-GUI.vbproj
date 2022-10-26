@@ -165,6 +165,7 @@
     <Compile Include="Script\CRC32.vb" />
     <Compile Include="Script\ExtractPS2.vb" />
     <Compile Include="Script\PS22PS4.vb" />
+    <Compile Include="Script\PS42PS2.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Form\CL.resx">
