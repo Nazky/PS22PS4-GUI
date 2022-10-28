@@ -71,6 +71,12 @@ Partial Class Form1
         Me.HelpToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.CompatibilityListToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.CreditsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.EmulatorToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MultiDiscToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.PS3ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.EmulatorToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MultiDiscToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.Label15 = New System.Windows.Forms.Label()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
@@ -93,6 +99,7 @@ Partial Class Form1
         '
         'TabPage1
         '
+        Me.TabPage1.Controls.Add(Me.Label15)
         Me.TabPage1.Controls.Add(Me.GroupBox1)
         Me.TabPage1.Controls.Add(Me.Button5)
         Me.TabPage1.Controls.Add(Me.ProgressBar1)
@@ -310,9 +317,10 @@ Partial Class Form1
         '
         Me.TextBox1.AllowDrop = True
         Me.TextBox1.Location = New System.Drawing.Point(112, 9)
+        Me.TextBox1.Multiline = True
         Me.TextBox1.Name = "TextBox1"
         Me.TextBox1.ReadOnly = True
-        Me.TextBox1.Size = New System.Drawing.Size(389, 20)
+        Me.TextBox1.Size = New System.Drawing.Size(289, 20)
         Me.TextBox1.TabIndex = 1
         Me.TextBox1.Text = "Drag and drop here"
         Me.TextBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
@@ -428,13 +436,14 @@ Partial Class Form1
         '
         Me.CreateToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ConfigToolStripMenuItem1, Me.LUAToolStripMenuItem1})
         Me.CreateToolStripMenuItem.Name = "CreateToolStripMenuItem"
-        Me.CreateToolStripMenuItem.Size = New System.Drawing.Size(110, 22)
+        Me.CreateToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.CreateToolStripMenuItem.Text = "Create"
         '
         'ConfigToolStripMenuItem1
         '
+        Me.ConfigToolStripMenuItem1.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.EmulatorToolStripMenuItem1, Me.MultiDiscToolStripMenuItem1})
         Me.ConfigToolStripMenuItem1.Name = "ConfigToolStripMenuItem1"
-        Me.ConfigToolStripMenuItem1.Size = New System.Drawing.Size(110, 22)
+        Me.ConfigToolStripMenuItem1.Size = New System.Drawing.Size(180, 22)
         Me.ConfigToolStripMenuItem1.Text = "Config"
         '
         'LUAToolStripMenuItem1
@@ -447,25 +456,26 @@ Partial Class Form1
         '
         Me.ImportToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ConfigToolStripMenuItem, Me.LUAToolStripMenuItem})
         Me.ImportToolStripMenuItem.Name = "ImportToolStripMenuItem"
-        Me.ImportToolStripMenuItem.Size = New System.Drawing.Size(110, 22)
+        Me.ImportToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.ImportToolStripMenuItem.Text = "Import"
         '
         'ConfigToolStripMenuItem
         '
+        Me.ConfigToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.EmulatorToolStripMenuItem, Me.MultiDiscToolStripMenuItem, Me.PS3ToolStripMenuItem})
         Me.ConfigToolStripMenuItem.Name = "ConfigToolStripMenuItem"
-        Me.ConfigToolStripMenuItem.Size = New System.Drawing.Size(110, 22)
+        Me.ConfigToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.ConfigToolStripMenuItem.Text = "Config"
         '
         'LUAToolStripMenuItem
         '
         Me.LUAToolStripMenuItem.Name = "LUAToolStripMenuItem"
-        Me.LUAToolStripMenuItem.Size = New System.Drawing.Size(110, 22)
+        Me.LUAToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.LUAToolStripMenuItem.Text = "LUA"
         '
         'ExitToolStripMenuItem
         '
         Me.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem"
-        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(110, 22)
+        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.ExitToolStripMenuItem.Text = "Exit"
         '
         'SettingsToolStripMenuItem
@@ -515,6 +525,45 @@ Partial Class Form1
         Me.CreditsToolStripMenuItem.Name = "CreditsToolStripMenuItem"
         Me.CreditsToolStripMenuItem.Size = New System.Drawing.Size(164, 22)
         Me.CreditsToolStripMenuItem.Text = "Credits"
+        '
+        'EmulatorToolStripMenuItem
+        '
+        Me.EmulatorToolStripMenuItem.Name = "EmulatorToolStripMenuItem"
+        Me.EmulatorToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.EmulatorToolStripMenuItem.Text = "Emulator"
+        '
+        'MultiDiscToolStripMenuItem
+        '
+        Me.MultiDiscToolStripMenuItem.Name = "MultiDiscToolStripMenuItem"
+        Me.MultiDiscToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.MultiDiscToolStripMenuItem.Text = "Multi-Disc"
+        '
+        'PS3ToolStripMenuItem
+        '
+        Me.PS3ToolStripMenuItem.Name = "PS3ToolStripMenuItem"
+        Me.PS3ToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.PS3ToolStripMenuItem.Text = "PS3"
+        '
+        'EmulatorToolStripMenuItem1
+        '
+        Me.EmulatorToolStripMenuItem1.Name = "EmulatorToolStripMenuItem1"
+        Me.EmulatorToolStripMenuItem1.Size = New System.Drawing.Size(180, 22)
+        Me.EmulatorToolStripMenuItem1.Text = "Emulator"
+        '
+        'MultiDiscToolStripMenuItem1
+        '
+        Me.MultiDiscToolStripMenuItem1.Name = "MultiDiscToolStripMenuItem1"
+        Me.MultiDiscToolStripMenuItem1.Size = New System.Drawing.Size(180, 22)
+        Me.MultiDiscToolStripMenuItem1.Text = "Multi-Disc"
+        '
+        'Label15
+        '
+        Me.Label15.AutoSize = True
+        Me.Label15.Location = New System.Drawing.Point(407, 12)
+        Me.Label15.Name = "Label15"
+        Me.Label15.Size = New System.Drawing.Size(78, 13)
+        Me.Label15.TabIndex = 16
+        Me.Label15.Text = "Disc number: 0"
         '
         'Form1
         '
@@ -593,4 +642,10 @@ Partial Class Form1
     Friend WithEvents Label14 As Label
     Friend WithEvents TextBox5 As TextBox
     Friend WithEvents Label13 As Label
+    Friend WithEvents EmulatorToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents MultiDiscToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents PS3ToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents EmulatorToolStripMenuItem1 As ToolStripMenuItem
+    Friend WithEvents MultiDiscToolStripMenuItem1 As ToolStripMenuItem
+    Friend WithEvents Label15 As Label
 End Class

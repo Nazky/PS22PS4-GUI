@@ -3,6 +3,7 @@ Imports System.Net.Mime.MediaTypeNames
 Imports System.Security.Cryptography
 Imports System.Text
 Imports System.Threading
+Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 
 Public Class PS22PS4
     <STAThread>
@@ -21,7 +22,7 @@ Public Class PS22PS4
                     If Directory.Exists(pkgf & "\Temp") Then
                         Directory.Delete(pkgf & "\Temp", True)
                     End If
-                    frm.Invoke(Sub() rcht.Text = "ISO/BIN path: " & ISO & vbCrLf & "Game ID: " & gid & vbCrLf & "Game Name: " & gn & vbCrLf & "Game version: " & gv.Replace(vbCrLf, "") & vbCrLf & "Game region: " & gr.Replace(vbCrLf, "") & vbCrLf & "Icon path: " & icon & vbCrLf & "Background path: " & background & vbCrLf & "Emulator: " & Form1.ToolStripComboBox1.Text & vbCrLf)
+                    frm.Invoke(Sub() rcht.Text = "ISO/BIN list: " & vbCrLf & ISO & vbCrLf & "Game ID: " & gid & vbCrLf & "Game Name: " & gn & vbCrLf & "Game version: " & gv.Replace(vbCrLf, "") & vbCrLf & "Game region: " & gr.Replace(vbCrLf, "") & vbCrLf & "Icon path: " & icon & vbCrLf & "Background path: " & background & vbCrLf & "Emulator: " & Form1.ToolStripComboBox1.Text & vbCrLf)
                     If config = "" Then
                         frm.Invoke(Sub() rcht.Text = rcht.Text & "config file: N/A" & vbCrLf)
                     Else
@@ -79,10 +80,26 @@ Public Class PS22PS4
         Try
             If ISO.Contains(".iso") Or ISO.Contains(".ISO") Then
                 frm.Invoke(Sub() rcht.Text = rcht.Text & "Importing ISO..." & vbCrLf)
-                System.IO.File.Copy(ISO, pkgf & "\Temp\image0\image\disc01.iso")
+                Dim fl = Split(ISO, vbCrLf)
+                Dim i = 0
+                Dim D = 1
+                For Each str As String In fl(i)
+                    If fl(i) = "" Then
+                    Else
+                        System.IO.File.Copy(fl(i), pkgf & "\Temp\image0\image\disc0" & D & ".iso")
+                        i += 1
+                        D += 1
+                    End If
+                Next
+                Dim confd As String = System.IO.File.ReadAllText(pkgf & "\Temp\image0\config-emu-ps4.txt")
+                If confd.Contains("--max-disc-num=") Then
+                    File.WriteAllText(pkgf & "\Temp\image0\config-emu-ps4.txt", confd.Replace("--max-disc-num=1", "--max-disc-num=" & D - 1))
+                Else
+                    File.AppendAllText(pkgf & "\Temp\image0\config-emu-ps4.txt", vbCrLf & "--max-disc-num=" & D - 1)
+                End If
                 frm.Invoke(Sub() Form1.ProgressBar1.Value += 11)
             ElseIf ISO.Contains(".bin") Or ISO.Contains(".BIN") Then
-                frm.Invoke(Sub() rcht.Text = rcht.Text & "Importing and converting BIN..." & vbCrLf)
+                    frm.Invoke(Sub() rcht.Text = rcht.Text & "Importing and converting BIN..." & vbCrLf)
                 System.IO.File.Copy(ISO, pkgf & "\Temp\image0\image\disc01.iso")
                 frm.Invoke(Sub() rcht.Text = rcht.Text & "Patching BIN..." & vbCrLf)
                 Dim crc = GetCRC32(pkgf & "\Temp\image0\image\disc01.iso")

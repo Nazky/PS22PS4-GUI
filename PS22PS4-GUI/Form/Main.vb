@@ -66,10 +66,22 @@ Public Class Form1
 
     Private Sub TextBox1_DragDrop(sender As Object, e As DragEventArgs) Handles TextBox1.DragDrop
         Dim files() As String = e.Data.GetData(DataFormats.FileDrop)
+        Dim i = 0
+        TextBox1.Text = ""
+        Label15.Text = "Disc number: 0"
         For Each path In files
-            TextBox1.Text = files(0)
+            If i = 5 Then
+                MsgBox("5 ISO/BIN LIMIT !!!", MsgBoxStyle.Critical, "PS22PS4-GUI")
+            Else
+                TextBox1.Text = TextBox1.Text & files(i) & vbCrLf
+                i += 1
+            End If
+
         Next
-        Dim b As Thread = New Thread(Sub() ExtractPS2.info(TextBox1.Text, Me))
+
+        Dim fl = Split(TextBox1.Text, vbCrLf)
+        Label15.Text = Label15.Text.Replace("Disc number: 0", "Disc number: " & fl.Length - 1)
+        Dim b As Thread = New Thread(Sub() ExtractPS2.info(fl(0), Me))
         b.IsBackground = True
         b.SetApartmentState(ApartmentState.STA)
         b.Start()
@@ -129,7 +141,7 @@ Public Class Form1
 
     Private Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click
         Try
-            If File.Exists(TextBox1.Text) And TextBox2.Text = "Drag and drop here (optional)" Or File.Exists(TextBox2.Text) And File.Exists(TextBox3.Text) And Directory.Exists(TextBox4.Text) Then
+            If TextBox2.Text = "Drag and drop here (optional)" Or File.Exists(TextBox2.Text) And File.Exists(TextBox3.Text) And Directory.Exists(TextBox4.Text) Then
 
                 If TextBox2.Text = "Drag and drop here (optional)" Then
                     PictureBox2.Image.Save("back.jpg", ImageFormat.Jpeg)
@@ -181,17 +193,7 @@ Public Class Form1
     End Sub
 
     Private Sub ConfigToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ConfigToolStripMenuItem.Click
-        If Label10.Text = "N/A" Then
-            MsgBox("Please import a ISO first", MsgBoxStyle.Critical, "PS22PS4-GUI")
-        Else
-            Dim ic As New OpenFileDialog
-            ic.Title = "Choose a config for the current game"
-            ic.Filter = "Text file (*.txt) | *.txt|Config file (*.conf) | *.config"
-            If ic.ShowDialog = DialogResult.OK Then
-                'MsgBox(ic.FileName)
-                My.Settings.Config = ic.FileName
-            End If
-        End If
+
 
     End Sub
 
@@ -245,7 +247,7 @@ Public Class Form1
     End Sub
 
     Private Sub ConfigToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles ConfigToolStripMenuItem1.Click
-        CreateConfig.Show()
+
     End Sub
 
     Private Sub TextBox1_TextChanged(sender As Object, e As EventArgs) Handles TextBox1.TextChanged
@@ -306,5 +308,79 @@ Public Class Form1
         If e.Data.GetDataPresent(DataFormats.FileDrop) Then
             e.Effect = DragDropEffects.Copy
         End If
+    End Sub
+
+    Private Sub EmulatorToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles EmulatorToolStripMenuItem.Click
+        If Label10.Text = "N/A" Then
+            MsgBox("Please import a ISO first", MsgBoxStyle.Critical, "PS22PS4-GUI")
+        Else
+            Dim ic As New OpenFileDialog
+            ic.Title = "Choose a config for the current game"
+            ic.Filter = "Text file (*.txt) | *.txt|Config file (*.conf) | *.conf"
+            If ic.ShowDialog = DialogResult.OK Then
+                'MsgBox(ic.FileName)
+                Directory.CreateDirectory("bin/configs/emulator")
+                If File.Exists("bin/configs/emulator/" & My.Settings.GID & ".conf") Then
+                    Dim ae = MsgBox("Config aleardy exist do you want to replace ?", MsgBoxStyle.Information + MsgBoxStyle.YesNo, "PS22PS4-GUI")
+                    If ae = MsgBoxResult.Yes Then
+                        File.Copy(ic.FileName, "bin/configs/emulator/" & My.Settings.GID & ".conf", True)
+                    End If
+                Else
+                    File.Copy(ic.FileName, "bin/configs/emulator/" & My.Settings.GID & ".conf", True)
+                End If
+            End If
+        End If
+    End Sub
+
+    Private Sub MultiDiscToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles MultiDiscToolStripMenuItem.Click
+        If Label10.Text = "N/A" Then
+            MsgBox("Please import a ISO first", MsgBoxStyle.Critical, "PS22PS4-GUI")
+        Else
+            Dim ic As New OpenFileDialog
+            ic.Title = "Choose a config for the current game"
+            ic.Filter = "Config file (*.conf) | *.conf"
+            If ic.ShowDialog = DialogResult.OK Then
+                'MsgBox(ic.FileName)
+                Directory.CreateDirectory("bin/configs/multi-disc")
+                If File.Exists("bin/configs/multi-disc/" & My.Settings.GID & "_cli.conf") Then
+                    Dim ae = MsgBox("Config aleardy exist do you want to replace ?", MsgBoxStyle.Information + MsgBoxStyle.YesNo, "PS22PS4-GUI")
+                    If ae = MsgBoxResult.Yes Then
+                        File.Copy(ic.FileName, "bin/configs/multi-disc/" & My.Settings.GID & "_cli.conf", True)
+                    End If
+                Else
+                    File.Copy(ic.FileName, "bin/configs/multi-disc/" & My.Settings.GID & "_cli.conf", True)
+                End If
+            End If
+        End If
+    End Sub
+
+    Private Sub PS3ToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PS3ToolStripMenuItem.Click
+        If Label10.Text = "N/A" Then
+            MsgBox("Please import a ISO first", MsgBoxStyle.Critical, "PS22PS4-GUI")
+        Else
+            Dim ic As New OpenFileDialog
+            ic.Title = "Choose a config for the current game"
+            ic.Filter = "Config file (*.cfgbin) | *.cfgbin"
+            If ic.ShowDialog = DialogResult.OK Then
+                'MsgBox(ic.FileName)
+                Directory.CreateDirectory("bin/configs/PS3")
+                If File.Exists("bin/configs/PS3/" & My.Settings.GID & "_lopnor.cfgbin") Then
+                    Dim ae = MsgBox("Config aleardy exist do you want to replace ?", MsgBoxStyle.Information + MsgBoxStyle.YesNo, "PS22PS4-GUI")
+                    If ae = MsgBoxResult.Yes Then
+                        File.Copy(ic.FileName, "bin/configs/PS3/" & My.Settings.GID & "_lopnor.cfgbin", True)
+                    End If
+                Else
+                    File.Copy(ic.FileName, "bin/configs/PS3/" & My.Settings.GID & "_lopnor.cfgbin", True)
+                End If
+            End If
+        End If
+    End Sub
+
+    Private Sub EmulatorToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles EmulatorToolStripMenuItem1.Click
+        CreateConfig.Show()
+    End Sub
+
+    Private Sub MultiDiscToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles MultiDiscToolStripMenuItem1.Click
+        MsgBox("In the next update :)", MsgBoxStyle.Exclamation, "PS22PS4-GUI")
     End Sub
 End Class
