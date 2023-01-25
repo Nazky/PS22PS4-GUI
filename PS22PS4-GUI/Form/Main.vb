@@ -10,7 +10,10 @@ Imports System.Drawing.Imaging
 
 Public Class Form1
     Private Sub ExitToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ExitToolStripMenuItem.Click
-        Me.Close()
+        Dim msgb = MsgBox("Do you really want to close the software ?", MsgBoxStyle.Information + MsgBoxStyle.YesNo)
+        If msgb = MsgBoxResult.Yes Then
+            Me.Close()
+        End If
     End Sub
 
     Sub systemcmd(ByVal cmd As String, arg As String)
@@ -43,19 +46,32 @@ Public Class Form1
     End Sub
 
     Sub checknet()
-        File.WriteAllText("s.bat", "dotnet --list-runtimes > r.txt")
-        Shell("s.bat", AppWinStyle.Hide, True)
-        Dim r As String = File.ReadAllText("r.txt")
-        If r.Contains("Microsoft.NETCore.App 5") Then
-            File.Delete("r.txt")
-            File.Delete("s.bat")
-        Else
-            MsgBox(".net 5.0 Runtime not found please install it first !", MsgBoxStyle.Critical, "PS22PS4-GUI")
-            Process.Start("https://download.visualstudio.microsoft.com/download/pr/a0832b5a-6900-442b-af79-6ffddddd6ba4/e2df0b25dd851ee0b38a86947dd0e42e/dotnet-runtime-5.0.17-win-x64.exe")
-            File.Delete("r.txt")
-            File.Delete("s.bat")
+        Try
+            IO.File.WriteAllText("s.bat", "dotnet --list-runtimes > r.txt")
+            Shell("s.bat", AppWinStyle.Hide, True)
+            Dim r As String = IO.File.ReadAllText("r.txt")
+            If r.Contains("Microsoft.NETCore.App 6") Then
+                IO.File.Delete("r.txt")
+                IO.File.Delete("s.bat")
+            Else
+                MsgBox(".net 6.0 Runtime not found please install it first !", MsgBoxStyle.Critical)
+                Me.Invoke(Sub() Me.WindowState = FormWindowState.Minimized)
+                Shell("winget install Microsoft.DotNet.DesktopRuntime.6 -h", AppWinStyle.NormalFocus, True)
+                Me.Invoke(Sub() Me.WindowState = FormWindowState.Normal)
+
+                IO.File.Delete("r.txt")
+                IO.File.Delete("s.bat")
+            End If
+        Catch ex As Exception
+            MsgBox(ex.Message, MsgBoxStyle.Critical)
+            MsgBox("Can't install .NET 6 using winget" & vbCr & "Please intall the Desktop Runtime manually.", MsgBoxStyle.Critical)
+            Process.Start("https://download.visualstudio.microsoft.com/download/pr/4c5e26cf-2512-4518-9480-aac8679b0d08/523f1967fd98b0cf4f9501855d1aa063/windowsdesktop-runtime-6.0.13-win-x64.exe")
+            IO.File.Delete("r.txt")
+            IO.File.Delete("s.bat")
             Me.Close()
-        End If
+        End Try
+
+
     End Sub
 
     Private Sub TextBox1_DragEnter(sender As Object, e As DragEventArgs) Handles TextBox1.DragEnter
@@ -145,10 +161,11 @@ Public Class Form1
 
                 If TextBox2.Text = "Drag and drop here (optional)" Then
                     PictureBox2.Image.Save("back.jpg", ImageFormat.Jpeg)
-                    Dim b As Thread = New Thread(Sub() PS22PS4.CreatePKG(TextBox1.Text, Label10.Text, Label9.Text, Label11.Text, Label12.Text, TextBox3.Text, "back.jpg", My.Settings.Config, My.Settings.LUA, RichTextBox1, TextBox4.Text, Me))
+                    Dim b As Thread = New Thread(Sub() PS22PS4.CreatePKG(TextBox1.Text, Label10.Text, Label9.Text, Label11.Text, Label12.Text, Chr(34) & TextBox3.Text & Chr(34), "back.jpg", My.Settings.Config, My.Settings.LUA, RichTextBox1, TextBox4.Text, Me))
                     b.IsBackground = True
                     b.SetApartmentState(ApartmentState.STA)
                     b.Start()
+
                 Else
                     Dim b As Thread = New Thread(Sub() PS22PS4.CreatePKG(TextBox1.Text, Label10.Text, Label9.Text, Label11.Text, Label12.Text, TextBox3.Text, TextBox2.Text, My.Settings.Config, My.Settings.LUA, RichTextBox1, TextBox4.Text, Me))
                     b.IsBackground = True
@@ -156,8 +173,6 @@ Public Class Form1
                     b.Start()
                 End If
                 'MsgBox(gn)
-
-
             Else
                 MsgBox("Please put valid path !", MsgBoxStyle.Critical, "PS22PS4-GUI")
             End If
@@ -382,5 +397,26 @@ Public Class Form1
 
     Private Sub MultiDiscToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles MultiDiscToolStripMenuItem1.Click
         MsgBox("In the next update :)", MsgBoxStyle.Exclamation, "PS22PS4-GUI")
+    End Sub
+
+    Private Sub ExitToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles ExitToolStripMenuItem1.Click
+        Dim msgb = MsgBox("Do you really want to close the software ?", MsgBoxStyle.Information + MsgBoxStyle.YesNo)
+        If msgb = MsgBoxResult.Yes Then
+            Me.Close()
+        End If
+
+    End Sub
+
+    Private Sub NotifyIcon1_MouseDoubleClick(sender As Object, e As MouseEventArgs) Handles NotifyIcon1.MouseDoubleClick
+        Me.Show()
+        Me.WindowState = FormWindowState.Normal
+    End Sub
+
+    Private Sub SettingsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SettingsToolStripMenuItem.Click
+
+    End Sub
+
+    Private Sub GetMoreToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles GetMoreToolStripMenuItem.Click
+        Process.Start("https://github.com/Nazky/PS22PS4-GUI/tree/ps2emu")
     End Sub
 End Class

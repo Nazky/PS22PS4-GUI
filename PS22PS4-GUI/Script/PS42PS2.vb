@@ -21,7 +21,7 @@ Public Class PS42PS2
                     frm.Invoke(Sub() Form1.TabControl1.Enabled = False)
                     frm.Invoke(Sub() rcht.Text = "PKG path: " & pkg & vbCrLf & "ISO/BIN path folder: " & out & vbCrLf & "---------------------------------------------------------------------------------------------------" & vbCrLf)
                     frm.Invoke(Sub() rcht.Text = rcht.Text & "Decrypting PKG..." & vbCrLf)
-                    systemcmd("bin\tools\orbis-pub-cmd.exe", "img_extract --passcode 00000000000000000000000000000000 " & pkg & " " & out & "\Temp")
+                    systemcmd("bin\tools\orbis-pub-cmd.exe", "img_extract --passcode 00000000000000000000000000000000 " & Chr(34) & pkg & Chr(34) & " " & Chr(34) & out & "\Temp" & Chr(34))
                     frm.Invoke(Sub() rcht.Text = rcht.Text & "PKG Decrypted" & vbCrLf)
                     frm.Invoke(Sub() Form1.ProgressBar2.Value += 25)
                     FindISOInfo(out, rcht, frm)

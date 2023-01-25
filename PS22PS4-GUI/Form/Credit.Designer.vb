@@ -26,6 +26,8 @@ Partial Class Credit
         Me.LinkLabel1 = New System.Windows.Forms.LinkLabel()
         Me.LinkLabel2 = New System.Windows.Forms.LinkLabel()
         Me.Label2 = New System.Windows.Forms.Label()
+        Me.LinkLabel3 = New System.Windows.Forms.LinkLabel()
+        Me.Label3 = New System.Windows.Forms.Label()
         Me.SuspendLayout()
         '
         'Label1
@@ -66,11 +68,32 @@ Partial Class Credit
         Me.Label2.Text = "Script"
         Me.Label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
+        'LinkLabel3
+        '
+        Me.LinkLabel3.Location = New System.Drawing.Point(12, 124)
+        Me.LinkLabel3.Name = "LinkLabel3"
+        Me.LinkLabel3.Size = New System.Drawing.Size(166, 23)
+        Me.LinkLabel3.TabIndex = 5
+        Me.LinkLabel3.TabStop = True
+        Me.LinkLabel3.Text = "Xlenore"
+        Me.LinkLabel3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'Label3
+        '
+        Me.Label3.Location = New System.Drawing.Point(12, 101)
+        Me.Label3.Name = "Label3"
+        Me.Label3.Size = New System.Drawing.Size(166, 23)
+        Me.Label3.TabIndex = 4
+        Me.Label3.Text = "PS2 Covers"
+        Me.Label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
         'Credit
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(190, 108)
+        Me.ClientSize = New System.Drawing.Size(190, 147)
+        Me.Controls.Add(Me.LinkLabel3)
+        Me.Controls.Add(Me.Label3)
         Me.Controls.Add(Me.LinkLabel2)
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.LinkLabel1)
@@ -90,4 +113,6 @@ Partial Class Credit
     Friend WithEvents LinkLabel1 As LinkLabel
     Friend WithEvents LinkLabel2 As LinkLabel
     Friend WithEvents Label2 As Label
+    Friend WithEvents LinkLabel3 As LinkLabel
+    Friend WithEvents Label3 As Label
 End Class

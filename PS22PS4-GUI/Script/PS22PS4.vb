@@ -14,11 +14,18 @@ Public Class PS22PS4
                 If Form1.ToolStripComboBox1.Text = "" Then
                     MsgBox("Please choose a emulator first !", MsgBoxStyle.Critical, "PS22PS4-GUI")
                 Else
+                    frm.Invoke(Sub() frm.NotifyIcon1.BalloonTipIcon = ToolTipIcon.Info)
+                    frm.Invoke(Sub() frm.NotifyIcon1.BalloonTipTitle = "Creating PS4 PKG")
+                    frm.Invoke(Sub() frm.NotifyIcon1.BalloonTipText = "Sit back and relax, i inform you when it's done ;)")
+                    frm.Invoke(Sub() frm.NotifyIcon1.ShowBalloonTip(1000))
                     frm.Invoke(Sub() Form1.Button5.Enabled = False)
                     frm.Invoke(Sub() Form1.ProgressBar1.Value = 0)
                     frm.Invoke(Sub() Form1.UseWaitCursor = True)
                     frm.Invoke(Sub() Form1.MenuStrip1.Enabled = False)
                     frm.Invoke(Sub() Form1.TabControl1.Enabled = False)
+                    If pkgf = "Drag and drop here (optional)" Then
+                        pkgf = Environment.CurrentDirectory & "\PS2-FPKG"
+                    End If
                     If Directory.Exists(pkgf & "\Temp") Then
                         Directory.Delete(pkgf & "\Temp", True)
                     End If
@@ -64,7 +71,7 @@ Public Class PS22PS4
         Try
             frm.Invoke(Sub() rcht.Text = rcht.Text & "Decrypting emulator..." & vbCrLf)
             System.IO.Directory.CreateDirectory(pkgf & "\Temp")
-            systemcmd("bin\tools\orbis-pub-cmd.exe", "img_extract --passcode 00000000000000000000000000000000 .\bin\emulators\" & Form1.ToolStripComboBox1.Text & ".pkg " & pkgf & "\Temp")
+            systemcmd("bin\tools\orbis-pub-cmd.exe", "img_extract --passcode 00000000000000000000000000000000 .\bin\emulators\" & Form1.ToolStripComboBox1.Text & ".pkg " & Chr(34) & pkgf & "\Temp" & Chr(34))
             My.Computer.FileSystem.RenameDirectory(pkgf & "\Temp\Sc0", "sce_sys")
             System.IO.File.Move(pkgf & "\Temp\sce_sys\param.sfo", pkgf & "\Temp\image0\sce_sys\param.sfo")
             System.IO.Directory.Delete(pkgf & "\Temp\sce_sys", True)
@@ -99,7 +106,7 @@ Public Class PS22PS4
                 End If
                 frm.Invoke(Sub() Form1.ProgressBar1.Value += 11)
             ElseIf ISO.Contains(".bin") Or ISO.Contains(".BIN") Then
-                    frm.Invoke(Sub() rcht.Text = rcht.Text & "Importing and converting BIN..." & vbCrLf)
+                frm.Invoke(Sub() rcht.Text = rcht.Text & "Importing and converting BIN..." & vbCrLf)
                 System.IO.File.Copy(ISO, pkgf & "\Temp\image0\image\disc01.iso")
                 frm.Invoke(Sub() rcht.Text = rcht.Text & "Patching BIN..." & vbCrLf)
                 Dim crc = GetCRC32(pkgf & "\Temp\image0\image\disc01.iso")
@@ -219,8 +226,8 @@ Public Class PS22PS4
             frm.Invoke(Sub() rcht.Text = rcht.Text & "Patching game id..." & vbCrLf)
             System.IO.Directory.CreateDirectory(pkgf & "\Temp")
             'MsgBox("""" & pkgf & "\Temp\image0\sce_sys\param.sfo"" " & "--address 0x31F --text " & """" & My.Settings.GID.Replace("-", "") & """")
-            systemcmd("bin\tools\cmdlhex.exe", """" & pkgf & "\Temp\image0\sce_sys\param.sfo"" " & "--address 0x31F --text " & """" & My.Settings.GID.Replace("-", "") & """")
-            systemcmd("bin\tools\cmdlhex.exe", """" & pkgf & "\Temp\image0\sce_sys\param.sfo"" " & "--address 0x670 --text " & """" & My.Settings.GID.Replace("-", "") & """")
+            systemcmd("bin\tools\replhex.exe", """" & pkgf & "\Temp\image0\sce_sys\param.sfo"" " & "--address 0x31F --text " & """" & My.Settings.GID.Replace("-", "") & """")
+            systemcmd("bin\tools\replhex.exe", """" & pkgf & "\Temp\image0\sce_sys\param.sfo"" " & "--address 0x670 --text " & """" & My.Settings.GID.Replace("-", "") & """")
             frm.Invoke(Sub() Form1.ProgressBar1.Value += 11)
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Critical, "PS22PS4-GUI")
@@ -230,9 +237,9 @@ Public Class PS22PS4
     Shared Sub setgn(rcht As RichTextBox, gn As String, pkgf As String, frm As Form1)
         Try
             frm.Invoke(Sub() rcht.Text = rcht.Text & "Patching game name..." & vbCrLf)
-            systemcmd("bin\tools\cmdlhex.exe", """" & pkgf & "\Temp\image0\sce_sys\param.sfo"" " & "--address 0x5F0 --hex " & """00000000000000000000000000000000""")
-            systemcmd("bin\tools\cmdlhex.exe", """" & pkgf & "\Temp\image0\sce_sys\param.sfo"" " & "--address 0x600 --hex " & """00000000000000000000000000000000""")
-            systemcmd("bin\tools\cmdlhex.exe", """" & pkgf & "\Temp\image0\sce_sys\param.sfo"" " & "--address 0x5F0 --text " & """" & gn.Replace("Game name: ", "") & """")
+            systemcmd("bin\tools\replhex.exe", """" & pkgf & "\Temp\image0\sce_sys\param.sfo"" " & "--address 0x5F0 --hex " & """00000000000000000000000000000000""")
+            systemcmd("bin\tools\replhex.exe", """" & pkgf & "\Temp\image0\sce_sys\param.sfo"" " & "--address 0x600 --hex " & """00000000000000000000000000000000""")
+            systemcmd("bin\tools\replhex.exe", """" & pkgf & "\Temp\image0\sce_sys\param.sfo"" " & "--address 0x5F0 --text " & """" & gn.Replace("Game name: ", "") & """")
             frm.Invoke(Sub() Form1.ProgressBar1.Value += 11)
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Critical, "PS22PS4-GUI")
@@ -243,9 +250,9 @@ Public Class PS22PS4
         Try
             frm.Invoke(Sub() rcht.Text = rcht.Text & "Patching game cover..." & vbCrLf)
             'System.IO.File.Copy(icon, pkgf & "\Temp\image0\sce_sys\icon0.png")
-            systemcmd("bin\tools\magick.exe", "convert  " & icon & " " & pkgf & "\Temp\image0\sce_sys\icon0.jpg")
-            systemcmd("bin\tools\magick.exe", "convert  " & pkgf & "\Temp\image0\sce_sys\icon0.jpg" & " " & pkgf & "\Temp\image0\sce_sys\icon0.png")
-            systemcmd("bin\tools\magick.exe", "mogrify -resize 512x512!  " & pkgf & "\Temp\image0\sce_sys\icon0.png")
+            systemcmd("bin\tools\magick.exe", "convert  " & Chr(34) & icon & Chr(34) & " " & Chr(34) & pkgf & "\Temp\image0\sce_sys\icon0.jpg" & Chr(34))
+            systemcmd("bin\tools\magick.exe", "convert  " & Chr(34) & pkgf & "\Temp\image0\sce_sys\icon0.jpg" & Chr(34) & " " & Chr(34) & pkgf & "\Temp\image0\sce_sys\icon0.png" & Chr(34))
+            systemcmd("bin\tools\magick.exe", "mogrify -resize 512x512!  " & Chr(34) & pkgf & "\Temp\image0\sce_sys\icon0.png" & Chr(34))
             System.IO.File.Copy(pkgf & "\Temp\image0\sce_sys\icon0.png", pkgf & "\Temp\image0\sce_sys\save_data.png")
             systemcmd("bin\tools\magick.exe", "mogrify -resize 228x128!  " & pkgf & "\Temp\image0\sce_sys\save_data.png")
             frm.Invoke(Sub() Form1.ProgressBar1.Value += 11)
@@ -258,9 +265,9 @@ Public Class PS22PS4
         Try
             frm.Invoke(Sub() rcht.Text = rcht.Text & "Patching game background..." & vbCrLf)
             'System.IO.File.Copy(icon, pkgf & "\Temp\image0\sce_sys\icon0.png")
-            systemcmd("bin\tools\magick.exe", "convert  " & back & " " & pkgf & "\Temp\image0\sce_sys\pic1.jpg")
-            systemcmd("bin\tools\magick.exe", "mogrify -resize 1920x1080! " & pkgf & "\Temp\image0\sce_sys\pic1.jpg")
-            systemcmd("bin\tools\magick.exe", "convert  " & pkgf & "\Temp\image0\sce_sys\pic1.jpg" & " " & pkgf & "\Temp\image0\sce_sys\pic1.png")
+            systemcmd("bin\tools\magick.exe", "convert  " & Chr(34) & back & Chr(34) & " " & Chr(34) & pkgf & "\Temp\image0\sce_sys\pic1.jpg" & Chr(34))
+            systemcmd("bin\tools\magick.exe", "mogrify -resize 1920x1080! " & Chr(34) & pkgf & "\Temp\image0\sce_sys\pic1.jpg" & Chr(34))
+            systemcmd("bin\tools\magick.exe", "convert  " & Chr(34) & pkgf & "\Temp\image0\sce_sys\pic1.jpg" & Chr(34) & " " & Chr(34) & pkgf & "\Temp\image0\sce_sys\pic1.png" & Chr(34))
             frm.Invoke(Sub() Form1.ProgressBar1.Value += 11)
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Critical, "PS22PS4-GUI")
@@ -281,14 +288,18 @@ Public Class PS22PS4
     Shared Sub compilpkg(rcht As RichTextBox, pkgf As String, gn As String, frm As Form1)
         Try
             frm.Invoke(Sub() rcht.Text = rcht.Text & "Compiling PKG..." & vbCrLf)
-            systemcmd("bin\tools\gengp4.exe", pkgf & "\Temp\image0")
+            systemcmd("bin\tools\gengp4.exe", Chr(34) & pkgf & "\Temp\image0" & Chr(34))
             'My.Computer.FileSystem.RenameFile(pkgf & "\Temp\image0.gp4", "image0.txt")
             Dim gp4 As String = System.IO.File.ReadAllText(pkgf & "\Temp\image0.gp4")
             System.IO.File.WriteAllText(pkgf & "\Temp\image0.gp4", gp4.Replace("<scenarios default_id=""1"">", "<scenarios default_id=""0"">"))
-            systemcmd("bin\tools\orbis-pub-cmd.exe", "img_create " & pkgf & "\Temp\image0.gp4 " & pkgf & "\" & My.Settings.GID & "_PS2.pkg")
+            systemcmd("bin\tools\orbis-pub-cmd.exe", "img_create " & Chr(34) & pkgf & "\Temp\image0.gp4" & Chr(34) & " " & Chr(34) & pkgf & "\" & My.Settings.GN & "_" & My.Settings.GID & ".pkg" & Chr(34))
             'My.Computer.FileSystem.RenameFile(pkgf & "\Temp\image0.gp4 " & pkgf & "\" & "1.pkg", My.Settings.GID & "_PS2.pkg")
             'System.IO.Directory.Delete(pkgf & "\Temp", True)
             frm.Invoke(Sub() rcht.Text = rcht.Text & "PKG compiled." & vbCrLf)
+            frm.Invoke(Sub() frm.NotifyIcon1.BalloonTipIcon = ToolTipIcon.Info)
+            frm.Invoke(Sub() frm.NotifyIcon1.BalloonTipTitle = "PKG compiled")
+            frm.Invoke(Sub() frm.NotifyIcon1.BalloonTipText = "Game : " & My.Settings.GN & vbCrLf & "PKG : " & pkgf & "\" & My.Settings.GN & "_" & My.Settings.GID & ".pkg")
+            frm.Invoke(Sub() frm.NotifyIcon1.ShowBalloonTip(1000))
             System.IO.Directory.Delete(pkgf & "\Temp", True)
             System.IO.File.Delete("back.jpg")
         Catch ex As Exception
