@@ -1,4 +1,5 @@
-﻿Imports System.IO
+﻿Imports System.Drawing.Imaging
+Imports System.IO
 Imports System.Net.Mime.MediaTypeNames
 Imports System.Security.Cryptography
 Imports System.Text
@@ -25,6 +26,14 @@ Public Class PS22PS4
                     frm.Invoke(Sub() Form1.TabControl1.Enabled = False)
                     If pkgf = "Drag and drop here (optional)" Then
                         pkgf = Environment.CurrentDirectory & "\PS2-FPKG"
+                    End If
+                    If icon = "Drag and drop here (optional)" Then
+                        frm.PictureBox1.Image.Save("cover.jpg", ImageFormat.Jpeg)
+                        icon = Environment.CurrentDirectory & "\cover.jpg"
+                    End If
+                    If background = "Drag and drop here (optional)" Then
+                        frm.PictureBox2.Image.Save("back.jpg", ImageFormat.Jpeg)
+                        background = Environment.CurrentDirectory & "\back.jpg"
                     End If
                     If Directory.Exists(pkgf & "\Temp") Then
                         Directory.Delete(pkgf & "\Temp", True)

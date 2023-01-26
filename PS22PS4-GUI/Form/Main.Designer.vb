@@ -76,6 +76,7 @@ Partial Class Form1
         Me.SettingsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.EmulatorsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripComboBox1 = New System.Windows.Forms.ToolStripComboBox()
+        Me.ToolStripSeparator4 = New System.Windows.Forms.ToolStripSeparator()
         Me.GetMoreToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
         Me.CheckUpdateToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -86,7 +87,6 @@ Partial Class Form1
         Me.NotifyIcon1 = New System.Windows.Forms.NotifyIcon(Me.components)
         Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.ExitToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ToolStripSeparator4 = New System.Windows.Forms.ToolStripSeparator()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
@@ -303,7 +303,7 @@ Partial Class Form1
         Me.TextBox3.ReadOnly = True
         Me.TextBox3.Size = New System.Drawing.Size(389, 20)
         Me.TextBox3.TabIndex = 7
-        Me.TextBox3.Text = "Drag and drop here"
+        Me.TextBox3.Text = "Drag and drop here (optional)"
         Me.TextBox3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
         'Label3
@@ -458,7 +458,7 @@ Partial Class Form1
         Me.CreateToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ConfigToolStripMenuItem1, Me.LUAToolStripMenuItem1})
         Me.CreateToolStripMenuItem.Image = CType(resources.GetObject("CreateToolStripMenuItem.Image"), System.Drawing.Image)
         Me.CreateToolStripMenuItem.Name = "CreateToolStripMenuItem"
-        Me.CreateToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.CreateToolStripMenuItem.Size = New System.Drawing.Size(135, 22)
         Me.CreateToolStripMenuItem.Text = "Create"
         '
         'ConfigToolStripMenuItem1
@@ -491,57 +491,57 @@ Partial Class Form1
         Me.ImportToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.LUAToolStripMenuItem, Me.ConfigToolStripMenuItem})
         Me.ImportToolStripMenuItem.Image = CType(resources.GetObject("ImportToolStripMenuItem.Image"), System.Drawing.Image)
         Me.ImportToolStripMenuItem.Name = "ImportToolStripMenuItem"
-        Me.ImportToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.ImportToolStripMenuItem.Size = New System.Drawing.Size(135, 22)
         Me.ImportToolStripMenuItem.Text = "Import"
         '
         'LUAToolStripMenuItem
         '
         Me.LUAToolStripMenuItem.Name = "LUAToolStripMenuItem"
-        Me.LUAToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.LUAToolStripMenuItem.Size = New System.Drawing.Size(110, 22)
         Me.LUAToolStripMenuItem.Text = "LUA"
         '
         'ConfigToolStripMenuItem
         '
         Me.ConfigToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.EmulatorToolStripMenuItem, Me.MultiDiscToolStripMenuItem, Me.PS3ToolStripMenuItem})
         Me.ConfigToolStripMenuItem.Name = "ConfigToolStripMenuItem"
-        Me.ConfigToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.ConfigToolStripMenuItem.Size = New System.Drawing.Size(110, 22)
         Me.ConfigToolStripMenuItem.Text = "Config"
         '
         'EmulatorToolStripMenuItem
         '
         Me.EmulatorToolStripMenuItem.Name = "EmulatorToolStripMenuItem"
-        Me.EmulatorToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.EmulatorToolStripMenuItem.Size = New System.Drawing.Size(129, 22)
         Me.EmulatorToolStripMenuItem.Text = "Emulator"
         '
         'MultiDiscToolStripMenuItem
         '
         Me.MultiDiscToolStripMenuItem.Name = "MultiDiscToolStripMenuItem"
-        Me.MultiDiscToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.MultiDiscToolStripMenuItem.Size = New System.Drawing.Size(129, 22)
         Me.MultiDiscToolStripMenuItem.Text = "Multi-Disc"
         '
         'PS3ToolStripMenuItem
         '
         Me.PS3ToolStripMenuItem.Name = "PS3ToolStripMenuItem"
-        Me.PS3ToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.PS3ToolStripMenuItem.Size = New System.Drawing.Size(129, 22)
         Me.PS3ToolStripMenuItem.Text = "PS3"
         '
         'ToolStripSeparator2
         '
         Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
-        Me.ToolStripSeparator2.Size = New System.Drawing.Size(177, 6)
+        Me.ToolStripSeparator2.Size = New System.Drawing.Size(132, 6)
         '
         'SaveConfigToolStripMenuItem
         '
         Me.SaveConfigToolStripMenuItem.Image = CType(resources.GetObject("SaveConfigToolStripMenuItem.Image"), System.Drawing.Image)
         Me.SaveConfigToolStripMenuItem.Name = "SaveConfigToolStripMenuItem"
-        Me.SaveConfigToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.SaveConfigToolStripMenuItem.Size = New System.Drawing.Size(135, 22)
         Me.SaveConfigToolStripMenuItem.Text = "Save config"
         '
         'ExitToolStripMenuItem
         '
         Me.ExitToolStripMenuItem.Image = CType(resources.GetObject("ExitToolStripMenuItem.Image"), System.Drawing.Image)
         Me.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem"
-        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(135, 22)
         Me.ExitToolStripMenuItem.Text = "Exit"
         '
         'SettingsToolStripMenuItem
@@ -556,7 +556,7 @@ Partial Class Form1
         Me.EmulatorsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripComboBox1, Me.ToolStripSeparator4, Me.GetMoreToolStripMenuItem})
         Me.EmulatorsToolStripMenuItem.Image = CType(resources.GetObject("EmulatorsToolStripMenuItem.Image"), System.Drawing.Image)
         Me.EmulatorsToolStripMenuItem.Name = "EmulatorsToolStripMenuItem"
-        Me.EmulatorsToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.EmulatorsToolStripMenuItem.Size = New System.Drawing.Size(147, 22)
         Me.EmulatorsToolStripMenuItem.Text = "Emulators"
         '
         'ToolStripComboBox1
@@ -568,6 +568,11 @@ Partial Class Form1
         Me.ToolStripComboBox1.Sorted = True
         Me.ToolStripComboBox1.Text = "JakV2"
         '
+        'ToolStripSeparator4
+        '
+        Me.ToolStripSeparator4.Name = "ToolStripSeparator4"
+        Me.ToolStripSeparator4.Size = New System.Drawing.Size(178, 6)
+        '
         'GetMoreToolStripMenuItem
         '
         Me.GetMoreToolStripMenuItem.Name = "GetMoreToolStripMenuItem"
@@ -577,13 +582,13 @@ Partial Class Form1
         'ToolStripSeparator1
         '
         Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(177, 6)
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(144, 6)
         '
         'CheckUpdateToolStripMenuItem
         '
         Me.CheckUpdateToolStripMenuItem.Image = CType(resources.GetObject("CheckUpdateToolStripMenuItem.Image"), System.Drawing.Image)
         Me.CheckUpdateToolStripMenuItem.Name = "CheckUpdateToolStripMenuItem"
-        Me.CheckUpdateToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.CheckUpdateToolStripMenuItem.Size = New System.Drawing.Size(147, 22)
         Me.CheckUpdateToolStripMenuItem.Text = "Check update"
         '
         'HelpToolStripMenuItem
@@ -632,11 +637,6 @@ Partial Class Form1
         Me.ExitToolStripMenuItem1.Name = "ExitToolStripMenuItem1"
         Me.ExitToolStripMenuItem1.Size = New System.Drawing.Size(93, 22)
         Me.ExitToolStripMenuItem1.Text = "Exit"
-        '
-        'ToolStripSeparator4
-        '
-        Me.ToolStripSeparator4.Name = "ToolStripSeparator4"
-        Me.ToolStripSeparator4.Size = New System.Drawing.Size(178, 6)
         '
         'Form1
         '

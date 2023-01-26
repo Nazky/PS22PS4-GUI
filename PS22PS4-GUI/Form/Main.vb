@@ -28,10 +28,13 @@ Public Class Form1
     End Sub
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        'Directory.CreateDirectory("bin\mpkg")
         Directory.CreateDirectory("bin\lang")
         Directory.CreateDirectory("bin\configs")
         Directory.CreateDirectory("bin\LUA")
+        Directory.CreateDirectory("bin\covers")
+        Directory.CreateDirectory("bin\emulators")
+        Directory.CreateDirectory("bin\lang")
+        Directory.CreateDirectory("bin\info")
         listemu()
         checknet()
         My.Settings.Reset()
@@ -157,25 +160,10 @@ Public Class Form1
 
     Private Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click
         Try
-            If TextBox2.Text = "Drag and drop here (optional)" Or File.Exists(TextBox2.Text) And File.Exists(TextBox3.Text) And Directory.Exists(TextBox4.Text) Then
-
-                If TextBox2.Text = "Drag and drop here (optional)" Then
-                    PictureBox2.Image.Save("back.jpg", ImageFormat.Jpeg)
-                    Dim b As Thread = New Thread(Sub() PS22PS4.CreatePKG(TextBox1.Text, Label10.Text, Label9.Text, Label11.Text, Label12.Text, Chr(34) & TextBox3.Text & Chr(34), "back.jpg", My.Settings.Config, My.Settings.LUA, RichTextBox1, TextBox4.Text, Me))
-                    b.IsBackground = True
-                    b.SetApartmentState(ApartmentState.STA)
-                    b.Start()
-
-                Else
-                    Dim b As Thread = New Thread(Sub() PS22PS4.CreatePKG(TextBox1.Text, Label10.Text, Label9.Text, Label11.Text, Label12.Text, TextBox3.Text, TextBox2.Text, My.Settings.Config, My.Settings.LUA, RichTextBox1, TextBox4.Text, Me))
-                    b.IsBackground = True
-                    b.SetApartmentState(ApartmentState.STA)
-                    b.Start()
-                End If
-                'MsgBox(gn)
-            Else
-                MsgBox("Please put valid path !", MsgBoxStyle.Critical, "PS22PS4-GUI")
-            End If
+            Dim b As Thread = New Thread(Sub() PS22PS4.CreatePKG(TextBox1.Text, Label10.Text, Label9.Text, Label11.Text, Label12.Text, TextBox3.Text, TextBox2.Text, My.Settings.Config, My.Settings.LUA, RichTextBox1, TextBox4.Text, Me))
+            b.IsBackground = True
+            b.SetApartmentState(ApartmentState.STA)
+            b.Start()
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Critical, "PS22PS4-GUI")
         End Try

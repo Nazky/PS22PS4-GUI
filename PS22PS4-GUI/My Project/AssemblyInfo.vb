@@ -9,10 +9,10 @@ Imports System.Runtime.InteropServices
 ' Vérifiez les valeurs des attributs de l'assembly
 
 <Assembly: AssemblyTitle("PS22PS4-GUI")>
-<Assembly: AssemblyDescription("")>
+<Assembly: AssemblyDescription("A PS2 ISO/BIN to PS4 FPKG")>
 <Assembly: AssemblyCompany("")>
 <Assembly: AssemblyProduct("PS22PS4-GUI")>
-<Assembly: AssemblyCopyright("Copyright ©  2022")>
+<Assembly: AssemblyCopyright("Copyright © NazkyYT 2022")>
 <Assembly: AssemblyTrademark("")>
 
 <Assembly: ComVisible(False)>
