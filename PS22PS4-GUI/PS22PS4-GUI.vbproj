@@ -99,6 +99,9 @@
     <Reference Include="lzo.net, Version=0.0.3.0, Culture=neutral, PublicKeyToken=7c3b11b873e0cbca, processorArchitecture=MSIL">
       <HintPath>..\packages\lzo.net.0.0.3\lib\net45\lzo.net.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="nunit.framework, Version=3.13.3.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
       <HintPath>..\packages\NUnit.3.13.3\lib\net45\nunit.framework.dll</HintPath>
     </Reference>
@@ -134,12 +137,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationEvents.vb" />
-    <Compile Include="Form\CL.Designer.vb">
-      <DependentUpon>CL.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Form\CL.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Form\CreateConfig.Designer.vb">
       <DependentUpon>CreateConfig.vb</DependentUpon>
     </Compile>
@@ -181,15 +178,17 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Script\BatchRunner.vb" />
     <Compile Include="Script\CRC32.vb" />
     <Compile Include="Script\ExtractPS2.vb" />
     <Compile Include="Script\PS22PS4.vb" />
+    <Compile Include="Script\PS2EmuCreator.vb" />
     <Compile Include="Script\PS42PS2.vb" />
+    <Compile Include="Script\TextFileCreator.vb" />
+    <Compile Include="Script\Updater.vb" />
+    <Compile Include="Script\ZipExtractor.vb" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Form\CL.resx">
-      <DependentUpon>CL.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Form\CreateConfig.resx">
       <DependentUpon>CreateConfig.vb</DependentUpon>
     </EmbeddedResource>

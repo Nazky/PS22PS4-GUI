@@ -65,17 +65,23 @@ Partial Class Form1
         Me.MultiDiscToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.LUAToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.ImportToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.LUAToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ConfigToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.LUAToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.EmulatorToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MultiDiscToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.PS3ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ConfigOnlineToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.AutoallToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.LUAToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.EmulatorToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MultidiscToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.PS3ToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
-        Me.SaveConfigToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ExitToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SettingsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.EmulatorsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripComboBox1 = New System.Windows.Forms.ToolStripComboBox()
+        Me.CreateNewEmuToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator4 = New System.Windows.Forms.ToolStripSeparator()
         Me.GetMoreToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
@@ -448,22 +454,22 @@ Partial Class Form1
         'FichierToolStripMenuItem
         '
         Me.FichierToolStripMenuItem.BackColor = System.Drawing.SystemColors.Control
-        Me.FichierToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CreateToolStripMenuItem, Me.ImportToolStripMenuItem, Me.ToolStripSeparator2, Me.SaveConfigToolStripMenuItem, Me.ExitToolStripMenuItem})
+        Me.FichierToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CreateToolStripMenuItem, Me.ImportToolStripMenuItem, Me.ToolStripSeparator2, Me.ExitToolStripMenuItem})
         Me.FichierToolStripMenuItem.Name = "FichierToolStripMenuItem"
         Me.FichierToolStripMenuItem.Size = New System.Drawing.Size(37, 20)
         Me.FichierToolStripMenuItem.Text = "File"
         '
         'CreateToolStripMenuItem
         '
-        Me.CreateToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ConfigToolStripMenuItem1, Me.LUAToolStripMenuItem1})
+        Me.CreateToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ConfigToolStripMenuItem1})
         Me.CreateToolStripMenuItem.Image = CType(resources.GetObject("CreateToolStripMenuItem.Image"), System.Drawing.Image)
         Me.CreateToolStripMenuItem.Name = "CreateToolStripMenuItem"
-        Me.CreateToolStripMenuItem.Size = New System.Drawing.Size(135, 22)
+        Me.CreateToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.CreateToolStripMenuItem.Text = "Create"
         '
         'ConfigToolStripMenuItem1
         '
-        Me.ConfigToolStripMenuItem1.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.EmulatorToolStripMenuItem1, Me.MultiDiscToolStripMenuItem1})
+        Me.ConfigToolStripMenuItem1.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.EmulatorToolStripMenuItem1, Me.MultiDiscToolStripMenuItem1, Me.LUAToolStripMenuItem1})
         Me.ConfigToolStripMenuItem1.Name = "ConfigToolStripMenuItem1"
         Me.ConfigToolStripMenuItem1.Size = New System.Drawing.Size(110, 22)
         Me.ConfigToolStripMenuItem1.Text = "Config"
@@ -483,65 +489,97 @@ Partial Class Form1
         'LUAToolStripMenuItem1
         '
         Me.LUAToolStripMenuItem1.Name = "LUAToolStripMenuItem1"
-        Me.LUAToolStripMenuItem1.Size = New System.Drawing.Size(110, 22)
+        Me.LUAToolStripMenuItem1.Size = New System.Drawing.Size(129, 22)
         Me.LUAToolStripMenuItem1.Text = "LUA"
         '
         'ImportToolStripMenuItem
         '
-        Me.ImportToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.LUAToolStripMenuItem, Me.ConfigToolStripMenuItem})
+        Me.ImportToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ConfigToolStripMenuItem, Me.ConfigOnlineToolStripMenuItem})
         Me.ImportToolStripMenuItem.Image = CType(resources.GetObject("ImportToolStripMenuItem.Image"), System.Drawing.Image)
         Me.ImportToolStripMenuItem.Name = "ImportToolStripMenuItem"
-        Me.ImportToolStripMenuItem.Size = New System.Drawing.Size(135, 22)
+        Me.ImportToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.ImportToolStripMenuItem.Text = "Import"
+        '
+        'ConfigToolStripMenuItem
+        '
+        Me.ConfigToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.LUAToolStripMenuItem, Me.EmulatorToolStripMenuItem, Me.MultiDiscToolStripMenuItem, Me.PS3ToolStripMenuItem})
+        Me.ConfigToolStripMenuItem.Name = "ConfigToolStripMenuItem"
+        Me.ConfigToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.ConfigToolStripMenuItem.Text = "Config Local"
         '
         'LUAToolStripMenuItem
         '
         Me.LUAToolStripMenuItem.Name = "LUAToolStripMenuItem"
-        Me.LUAToolStripMenuItem.Size = New System.Drawing.Size(110, 22)
+        Me.LUAToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.LUAToolStripMenuItem.Text = "LUA"
-        '
-        'ConfigToolStripMenuItem
-        '
-        Me.ConfigToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.EmulatorToolStripMenuItem, Me.MultiDiscToolStripMenuItem, Me.PS3ToolStripMenuItem})
-        Me.ConfigToolStripMenuItem.Name = "ConfigToolStripMenuItem"
-        Me.ConfigToolStripMenuItem.Size = New System.Drawing.Size(110, 22)
-        Me.ConfigToolStripMenuItem.Text = "Config"
         '
         'EmulatorToolStripMenuItem
         '
         Me.EmulatorToolStripMenuItem.Name = "EmulatorToolStripMenuItem"
-        Me.EmulatorToolStripMenuItem.Size = New System.Drawing.Size(129, 22)
+        Me.EmulatorToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.EmulatorToolStripMenuItem.Text = "Emulator"
         '
         'MultiDiscToolStripMenuItem
         '
         Me.MultiDiscToolStripMenuItem.Name = "MultiDiscToolStripMenuItem"
-        Me.MultiDiscToolStripMenuItem.Size = New System.Drawing.Size(129, 22)
+        Me.MultiDiscToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.MultiDiscToolStripMenuItem.Text = "Multi-Disc"
+        Me.MultiDiscToolStripMenuItem.Visible = False
         '
         'PS3ToolStripMenuItem
         '
         Me.PS3ToolStripMenuItem.Name = "PS3ToolStripMenuItem"
-        Me.PS3ToolStripMenuItem.Size = New System.Drawing.Size(129, 22)
+        Me.PS3ToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.PS3ToolStripMenuItem.Text = "PS3"
+        '
+        'ConfigOnlineToolStripMenuItem
+        '
+        Me.ConfigOnlineToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AutoallToolStripMenuItem, Me.LUAToolStripMenuItem2, Me.EmulatorToolStripMenuItem2, Me.MultidiscToolStripMenuItem2, Me.PS3ToolStripMenuItem1})
+        Me.ConfigOnlineToolStripMenuItem.Name = "ConfigOnlineToolStripMenuItem"
+        Me.ConfigOnlineToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.ConfigOnlineToolStripMenuItem.Text = "Config Online"
+        Me.ConfigOnlineToolStripMenuItem.Visible = False
+        '
+        'AutoallToolStripMenuItem
+        '
+        Me.AutoallToolStripMenuItem.Name = "AutoallToolStripMenuItem"
+        Me.AutoallToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.AutoallToolStripMenuItem.Text = "Auto (all)"
+        '
+        'LUAToolStripMenuItem2
+        '
+        Me.LUAToolStripMenuItem2.Name = "LUAToolStripMenuItem2"
+        Me.LUAToolStripMenuItem2.Size = New System.Drawing.Size(180, 22)
+        Me.LUAToolStripMenuItem2.Text = "LUA"
+        '
+        'EmulatorToolStripMenuItem2
+        '
+        Me.EmulatorToolStripMenuItem2.Name = "EmulatorToolStripMenuItem2"
+        Me.EmulatorToolStripMenuItem2.Size = New System.Drawing.Size(180, 22)
+        Me.EmulatorToolStripMenuItem2.Text = "Emulator"
+        '
+        'MultidiscToolStripMenuItem2
+        '
+        Me.MultidiscToolStripMenuItem2.Name = "MultidiscToolStripMenuItem2"
+        Me.MultidiscToolStripMenuItem2.Size = New System.Drawing.Size(180, 22)
+        Me.MultidiscToolStripMenuItem2.Text = "Multi-Disc"
+        '
+        'PS3ToolStripMenuItem1
+        '
+        Me.PS3ToolStripMenuItem1.Name = "PS3ToolStripMenuItem1"
+        Me.PS3ToolStripMenuItem1.Size = New System.Drawing.Size(180, 22)
+        Me.PS3ToolStripMenuItem1.Text = "PS3"
         '
         'ToolStripSeparator2
         '
         Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
-        Me.ToolStripSeparator2.Size = New System.Drawing.Size(132, 6)
-        '
-        'SaveConfigToolStripMenuItem
-        '
-        Me.SaveConfigToolStripMenuItem.Image = CType(resources.GetObject("SaveConfigToolStripMenuItem.Image"), System.Drawing.Image)
-        Me.SaveConfigToolStripMenuItem.Name = "SaveConfigToolStripMenuItem"
-        Me.SaveConfigToolStripMenuItem.Size = New System.Drawing.Size(135, 22)
-        Me.SaveConfigToolStripMenuItem.Text = "Save config"
+        Me.ToolStripSeparator2.Size = New System.Drawing.Size(177, 6)
         '
         'ExitToolStripMenuItem
         '
         Me.ExitToolStripMenuItem.Image = CType(resources.GetObject("ExitToolStripMenuItem.Image"), System.Drawing.Image)
         Me.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem"
-        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(135, 22)
+        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.ExitToolStripMenuItem.Text = "Exit"
         '
         'SettingsToolStripMenuItem
@@ -553,10 +591,10 @@ Partial Class Form1
         '
         'EmulatorsToolStripMenuItem
         '
-        Me.EmulatorsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripComboBox1, Me.ToolStripSeparator4, Me.GetMoreToolStripMenuItem})
+        Me.EmulatorsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripComboBox1, Me.CreateNewEmuToolStripMenuItem, Me.ToolStripSeparator4, Me.GetMoreToolStripMenuItem})
         Me.EmulatorsToolStripMenuItem.Image = CType(resources.GetObject("EmulatorsToolStripMenuItem.Image"), System.Drawing.Image)
         Me.EmulatorsToolStripMenuItem.Name = "EmulatorsToolStripMenuItem"
-        Me.EmulatorsToolStripMenuItem.Size = New System.Drawing.Size(147, 22)
+        Me.EmulatorsToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.EmulatorsToolStripMenuItem.Text = "Emulators"
         '
         'ToolStripComboBox1
@@ -567,6 +605,12 @@ Partial Class Form1
         Me.ToolStripComboBox1.Size = New System.Drawing.Size(121, 23)
         Me.ToolStripComboBox1.Sorted = True
         Me.ToolStripComboBox1.Text = "JakV2"
+        '
+        'CreateNewEmuToolStripMenuItem
+        '
+        Me.CreateNewEmuToolStripMenuItem.Name = "CreateNewEmuToolStripMenuItem"
+        Me.CreateNewEmuToolStripMenuItem.Size = New System.Drawing.Size(181, 22)
+        Me.CreateNewEmuToolStripMenuItem.Text = "Create new emu"
         '
         'ToolStripSeparator4
         '
@@ -582,13 +626,13 @@ Partial Class Form1
         'ToolStripSeparator1
         '
         Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(144, 6)
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(177, 6)
         '
         'CheckUpdateToolStripMenuItem
         '
         Me.CheckUpdateToolStripMenuItem.Image = CType(resources.GetObject("CheckUpdateToolStripMenuItem.Image"), System.Drawing.Image)
         Me.CheckUpdateToolStripMenuItem.Name = "CheckUpdateToolStripMenuItem"
-        Me.CheckUpdateToolStripMenuItem.Size = New System.Drawing.Size(147, 22)
+        Me.CheckUpdateToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.CheckUpdateToolStripMenuItem.Text = "Check update"
         '
         'HelpToolStripMenuItem
@@ -651,7 +695,7 @@ Partial Class Form1
         Me.MaximizeBox = False
         Me.Name = "Form1"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "PS22PS4-GUI"
+        Me.Text = "PS22PS4-GUI | 0.7.0"
         Me.TabControl1.ResumeLayout(False)
         Me.TabPage1.ResumeLayout(False)
         Me.TabPage1.PerformLayout()
@@ -684,7 +728,6 @@ Partial Class Form1
     Friend WithEvents HelpToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents ImportToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents ConfigToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents LUAToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents ExitToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents ProgressBar1 As ProgressBar
     Friend WithEvents RichTextBox1 As RichTextBox
@@ -701,7 +744,6 @@ Partial Class Form1
     Friend WithEvents Label8 As Label
     Friend WithEvents CreateToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents ConfigToolStripMenuItem1 As ToolStripMenuItem
-    Friend WithEvents LUAToolStripMenuItem1 As ToolStripMenuItem
     Friend WithEvents Label12 As Label
     Friend WithEvents Label11 As Label
     Friend WithEvents Label10 As Label
@@ -724,11 +766,19 @@ Partial Class Form1
     Friend WithEvents Label15 As Label
     Friend WithEvents ToolStripSeparator1 As ToolStripSeparator
     Friend WithEvents ToolStripSeparator2 As ToolStripSeparator
-    Friend WithEvents SaveConfigToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents NotifyIcon1 As NotifyIcon
     Friend WithEvents ContextMenuStrip1 As ContextMenuStrip
     Friend WithEvents ExitToolStripMenuItem1 As ToolStripMenuItem
     Friend WithEvents ToolStripSeparator3 As ToolStripSeparator
     Friend WithEvents GetMoreToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents ToolStripSeparator4 As ToolStripSeparator
+    Friend WithEvents CreateNewEmuToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents LUAToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ConfigOnlineToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents AutoallToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents LUAToolStripMenuItem2 As ToolStripMenuItem
+    Friend WithEvents EmulatorToolStripMenuItem2 As ToolStripMenuItem
+    Friend WithEvents MultidiscToolStripMenuItem2 As ToolStripMenuItem
+    Friend WithEvents PS3ToolStripMenuItem1 As ToolStripMenuItem
+    Friend WithEvents LUAToolStripMenuItem1 As ToolStripMenuItem
 End Class

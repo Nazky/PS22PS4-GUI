@@ -18,17 +18,18 @@ Public Class ExtractPS2
                     Dim info As Stream = dvd.OpenFile("SYSTEM.CNF", FileMode.Open)
                     Dim convinfo As New StreamReader(info, Encoding.UTF8)
                     File.WriteAllText("ps2.info", convinfo.ReadToEnd)
-                    getid(File.ReadAllText("ps2.info"), frm)
-                    getv(File.ReadAllText("ps2.info"), frm)
-                    getr(File.ReadAllText("ps2.info"), frm)
                     frm.Invoke(Sub() frm.UseWaitCursor = False)
                     frm.Invoke(Sub() frm.Button5.Enabled = True)
                     'MsgBox(Application.StartupPath & "\bin\info")
-                    If File.Exists(Application.StartupPath & "\bin\info\" & Form1.Label10.Text & ".info") Then
+                    getid(File.ReadAllText("ps2.info"), frm)
+                    getv(File.ReadAllText("ps2.info"), frm)
+                    getr(File.ReadAllText("ps2.info"), frm)
+                    getcov(My.Settings.GID, frm)
+                    If File.Exists(Application.StartupPath & "\bin\info\" & My.Settings.GID & ".info") Then
                         File.Delete("ps2.info")
 
                     Else
-                        File.Move("ps2.info", Application.StartupPath & "\bin\info\" & Form1.Label10.Text.Replace("Game ID: ", "") & ".info")
+                        File.Move("ps2.info", Application.StartupPath & "\bin\info\" & My.Settings.GID & ".info")
                     End If
                 End Using
             ElseIf isopath.Contains(".bin") Or isopath.Contains(".BIN") Then
@@ -37,11 +38,18 @@ Public Class ExtractPS2
                 'MsgBox(gid)
                 'crcheck(isopath)
                 MsgBox("You're trying to import a BIN file please WAIT, getting information can take a little time.", MsgBoxStyle.Information)
+                frm.Invoke(Sub() frm.UseWaitCursor = False)
+                frm.Invoke(Sub() frm.Button5.Enabled = True)
                 getid(info.Substring(info.IndexOf("BOOT2 =") + 1), frm)
                 getv(info, frm)
                 getr(info, frm)
-                frm.Invoke(Sub() frm.UseWaitCursor = False)
-                frm.Invoke(Sub() frm.Button5.Enabled = True)
+                getcov(My.Settings.GID, frm)
+                If File.Exists(Application.StartupPath & "\bin\info\" & My.Settings.GID & ".info") Then
+                    File.Delete("ps2.info")
+
+                Else
+                    File.Move("ps2.info", Application.StartupPath & "\bin\info\" & My.Settings.GID & ".info")
+                End If
             Else
                 MsgBox("Not supported file found !", MsgBoxStyle.Critical, "PS22PS4-GUI")
             End If
@@ -49,7 +57,7 @@ Public Class ExtractPS2
 
 
         Catch ex As Exception
-            ' MsgBox(ex.Message, MsgBoxStyle.Critical, "PS22PS4-GUI")
+            MsgBox(ex.Message, MsgBoxStyle.Critical, "PS22PS4-GUI")
         End Try
 
     End Sub
@@ -58,13 +66,14 @@ Public Class ExtractPS2
         Try
             If File.Exists("bin/covers/" & str & ".jpg") Then
                 frm.Invoke(Sub() Form1.PictureBox1.Image = Image.FromFile("bin/covers/" & str & ".jpg"))
-                frm.Invoke(Sub() Form1.TextBox3.Text = Application.StartupPath & "\bin\covers\" & str & ".jpg")
+                frm.Invoke(Sub() Form1.TextBox3.Text = Application.StartupPath & "/bin/covers/" & str & ".jpg")
             Else
-                Dim wSource As String = "https://raw.githubusercontent.com/xlenore/ps2-covers/main/covers/" & str & ".jpg"
+                'MsgBox(str)
+                Dim wSource As String = "https://raw.githubusercontent.com/xlenore/ps2-covers/main/covers/default/" & str & ".jpg"
                 Dim cd As New WebClient
-                cd.DownloadFile(wSource, "bin/covers/" & str & ".jpg")
-                frm.Invoke(Sub() Form1.PictureBox1.Image = Image.FromFile("bin/covers/" & str & ".jpg"))
-                frm.Invoke(Sub() Form1.TextBox3.Text = Application.StartupPath & "\bin\covers\" & str & ".jpg")
+                cd.DownloadFile(wSource, Application.StartupPath & "/bin/covers/" & str & ".jpg")
+                frm.Invoke(Sub() Form1.PictureBox1.Image = Image.FromFile(Application.StartupPath & "/bin/covers/" & str & ".jpg"))
+                frm.Invoke(Sub() Form1.TextBox3.Text = Application.StartupPath & "/bin/covers/" & str & ".jpg")
             End If
 
         Catch ex As Exception
@@ -72,7 +81,7 @@ Public Class ExtractPS2
             frm.Invoke(Sub() Form1.NotifyIcon1.BalloonTipTitle = "Cover downloader")
             frm.Invoke(Sub() Form1.NotifyIcon1.BalloonTipText = "Can't find a cover for this game :(")
 
-            'MsgBox(ex.Message, MsgBoxStyle.Critical)
+            MsgBox(ex.Message, MsgBoxStyle.Critical)
         End Try
     End Sub
 
@@ -87,8 +96,8 @@ Public Class ExtractPS2
 
             If nIndexStart > -1 AndAlso nIndexEnd > -1 Then '-1 means the word was not found.
                 Dim res As String = Strings.Mid(sSource, nIndexStart + sDelimStart.Length + 1, nIndexEnd - nIndexStart - sDelimStart.Length) 'Crop the text between
-                'MessageBox.Show(res.Replace("_", "").Replace(".", "")) 'Display
-                getcov(res.Replace("_", "-").Replace(".", ""), frm)
+                'MessageBox.Show(res.Replace("_", "-").Replace(".", "")) 'Display
+                'getcov(res.Replace("_", "-").Replace(".", ""), frm)
                 frm.Invoke(Sub() Form1.Label10.Text = res.Replace("_", "").Replace(".", ""))
                 getn(res.Replace("_", "-").Replace(".", ""), frm)
                 My.Settings.GID = res.Replace("_", "-").Replace(".", "")
@@ -96,7 +105,7 @@ Public Class ExtractPS2
                 MessageBox.Show("One or both of the delimiting words were not found!")
             End If
         Catch ex As Exception
-            'MsgBox(ex.Message, MsgBoxStyle.Critical, "PS22PS4-GUI")
+            MsgBox(ex.Message, MsgBoxStyle.Critical, "PS22PS4-GUI")
         End Try
 
     End Sub
@@ -123,7 +132,7 @@ Public Class ExtractPS2
                 frm.Invoke(Sub() Form1.Label11.Text = res)
             End If
         Catch ex As Exception
-            'MsgBox(ex.Message, MsgBoxStyle.Critical, "PS22PS4-GUI")
+            MsgBox(ex.Message, MsgBoxStyle.Critical, "PS22PS4-GUI")
         End Try
 
     End Sub
@@ -135,7 +144,7 @@ Public Class ExtractPS2
             'MessageBox.Show(res) 'Display
             frm.Invoke(Sub() Form1.Label12.Text = res.Replace("=", ""))
         Catch ex As Exception
-            'MsgBox(ex.Message, MsgBoxStyle.Critical, "PS22PS4-GUI")
+            MsgBox(ex.Message, MsgBoxStyle.Critical, "PS22PS4-GUI")
         End Try
 
     End Sub
@@ -162,7 +171,7 @@ Public Class ExtractPS2
             End If
 
         Catch ex As Exception
-            'MsgBox(ex.Message, MsgBoxStyle.Critical, "PS22PS4-GUI")
+            MsgBox(ex.Message, MsgBoxStyle.Critical, "PS22PS4-GUI")
         End Try
 
 

@@ -39,16 +39,6 @@ Public Class PS22PS4
                         Directory.Delete(pkgf & "\Temp", True)
                     End If
                     frm.Invoke(Sub() rcht.Text = "ISO/BIN list: " & vbCrLf & ISO & vbCrLf & "Game ID: " & gid & vbCrLf & "Game Name: " & gn & vbCrLf & "Game version: " & gv.Replace(vbCrLf, "") & vbCrLf & "Game region: " & gr.Replace(vbCrLf, "") & vbCrLf & "Icon path: " & icon & vbCrLf & "Background path: " & background & vbCrLf & "Emulator: " & Form1.ToolStripComboBox1.Text & vbCrLf)
-                    If config = "" Then
-                        frm.Invoke(Sub() rcht.Text = rcht.Text & "config file: N/A" & vbCrLf)
-                    Else
-                        frm.Invoke(Sub() rcht.Text = rcht.Text & "config file: " & config & vbCrLf)
-                    End If
-                    If LUA = "" Then
-                        frm.Invoke(Sub() rcht.Text = rcht.Text & "LUA file: N/A" & vbCrLf & "---------------------------------------------------------------------------------------------------" & vbCrLf)
-                    Else
-                        frm.Invoke(Sub() rcht.Text = rcht.Text & "LUA file: " & LUA & vbCrLf & "---------------------------------------------------------------------------------------------------" & vbCrLf)
-                    End If
                 End If
 
                 dpkg(rcht, pkgf, frm)
@@ -190,22 +180,32 @@ Public Class PS22PS4
 
     Shared Sub ic(rcht As RichTextBox, pkgf As String, gn As String, frm As Form1)
         Try
-            If My.Settings.Config = "" Then
-                frm.Invoke(Sub() rcht.Text = rcht.Text & "Importing default config..." & vbCrLf)
+            If File.Exists("bin/configs/imported/" & My.Settings.GID & ".txt") Then
+                frm.Invoke(Sub() rcht.Text = rcht.Text & "Importing custom emulator config..." & vbCrLf)
+                System.IO.File.Copy("bin\configs\imported\" & My.Settings.GID & ".txt", pkgf & "\Temp\image0\config-emu-ps4.txt", True)
+            Else
+
+                frm.Invoke(Sub() rcht.Text = rcht.Text & "Importing default emulator config..." & vbCrLf)
                 Dim confd As String = System.IO.File.ReadAllText(pkgf & "\Temp\image0\config-emu-ps4.txt")
                 System.IO.File.WriteAllText(pkgf & "\Temp\image0\config-emu-ps4.txt", confd.Replace("#Markus95", "#" & gn.Replace("Game name: ", "").Replace("SLUS-20091", My.Settings.GID)))
-                frm.Invoke(Sub() Form1.ProgressBar1.Value += 11)
-            ElseIf System.IO.File.Exists("bin\configs\" & My.Settings.GID & ".conf") Then
-                frm.Invoke(Sub() rcht.Text = rcht.Text & "Importing custom config..." & vbCrLf)
-                System.IO.File.Copy("bin\configs\" & My.Settings.GID & ".conf", pkgf & "\Temp\image0\config-emu-ps4.txt", True)
-                frm.Invoke(Sub() Form1.ProgressBar1.Value += 11)
-            Else
-                frm.Invoke(Sub() rcht.Text = rcht.Text & "Importing custom config..." & vbCrLf)
-                System.IO.File.Copy(My.Settings.Config, "bin\configs\" & My.Settings.GID & ".conf", True)
-                System.IO.File.Copy("bin\configs\" & My.Settings.GID & ".conf", pkgf & "\Temp\image0\config-emu-ps4.txt", True)
-                frm.Invoke(Sub() Form1.ProgressBar1.Value += 11)
             End If
 
+            If File.Exists("bin/configs/imported/PS3/" & My.Settings.GID & "_lopnor.cfgbin") Then
+                frm.Invoke(Sub() rcht.Text = rcht.Text & "Importing PS3 custom config..." & vbCrLf)
+                Directory.CreateDirectory(pkgf & "\Temp\image0\patches\" & My.Settings.GID)
+                System.IO.File.Copy("bin/configs/imported/PS3/" & My.Settings.GID & "_lopnor.cfgbin", pkgf & "\Temp\image0\patches\" & My.Settings.GID & "\" & My.Settings.GID & "_lopnor.cfgbin", True)
+            End If
+
+            If Directory.Exists("bin\configs\imported\LUA\") Then
+                Dim sl = Directory.GetFiles("bin\configs\imported\LUA\", My.Settings.GID & "_config.lua", SearchOption.AllDirectories).FirstOrDefault
+                If sl IsNot Nothing Then
+                    frm.Invoke(Sub() rcht.Text = rcht.Text & "Importing custom LUA..." & vbCrLf)
+                    Directory.CreateDirectory(pkgf & "\Temp\image0\patches")
+                    System.IO.File.Copy(sl, pkgf & "\Temp\image0\patches\" & My.Settings.GID & "_config.lua", True)
+                End If
+            End If
+
+            frm.Invoke(Sub() Form1.ProgressBar1.Value += 11)
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Critical, "PS22PS4-GUI")
         End Try

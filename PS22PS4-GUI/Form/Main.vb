@@ -30,7 +30,6 @@ Public Class Form1
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Directory.CreateDirectory("bin\lang")
         Directory.CreateDirectory("bin\configs")
-        Directory.CreateDirectory("bin\LUA")
         Directory.CreateDirectory("bin\covers")
         Directory.CreateDirectory("bin\emulators")
         Directory.CreateDirectory("bin\lang")
@@ -38,6 +37,15 @@ Public Class Form1
         listemu()
         checknet()
         My.Settings.Reset()
+        If Directory.Exists("update") Then
+            Directory.Delete("update", True)
+        End If
+        If File.Exists("updater.bat") Then
+            File.Delete("updater.bat")
+        End If
+        If File.Exists("Update.zip") Then
+            File.Delete("Update.zip")
+        End If
     End Sub
 
     Sub listemu()
@@ -84,26 +92,31 @@ Public Class Form1
     End Sub
 
     Private Sub TextBox1_DragDrop(sender As Object, e As DragEventArgs) Handles TextBox1.DragDrop
-        Dim files() As String = e.Data.GetData(DataFormats.FileDrop)
-        Dim i = 0
-        TextBox1.Text = ""
-        Label15.Text = "Disc number: 0"
-        For Each path In files
-            If i = 5 Then
-                MsgBox("5 ISO/BIN LIMIT !!!", MsgBoxStyle.Critical, "PS22PS4-GUI")
-            Else
-                TextBox1.Text = TextBox1.Text & files(i) & vbCrLf
-                i += 1
-            End If
+        Try
+            Dim files() As String = e.Data.GetData(DataFormats.FileDrop)
+            Dim i = 0
+            TextBox1.Text = ""
+            Label15.Text = "Disc number: 0"
+            For Each path In files
+                If i = 5 Then
+                    MsgBox("5 ISO/BIN LIMIT !!!", MsgBoxStyle.Critical, "PS22PS4-GUI")
+                Else
+                    TextBox1.Text = TextBox1.Text & files(i) & vbCrLf
+                    i += 1
+                End If
 
-        Next
+            Next
 
-        Dim fl = Split(TextBox1.Text, vbCrLf)
-        Label15.Text = Label15.Text.Replace("Disc number: 0", "Disc number: " & fl.Length - 1)
-        Dim b As Thread = New Thread(Sub() ExtractPS2.info(fl(0), Me))
-        b.IsBackground = True
-        b.SetApartmentState(ApartmentState.STA)
-        b.Start()
+            Dim fl = Split(TextBox1.Text, vbCrLf)
+            Label15.Text = Label15.Text.Replace("Disc number: 0", "Disc number: " & fl.Length - 1)
+            Dim b As Thread = New Thread(Sub() ExtractPS2.info(fl(0), Me))
+            b.IsBackground = True
+            b.SetApartmentState(ApartmentState.STA)
+            b.Start()
+        Catch ex As Exception
+            MsgBox(ex.Message, MsgBoxStyle.Critical)
+        End Try
+
 
     End Sub
 
@@ -114,19 +127,29 @@ Public Class Form1
     End Sub
 
     Private Sub TextBox2_DragDrop(sender As Object, e As DragEventArgs) Handles TextBox2.DragDrop
-        Dim files() As String = e.Data.GetData(DataFormats.FileDrop)
-        For Each path In files
-            TextBox2.Text = files(0)
-        Next
-        PictureBox2.Image = Image.FromFile(TextBox2.Text)
+        Try
+            Dim files() As String = e.Data.GetData(DataFormats.FileDrop)
+            For Each path In files
+                TextBox2.Text = files(0)
+            Next
+            PictureBox2.Image = Image.FromFile(TextBox2.Text)
+        Catch ex As Exception
+            MsgBox(ex.Message, MsgBoxStyle.Critical)
+        End Try
+
     End Sub
 
     Private Sub TextBox3_DragDrop(sender As Object, e As DragEventArgs) Handles TextBox3.DragDrop
-        Dim files() As String = e.Data.GetData(DataFormats.FileDrop)
-        For Each path In files
-            TextBox3.Text = files(0)
-        Next
-        PictureBox1.Image = Image.FromFile(TextBox3.Text)
+        Try
+            Dim files() As String = e.Data.GetData(DataFormats.FileDrop)
+            For Each path In files
+                TextBox3.Text = files(0)
+            Next
+            PictureBox1.Image = Image.FromFile(TextBox3.Text)
+        Catch ex As Exception
+            MsgBox(ex.Message, MsgBoxStyle.Critical)
+        End Try
+
     End Sub
 
     Private Sub TextBox3_DragEnter(sender As Object, e As DragEventArgs) Handles TextBox3.DragEnter
@@ -150,12 +173,17 @@ Public Class Form1
     End Sub
 
     Private Sub TextBox4_DragDrop(sender As Object, e As DragEventArgs) Handles TextBox4.DragDrop
-        Dim files() As String = e.Data.GetData(DataFormats.FileDrop)
-        For Each path In files
-            If Directory.Exists(files(0)) Then
-                TextBox4.Text = files(0)
-            End If
-        Next
+        Try
+            Dim files() As String = e.Data.GetData(DataFormats.FileDrop)
+            For Each path In files
+                If Directory.Exists(files(0)) Then
+                    TextBox4.Text = files(0)
+                End If
+            Next
+        Catch ex As Exception
+            MsgBox(ex.Message, MsgBoxStyle.Critical)
+        End Try
+
     End Sub
 
     Private Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click
@@ -175,7 +203,16 @@ Public Class Form1
     End Sub
 
     Private Sub CheckUpdateToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CheckUpdateToolStripMenuItem.Click
-        MsgBox("In the next update ;)", MsgBoxStyle.Exclamation, "PS22PS4-GUI")
+        'MsgBox("In the next update ;)", MsgBoxStyle.Exclamation, "PS22PS4-GUI")
+        Dim updater As New Updater("Nazky", "PS22PS4-GUI", New Version("0.7.0"))
+        If updater.CheckForUpdates() Then
+            ' An update was downloaded, and the application has restarted.
+            ' You can perform any necessary cleanup or additional actions here.
+            ' The updated version will now be running.
+            MsgBox("Update done :).", MsgBoxStyle.Information)
+        Else
+            ' No update is available. Continue running the current version of the application.
+        End If
     End Sub
 
     Private Sub RichTextBox1_TextChanged(sender As Object, e As EventArgs) Handles RichTextBox1.TextChanged
@@ -188,7 +225,7 @@ Public Class Form1
     End Sub
 
     Private Sub CompatibilityListToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CompatibilityListToolStripMenuItem.Click
-        CL.Show()
+        Process.Start("https://www.psdevwiki.com/ps4/PS2_Classics_Emulator_Compatibility_List")
     End Sub
 
     Private Sub CreditsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CreditsToolStripMenuItem.Click
@@ -210,6 +247,15 @@ Public Class Form1
             If ic.ShowDialog = DialogResult.OK Then
                 'MsgBox(ic.FileName)
                 My.Settings.LUA = ic.FileName
+                Directory.CreateDirectory("bin/configs/imported/LUA")
+                If File.Exists("bin/configs/imported/LUA/" & My.Settings.GID & "_config.lua") Then
+                    Dim ae = MsgBox("Config aleardy exist do you want to replace ?", MsgBoxStyle.Information + MsgBoxStyle.YesNo, "PS22PS4-GUI")
+                    If ae = MsgBoxResult.Yes Then
+                        File.Copy(ic.FileName, "bin/configs/imported/LUA/" & My.Settings.GID & "_config.lua", True)
+                    End If
+                Else
+                    File.Copy(ic.FileName, "bin/configs/imported/LUA/" & My.Settings.GID & "_config.lua", True)
+                End If
             End If
         End If
     End Sub
@@ -276,13 +322,18 @@ Public Class Form1
     End Sub
 
     Private Sub TextBox5_DragDrop(sender As Object, e As DragEventArgs) Handles TextBox5.DragDrop
-        Dim files() As String = e.Data.GetData(DataFormats.FileDrop)
-        If files(0).Contains(".PKG") Or files(0).Contains(".pkg") Then
-            For Each path In files
-                TextBox5.Text = files(0)
-                Button1.Enabled = True
-            Next
-        End If
+        Try
+            Dim files() As String = e.Data.GetData(DataFormats.FileDrop)
+            If files(0).Contains(".PKG") Or files(0).Contains(".pkg") Then
+                For Each path In files
+                    TextBox5.Text = files(0)
+                    Button1.Enabled = True
+                Next
+            End If
+        Catch ex As Exception
+            MsgBox(ex.Message, MsgBoxStyle.Critical)
+        End Try
+
     End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
@@ -298,13 +349,18 @@ Public Class Form1
     End Sub
 
     Private Sub TextBox6_DragDrop(sender As Object, e As DragEventArgs) Handles TextBox6.DragDrop
-        Dim files() As String = e.Data.GetData(DataFormats.FileDrop)
-        If Directory.Exists(files(0)) Then
-            For Each path In files
-                TextBox6.Text = files(0)
-                Button1.Enabled = True
-            Next
-        End If
+        Try
+            Dim files() As String = e.Data.GetData(DataFormats.FileDrop)
+            If Directory.Exists(files(0)) Then
+                For Each path In files
+                    TextBox6.Text = files(0)
+                    Button1.Enabled = True
+                Next
+            End If
+        Catch ex As Exception
+            MsgBox(ex.Message, MsgBoxStyle.Critical)
+        End Try
+
     End Sub
 
     Private Sub TextBox6_DragEnter(sender As Object, e As DragEventArgs) Handles TextBox6.DragEnter
@@ -322,14 +378,14 @@ Public Class Form1
             ic.Filter = "Text file (*.txt) | *.txt|Config file (*.conf) | *.conf"
             If ic.ShowDialog = DialogResult.OK Then
                 'MsgBox(ic.FileName)
-                Directory.CreateDirectory("bin/configs/emulator")
-                If File.Exists("bin/configs/emulator/" & My.Settings.GID & ".conf") Then
+                Directory.CreateDirectory("bin/configs/imported")
+                If File.Exists("bin/configs/imported/" & My.Settings.GID & ".txt") Then
                     Dim ae = MsgBox("Config aleardy exist do you want to replace ?", MsgBoxStyle.Information + MsgBoxStyle.YesNo, "PS22PS4-GUI")
                     If ae = MsgBoxResult.Yes Then
-                        File.Copy(ic.FileName, "bin/configs/emulator/" & My.Settings.GID & ".conf", True)
+                        File.Copy(ic.FileName, "bin/configs/imported/" & My.Settings.GID & ".txt", True)
                     End If
                 Else
-                    File.Copy(ic.FileName, "bin/configs/emulator/" & My.Settings.GID & ".conf", True)
+                    File.Copy(ic.FileName, "bin/configs/imported/" & My.Settings.GID & ".txt", True)
                 End If
             End If
         End If
@@ -363,17 +419,17 @@ Public Class Form1
         Else
             Dim ic As New OpenFileDialog
             ic.Title = "Choose a config for the current game"
-            ic.Filter = "Config file (*.cfgbin) | *.cfgbin"
+            ic.Filter = "PS3 Config file (*.cfgbin) | *.cfgbin"
             If ic.ShowDialog = DialogResult.OK Then
                 'MsgBox(ic.FileName)
-                Directory.CreateDirectory("bin/configs/PS3")
-                If File.Exists("bin/configs/PS3/" & My.Settings.GID & "_lopnor.cfgbin") Then
+                Directory.CreateDirectory("bin/configs/imported/PS3")
+                If File.Exists("bin/configs/imported/PS3/" & My.Settings.GID & "_lopnor.cfgbin") Then
                     Dim ae = MsgBox("Config aleardy exist do you want to replace ?", MsgBoxStyle.Information + MsgBoxStyle.YesNo, "PS22PS4-GUI")
                     If ae = MsgBoxResult.Yes Then
-                        File.Copy(ic.FileName, "bin/configs/PS3/" & My.Settings.GID & "_lopnor.cfgbin", True)
+                        File.Copy(ic.FileName, "bin/configs/imported/PS3/" & My.Settings.GID & "_lopnor.cfgbin", True)
                     End If
                 Else
-                    File.Copy(ic.FileName, "bin/configs/PS3/" & My.Settings.GID & "_lopnor.cfgbin", True)
+                    File.Copy(ic.FileName, "bin/configs/imported/PS3/" & My.Settings.GID & "_lopnor.cfgbin", True)
                 End If
             End If
         End If
@@ -401,10 +457,51 @@ Public Class Form1
     End Sub
 
     Private Sub SettingsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SettingsToolStripMenuItem.Click
-
+        ToolStripComboBox1.Items.Clear()
+        listemu()
     End Sub
 
     Private Sub GetMoreToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles GetMoreToolStripMenuItem.Click
         Process.Start("https://github.com/Nazky/PS22PS4-GUI/tree/ps2emu")
+    End Sub
+
+    Private Sub LUAToolStripMenuItem_Click_1(sender As Object, e As EventArgs)
+
+    End Sub
+
+    Private Sub LUAToolStripMenuItem1_Click_1(sender As Object, e As EventArgs)
+
+    End Sub
+
+    Private Sub SaveConfigToolStripMenuItem_Click(sender As Object, e As EventArgs)
+
+    End Sub
+
+    Private Sub CreateNewEmuToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CreateNewEmuToolStripMenuItem.Click
+        Try
+            Dim opkg As New OpenFileDialog
+            Dim spkg As String
+            opkg.Filter = "PS4 PKG (.pkg) | *.pkg"
+            opkg.Title = "Choose a PS2 game in PS4 pkg format."
+            If opkg.ShowDialog = DialogResult.OK Then
+                spkg = InputBox("Put the name of the emulator here.", "Emulator name", "Name")
+
+                Dim b As Thread = New Thread(Sub() PS2EmuCreator.ExtractPKG(opkg.FileName, Application.StartupPath & "\bin\emulators", spkg, RichTextBox1, Me))
+                b.IsBackground = True
+                b.SetApartmentState(ApartmentState.STA)
+                b.Start()
+            End If
+        Catch ex As Exception
+            MsgBox(ex.Message, MsgBoxStyle.Critical)
+        End Try
+
+    End Sub
+
+    Private Sub EmulatorsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles EmulatorsToolStripMenuItem.Click
+
+    End Sub
+
+    Private Sub PictureBox1_Click(sender As Object, e As EventArgs) Handles PictureBox1.Click
+
     End Sub
 End Class
