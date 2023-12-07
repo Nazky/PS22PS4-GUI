@@ -34,6 +34,15 @@ Simply drag and drop a ISO or a BIN, a background image, a game cover and a fold
 
 Simply click on "file" then "import".
 
+#### Is this working on windows 7 ?
+
+Yes but you need to install [.NET 6.0.13](https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/runtime-desktop-6.0.13-windows-x64-installer) (Big thanks to [Intervika Morozova](https://twitter.com/gamershhh_vika) for the info).
+
+#### It's detected as virus, why ?
+
+It's a false positive not really something i can fix, you can find the [virustotal link here
+](https://www.virustotal.com/gui/file/0d79fa3f02b7bfc5950c6b0a210746fa2d5fd5e51fc7ee7e08851a0fce1a6df1/detection), to use it make a execption on you'r anti virus software.
+
 ---
 
 ### TODO
@@ -42,9 +51,9 @@ Simply click on "file" then "import".
 - [ ] Add proper config maker.
 - [ ] Add proper LUA maker.
 - [ ] Add cli support.
-- [ ] Add cfgbin support.
-- [ ] Add others emulators.
-- [ ] Add multi-disc support.
+- [x] Add cfgbin support.
+- [x] Add others emulators.
+- [x] Add multi-disc support.
 
 ---
 
